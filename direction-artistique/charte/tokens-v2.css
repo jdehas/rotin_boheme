@@ -1,0 +1,17 @@
+:root{
+  /* Couleurs */
+  --rb-nuit:#15213A;        /* fond principal */
+  --rb-nuit-douce:#1E2D4A;   /* surfaces, cartes, pied de page */
+  --rb-blanc:#FFFFFF;       /* vrai blanc : grands titres, logo, fond des versions claires */
+  --rb-creme:#F2E9DA;       /* texte courant sur nuit, papier */
+  --rb-orange:#D6A65A;      /* accent unique : la lumière de la lampe */
+  --rb-braise:#8A5F12;      /* l'orange sur fond blanc (texte, liens) */
+  /* Typographie */
+  --rb-serif:"Instrument Serif",Georgia,serif;
+  --rb-sans:"Space Grotesk",Arial,sans-serif;
+  /* Forme */
+  --rb-radius-photo:18px;       /* photos 4:5 */
+  --rb-radius-pill:999px;       /* boutons, navigation, pastilles */
+  --rb-gutter:clamp(20px,4vw,56px);
+  --rb-section:clamp(88px,11vw,170px);
+}

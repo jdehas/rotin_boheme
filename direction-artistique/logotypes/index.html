@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rotin Bohème · quatre logotypes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Caprasimo&family=Cormorant+Garamond:wght@700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Karla:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#EFEAE0;color:#2A211C;font-family:Karla,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.page{max-width:1360px;margin:0 auto;padding:clamp(20px,4vw,56px)}
+h1{font:400 .9375rem/1.4 Karla,sans-serif;letter-spacing:.14em;text-transform:uppercase;margin:0 0 6px}
+.intro{margin:0 0 28px;color:rgba(42,33,28,.66);max-width:60ch}
+.grille{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,1.6vw,24px)}
+.carte{border-radius:10px;padding:clamp(18px,2.2vw,32px);min-height:clamp(340px,34vw,460px);display:grid;grid-template-rows:auto 1fr auto;position:relative;overflow:hidden}
+.carte__tete{display:flex;justify-content:space-between;gap:16px;font-size:.8125rem;letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+.carte__corps{display:grid;place-items:center}
+.carte__pied{display:flex;justify-content:space-between;align-items:end;gap:16px;font-size:.9375rem}
+.carte__pied p{margin:0;max-width:34ch;opacity:.85;line-height:1.45}
+.petit{white-space:nowrap}
+.sup{display:inline-block;vertical-align:top}
+
+/* 1 Quartier de Paris */
+.u1{background:#F6EEE0;color:#3A2A22}
+.u1 .wm{font-family:Caprasimo,serif;font-size:clamp(2.2rem,4.3vw,4.4rem);line-height:1;letter-spacing:-.01em;color:#3A2A22;white-space:nowrap}
+.u1 .wm .ast{width:.4em;height:.4em;margin-left:.06em;transform:translateY(.08em)}
+.u1 .petit{font-family:Caprasimo,serif;font-size:1.5rem}
+.u1 .petit .ast{width:.38em;height:.38em;margin-left:.04em;transform:translateY(.1em)}
+
+/* 2 Atelier caché */
+.u2{background:#EDE6D8;color:#1C1F24}
+.u2 .etiquette{border:1.5px dashed #28507A;border-radius:4px;padding:clamp(16px,2.4vw,34px) clamp(18px,3vw,44px);position:relative;max-width:100%}
+.u2 .etiquette::before,.u2 .etiquette::after{content:"";position:absolute;width:12px;height:12px;border:1.5px solid #28507A;border-radius:50%;top:50%;margin-top:-6px;background:#EDE6D8}
+.u2 .etiquette::before{left:-7px}.u2 .etiquette::after{right:-7px}
+.u2 svg.wm{display:block;width:min(100%,640px);height:auto;overflow:visible}
+.u2 .petit{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.75rem;color:#28507A}
+
+/* 3 Troupe nomade */
+.u3{background:#EFE4CE;color:#1F1B18}
+.u3 .bande{position:absolute;left:0;right:0;height:14px;background:repeating-linear-gradient(90deg,#B03A3A 0 22px,#EFE4CE 22px 44px)}
+.u3 .bande--h{top:0}.u3 .bande--b{bottom:0}
+.u3 .wm{font-family:'Abril Fatface',serif;font-size:clamp(1.8rem,4.1vw,4rem);line-height:1;letter-spacing:.02em;color:#B03A3A;text-transform:uppercase;white-space:nowrap;text-align:center}
+.u3 .wm small{display:block;font:400 .78rem/1 Karla,sans-serif;letter-spacing:.38em;color:#1F1B18;margin-top:.9em;text-transform:uppercase}
+.u3 .guirlande{display:block;width:min(100%,560px);height:auto;margin:.2rem auto 0}
+.u3 .petit{font-family:'Abril Fatface',serif;font-size:1.25rem;letter-spacing:.03em;color:#B03A3A;text-transform:uppercase}
+.u3 .carte__tete{margin-top:14px}.u3 .carte__pied{margin-bottom:14px}
+
+/* 4 Fusion */
+.u4{background:#F4EFE6;color:#2A211C}
+.u4 .wm{display:flex;align-items:baseline;justify-content:center;gap:.14em;font-family:Fraunces,serif;line-height:1;font-size:clamp(2.2rem,4.3vw,4.4rem);white-space:nowrap}
+.u4 .wm .r{font-style:italic;font-weight:400;font-variation-settings:'SOFT' 100,'WONK' 1;color:#3A2A22}
+.u4 .wm .b{font-style:normal;font-weight:800;font-variation-settings:'SOFT' 50,'WONK' 0;letter-spacing:-.02em;color:#A92F28}
+.u4 .fil{display:block;width:100%;height:6px;margin-top:.5em;background:repeating-linear-gradient(90deg,#28507A 0 9px,transparent 9px 15px);opacity:.9}
+.u4 .ast{width:.5em;height:.5em;margin-left:.04em;transform:translateY(-.55em)}
+.u4 .petit{font-family:Fraunces,serif;font-size:1.5rem}
+.u4 .petit .r{font-style:italic;font-weight:400;font-variation-settings:'SOFT' 100,'WONK' 1;color:#3A2A22}
+.u4 .petit .b{font-weight:800;color:#A92F28;letter-spacing:-.02em}
+.u4 .petit .ast{width:.4em;height:.4em;transform:translateY(-.35em)}
+
+.puces{display:flex;gap:6px}.puces i{width:14px;height:14px;border-radius:50%;display:block;border:1px solid rgba(0,0,0,.15)}
+.note{margin-top:24px;font-size:.875rem;color:rgba(42,33,28,.6);max-width:80ch}
+@media (max-width:820px){.grille{grid-template-columns:minmax(0,1fr)}.carte__pied{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <!-- Astérisque quartier : tranche de clémentine, huit segments -->
+  <symbol id="a1" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#EE9A3A"/><g stroke="#F6EEE0" stroke-width="2.6" stroke-linecap="round"><path d="M20 6v28M6 20h28M10 10l20 20M30 10L10 30"/></g><circle cx="20" cy="20" r="3" fill="#F6EEE0"/></symbol>
+  <!-- Astérisque atelier : bouton à quatre trous -->
+  <symbol id="a2" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#E2B93B" stroke="#1C1F24" stroke-width="1.6"/><circle cx="20" cy="20" r="13.5" fill="none" stroke="#1C1F24" stroke-width="1.2" stroke-dasharray="2.6 2.6" opacity=".55"/><g fill="#1C1F24"><circle cx="15" cy="15" r="2.1"/><circle cx="25" cy="15" r="2.1"/><circle cx="15" cy="25" r="2.1"/><circle cx="25" cy="25" r="2.1"/></g></symbol>
+  <!-- Astérisque troupe : étoile de chapiteau -->
+  <symbol id="a3" viewBox="0 0 40 40"><path d="M20 2l5.4 12.2 13.2 1.2-10 8.8 3 13-11.6-7-11.6 7 3-13-10-8.8 13.2-1.2z" fill="#D0A235" stroke="#1F1B18" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <!-- Astérisque fusion : tranche de clémentine, bouton cousu et étoile de lumière -->
+  <symbol id="a4" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#EE9A3A" stroke="#3A2A22" stroke-width="1.6"/><circle cx="20" cy="20" r="14" fill="none" stroke="#28507A" stroke-width="1.3" stroke-dasharray="2.4 2.4"/><g stroke="#F4EFE6" stroke-width="2.4" stroke-linecap="round"><path d="M20 8v24M8 20h24M11.5 11.5l17 17M28.5 11.5l-17 17"/></g><circle cx="20" cy="20" r="3.2" fill="#3A2A22"/></symbol>
+</svg>
+
+<div class="page">
+  <h1>Rotin Bohème · quatre logotypes</h1>
+  <p class="intro">Un par univers, et un quatrième qui les fusionne. Chaque logotype garde l'astérisque de la marque, qui ouvre une note différente selon l'univers.</p>
+
+  <div class="grille">
+    <section class="carte u1">
+      <div class="carte__tete"><span>1 · Les petits bonheurs d'occasion</span><span>Caprasimo</span></div>
+      <div class="carte__corps"><div class="wm">Rotin Bohème<svg class="ast sup"><use href="#a1"/></svg></div></div>
+      <div class="carte__pied"><p>Rotin Bohème est un quartier de Paris. Des lettres rondes et gourmandes, comme une enseigne de boulangerie. L'astérisque est une tranche de clémentine : le petit bonheur.</p><span class="petit">Rotin Bohème<svg class="ast sup"><use href="#a1"/></svg></span></div>
+    </section>
+
+    <section class="carte u2">
+      <div class="carte__tete"><span>2 · Raccommodeuse de merveilles</span><span>Cormorant Garamond</span></div>
+      <div class="carte__corps"><div class="etiquette">
+        <svg class="wm" viewBox="0 0 640 132" role="img" aria-label="Rotin Bohème"><text x="320" y="98" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-weight="700" font-size="110" fill="#28507A">Rotin Bohème</text><path d="M70 118H570" stroke="#28507A" stroke-width="2.4" stroke-dasharray="8 6" stroke-linecap="round" fill="none"/><use href="#a2" x="598" y="-4" width="38" height="38"/></svg>
+      </div></div>
+      <div class="carte__pied"><p>Rotin Bohème est un petit atelier caché et magique. Des lettres posées sur une étiquette cousue, avec un fil de couture dessous. L'astérisque est un bouton à quatre trous : le truc du tour.</p><span class="petit">Rotin Bohème</span></div>
+    </section>
+
+    <section class="carte u3">
+      <div class="bande bande--h"></div>
+      <div class="carte__tete"><span>3 · La troupe des objets retrouvés</span><span>Abril Fatface</span></div>
+      <div class="carte__corps"><div><div class="wm">Rotin Bohème<svg class="sup" style="width:.3em;height:.3em;margin-left:.08em;transform:translateY(.12em)"><use href="#a3"/></svg><small>Troupe nomade</small></div>
+        <svg class="guirlande" viewBox="0 0 560 50" aria-hidden="true"><path d="M4 8 Q 140 50 280 30 T 556 8" fill="none" stroke="#1F1B18" stroke-width="1.4"/><g fill="#D0A235" stroke="#1F1B18" stroke-width="1.2"><circle cx="60" cy="25" r="6"/><circle cx="130" cy="34" r="6"/><circle cx="200" cy="37" r="6"/><circle cx="280" cy="33" r="6"/><circle cx="360" cy="31" r="6"/><circle cx="430" cy="25" r="6"/><circle cx="500" cy="17" r="6"/></g></svg></div></div>
+      <div class="carte__pied"><p>Rotin Bohème est une troupe nomade. Une affiche de cirque en capitales contrastées, rouge de chapiteau, guirlande d'ampoules. L'astérisque est une étoile : le rôle.</p><span class="petit">Rotin Bohème</span></div>
+      <div class="bande bande--b"></div>
+    </section>
+
+    <section class="carte u4">
+      <div class="carte__tete"><span>4 · Fusion des trois univers</span><span>Fraunces</span></div>
+      <div class="carte__corps"><div><div class="wm"><span class="r">Rotin</span><span class="b">Bohème</span><svg class="ast sup"><use href="#a4"/></svg></div><span class="fil" aria-hidden="true"></span></div></div>
+      <div class="carte__pied"><p>Une seule famille de lettres qui passe de la tendresse (italique souple, quartier) à l'affiche (gras, troupe). Le fil cousu en dessous vient de l'atelier. L'astérisque réunit la clémentine, le bouton et l'étoile.</p><span class="petit"><span class="r">Rotin</span> <span class="b">Bohème</span><svg class="ast sup"><use href="#a4"/></svg></span></div>
+    </section>
+  </div>
+
+  <p class="note">Polices libres (Google Fonts) pour l'exploration. Pour une version définitive, on pourra chercher des équivalents plus singuliers dans le catalogue Monotype, ou faire redessiner le mot. Les couleurs viennent des palettes des moodboards.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,263 @@
+/* Rotin Bohème · Univers 1 · Les petits bonheurs d'occasion · version minimaliste
+   Un fond, un texte, un accent. La couleur vient des pièces, pas de l'interface.
+   Pas de dégradé décoratif, pas d'ombre, pas d'arrondi (sauf le macaron). */
+
+/* ---------- 0. Polices (déposer les fichiers dans assets/fonts/) ---------- */
+@font-face { font-family: "Cochin Rotin"; font-style: normal; font-weight: 400; font-display: swap;
+  src: local("Cochin"), url("fonts/Cochin-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Cochin Rotin"; font-style: italic; font-weight: 400; font-display: swap;
+  src: local("Cochin Italic"), local("Cochin-Italic"), url("fonts/Cochin-Italic.woff2") format("woff2"); }
+@font-face { font-family: "Pietro Rotin"; font-style: normal; font-weight: 400; font-display: swap;
+  src: local("Pietro Handwriting"), local("PietroHandwriting"), url("fonts/PietroHandwriting.woff2") format("woff2"); }
+
+/* ---------- 1. Tokens (à mapper sur config/settings_schema.json) ---------- */
+:root {
+  --papier: #F6F2EA;        /* fond de page (crème brûlée très éclaircie) */
+  --tuile: #EADCBC;         /* fond des photos : crème brûlée éclaircie, lumière miel */
+  --encre: #38271F;         /* brun chocolat : texte */
+  --encre-douce: rgba(56,39,31,.68);
+  --filet: rgba(56,39,31,.16);
+  --trait: rgba(56,39,31,.55);  /* filet de rubrique */
+  --accent: #A92F28;        /* rouge confiture : macaron, astérisque, survol */
+  --vert: #31573C;          /* vert bouteille : réserve, état actif */
+  --miel: #D6A53B;          /* jaune miel : réserve */
+  --clementine: #E77D2D;    /* clémentine : réserve */
+  --creme-brulee: #F0D9AC;  /* réserve */
+
+  --font-titre: "Cochin Rotin", Cochin, "Iowan Old Style", Georgia, serif;
+  --font-texte: "Karla", "Helvetica Neue", Arial, sans-serif;
+  --font-main: "Pietro Rotin", "Caveat", "Segoe Script", "Bradley Hand", cursive;
+
+  --gutter: clamp(20px, 4vw, 56px);
+  --section: clamp(88px, 11vw, 168px);
+  --max: 1400px;
+}
+
+/* ---------- 2. Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--papier); color: var(--encre); font-family: var(--font-texte);
+  font-size: 1rem; line-height: 1.65; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+a:focus-visible, summary:focus-visible, input:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+h1, h2, h3, p, figure, ul { margin: 0; padding: 0; }
+h1, h2, h3 { font-family: var(--font-titre); font-weight: 400; letter-spacing: -0.012em; line-height: 1.1; }
+ul { list-style: none; }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+.section { padding: var(--section) 0; }
+.etiquette { font-size: .8125rem; letter-spacing: .16em; text-transform: uppercase; color: var(--encre-douce); }
+.main-ecrite { font-family: var(--font-main); font-size: 1.375rem; line-height: 1.2; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.lien { font-size: .9375rem; letter-spacing: .04em; border-bottom: 1px solid var(--filet); padding-bottom: 3px; transition: border-color .2s, color .2s; }
+.lien:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- 3. Annonce + en-tête (announcement-bar, header) ---------- */
+.annonce { text-align: center; font-size: .875rem; letter-spacing: .03em; padding: 10px var(--gutter); border-bottom: 1px solid var(--filet); }
+.annonce i { color: var(--accent); font-style: normal; }
+.entete { background: var(--papier); position: relative; z-index: 5; }
+.entete__in { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; padding: 22px var(--gutter); max-width: var(--max); margin: 0 auto; }
+.nav { display: flex; gap: 30px; font-size: .9375rem; letter-spacing: .04em; }
+.nav--droite { justify-content: flex-end; }
+.nav a { transition: color .2s; } .nav a:hover { color: var(--accent); }
+.logo { display: flex; align-items: center; gap: 12px; justify-self: center; color: var(--accent); }
+.logo svg { width: 44px; height: 44px; }
+.logo__mot { font-family: var(--font-main); font-size: 1.75rem; line-height: 1; white-space: nowrap; }
+.menu-mobile { display: none; }
+
+/* ---------- 4. Grille éditoriale (inspirée de la grille « étiquette à gauche, contenu à droite »)
+   Colonne d'étiquette 2/12, contenu 10/12, filet fin au-dessus de chaque rubrique. ---------- */
+.rubrique { display: grid; grid-template-columns: 2fr 10fr; column-gap: clamp(20px, 3vw, 48px); border-top: 1px solid var(--trait); padding-top: 16px; }
+.rubrique + .rubrique { margin-top: var(--section); }
+.rubrique__label { font-size: .9375rem; display: flex; align-items: baseline; gap: 10px; }
+.rubrique__label::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; transform: translateY(-1px); }
+.rubrique__corps { min-width: 0; }
+.photo { background: var(--tuile); overflow: hidden; aspect-ratio: 4 / 5; position: relative; }
+.photo img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; }
+.legende { margin-top: 12px; font-size: .9375rem; color: var(--encre-douce); }
+
+/* ---------- 5. Héro (hero) ---------- */
+.hero { padding: clamp(40px, 6vw, 88px) 0 var(--section); }
+.hero__tete { display: grid; grid-template-columns: 2fr 10fr; column-gap: clamp(20px, 3vw, 48px); margin-bottom: clamp(40px, 6vw, 88px); }
+.hero h1 { grid-column: 2; font-size: clamp(2.5rem, 5.4vw, 5rem); max-width: 15ch; line-height: 1.04; }
+.hero h1 em { font-style: italic; }
+.hero__aside { grid-column: 1; grid-row: 1; align-self: end; display: grid; gap: 18px; font-size: .9375rem; color: var(--encre-douce); }
+.hero__aside p { max-width: 24ch; }
+.hero__images { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(10px, 1.4vw, 20px); }
+
+/* ---------- 6. Sélection (featured-collection) ---------- */
+.grille { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(10px, 1.4vw, 20px); }
+.carte { display: block; }
+.carte .photo img { transition: transform .8s cubic-bezier(.2,.6,.2,1); }
+.carte:hover .photo img { transform: scale(1.025); }
+.carte__nom { font-family: var(--font-texte); font-size: .9375rem; margin-top: 14px; line-height: 1.4; }
+.carte__prix { font-size: .875rem; color: var(--encre-douce); }
+.rubrique__pied { margin-top: 28px; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: baseline; font-size: .9375rem; color: var(--encre-douce); }
+.rubrique__pied i { color: var(--accent); font-style: normal; }
+
+/* ---------- 7. Planche photomaton (image-with-text) ---------- */
+.planche__texte { max-width: 56ch; margin-bottom: clamp(28px, 4vw, 48px); }
+.planche__texte h2 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); margin-bottom: 14px; max-width: 18ch; }
+.planche__texte p { color: var(--encre-douce); }
+.bande { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(10px, 1.4vw, 20px); }
+.vue { position: relative; aspect-ratio: 4 / 5; background: var(--tuile); overflow: hidden; }
+.vue img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; transform: var(--t, none); transform-origin: var(--o, 50% 50%); }
+.vue span { position: absolute; left: 10px; top: 8px; z-index: 1; font-size: .8125rem; letter-spacing: .12em; }
+.bande__legende { display: flex; justify-content: space-between; gap: 16px; margin-top: 14px; font-size: .9375rem; color: var(--encre-douce); }
+.bande__legende .main-ecrite { color: var(--accent); font-size: 1.25rem; }
+
+/* ---------- 8. Les pièces (collection-list) : image, nom, petit nombre en exposant ---------- */
+.pieces { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(10px, 1.4vw, 20px); }
+.piece { display: block; }
+.piece .photo img { transition: transform .8s cubic-bezier(.2,.6,.2,1); }
+.piece:hover .photo img { transform: scale(1.025); }
+.piece__nom { font-family: var(--font-titre); font-size: clamp(1.375rem, 2vw, 1.75rem); margin-top: 14px; line-height: 1.1; }
+.piece__nom sup { font-family: var(--font-texte); font-size: .8125rem; color: var(--encre-douce); margin-left: 4px; vertical-align: super; }
+.piece--bientot .photo { display: grid; place-items: center; text-align: center; padding: 24px; }
+.piece--bientot .main-ecrite { color: var(--accent); font-size: 1.5rem; }
+
+/* ---------- 9. Atelier et citation (rich-text + image-with-text) ---------- */
+.atelier__grille { display: grid; grid-template-columns: 4fr 8fr; gap: clamp(28px, 5vw, 80px); align-items: end; }
+.atelier blockquote { margin: 0 0 28px; font-family: var(--font-titre); font-size: clamp(1.75rem, 3.2vw, 2.875rem); line-height: 1.14; max-width: 20ch; }
+.atelier .main-ecrite { display: block; color: var(--accent); margin-bottom: 28px; }
+.atelier p { color: var(--encre-douce); max-width: 46ch; margin-bottom: 24px; }
+
+/* ---------- 10. Lettre et pied de page (newsletter, footer) ---------- */
+.lettre { padding-top: 16px; }
+.lettre__corps { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 80px); align-items: end; }
+.lettre h2 { font-size: clamp(1.5rem, 2.2vw, 2rem); }
+.lettre p { color: var(--encre-douce); margin-top: 10px; max-width: 40ch; }
+.lettre form { display: flex; border-bottom: 1px solid var(--encre); }
+.lettre input { flex: 1; min-width: 0; background: transparent; border: 0; font: inherit; font-size: 1.0625rem; color: var(--encre); padding: 14px 0; }
+.lettre input::placeholder { color: var(--encre-douce); }
+.lettre button { background: none; border: 0; font: inherit; font-size: .9375rem; letter-spacing: .04em; color: var(--encre); cursor: pointer; padding: 0 0 0 16px; }
+.lettre button:hover { color: var(--accent); }
+.pied { padding: var(--section) 0 32px; font-size: .9375rem; }
+.pied__grille { display: grid; grid-template-columns: 2fr 10fr; column-gap: clamp(20px, 3vw, 48px); border-top: 1px solid var(--trait); padding-top: 16px; }
+.pied__cols { display: grid; grid-template-columns: 4fr 2fr 2fr 2fr; gap: 32px; }
+.pied h3 { font-family: var(--font-texte); font-size: .8125rem; letter-spacing: .16em; text-transform: uppercase; color: var(--encre-douce); margin-bottom: 16px; font-weight: 400; }
+.pied ul { display: grid; gap: 8px; } .pied a:hover { color: var(--accent); }
+.pied .logo { justify-self: start; margin-bottom: 14px; }
+.pied__marque p { color: var(--encre-douce); max-width: 30ch; }
+.pied__bas { margin-top: 56px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--encre-douce); }
+.proto { margin-top: 24px; font-size: .8125rem; color: var(--encre-douce); border-top: 1px dashed var(--filet); padding-top: 16px; }
+
+/* ---------- 11. Responsive ---------- */
+@media (max-width: 1024px) {
+  .grille, .pieces { grid-template-columns: repeat(2, 1fr); }
+  .pieces { row-gap: 28px; } .grille { row-gap: 28px; }
+}
+@media (max-width: 820px) {
+  .nav { display: none; }
+  .entete__in { grid-template-columns: 1fr auto; padding: 14px var(--gutter); }
+  .logo svg { width: 36px; height: 36px; } .logo__mot { font-size: 1.5rem; }
+  .menu-mobile { display: block; justify-self: end; }
+  .menu-mobile summary { list-style: none; cursor: pointer; padding: 8px 0; font-size: .9375rem; }
+  .menu-mobile summary::-webkit-details-marker { display: none; }
+  .menu-mobile nav { position: absolute; left: 0; right: 0; top: 100%; background: var(--papier); border-bottom: 1px solid var(--filet); padding: 4px var(--gutter) 16px; display: grid; }
+  .menu-mobile nav a { padding: 12px 0; border-top: 1px solid var(--filet); }
+  .rubrique, .hero__tete, .pied__grille { grid-template-columns: 1fr; row-gap: 20px; }
+  .hero h1 { grid-column: 1; } .hero__aside { grid-column: 1; grid-row: 2; }
+  .hero__images { grid-template-columns: 1fr 1fr; } .hero__images .photo:nth-child(3) { display: none; }
+  .bande { grid-template-columns: repeat(2, 1fr); }
+  .atelier__grille, .lettre__corps { grid-template-columns: 1fr; }
+  .pied__cols { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) { .pied__cols { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* ---------- 12. Signatures du moodboard, en touches mesurées ----------
+   Équilibre : 3 plages profondes (barre verte, planche photomaton verte, pied brun), le reste clair.
+   Le rouge confiture reste l'accent. Miel et clémentine ne servent qu'en détail. */
+.annonce { background: var(--vert); color: var(--papier); border-bottom: 0; }
+.annonce i { color: var(--creme-brulee); }
+/* Rayures de bistrot : un liseré, pas un bandeau */
+.rayures { height: 7px; background: repeating-linear-gradient(90deg, var(--accent) 0 7px, var(--papier) 7px 14px); }
+.hero h1 em { color: var(--accent); }
+.titre-accent em { font-style: italic; color: var(--accent); }
+.rubrique__pied i, .note-colis i { color: var(--clementine); }
+
+/* Grain discret (bruit, pas un dégradé) */
+.grain { position: relative; isolation: isolate; }
+.grain::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .09; mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .85 0 0 0 1 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>"); }
+
+/* Le photomaton : seule grande plage de couleur de la page. Bande verticale, marges crème. */
+.planche { background: var(--vert); color: var(--papier); padding: var(--section) 0; margin-top: var(--section); }
+.planche .rubrique__label::before { background: var(--miel); }
+.planche__grille { display: grid; grid-template-columns: 2fr 10fr; column-gap: clamp(20px, 3vw, 48px); border-top: 1px solid rgba(246,242,234,.5); padding-top: 16px; }
+.planche__corps { display: grid; grid-template-columns: 1fr 230px; gap: clamp(32px, 8vw, 140px); align-items: start; }
+.planche h2 { font-size: clamp(1.875rem, 3.4vw, 3rem); max-width: 14ch; margin-bottom: 20px; }
+.planche h2 em { font-style: italic; color: var(--creme-brulee); }
+.planche__corps p { max-width: 44ch; opacity: .88; margin-bottom: 32px; }
+.quatre { max-width: 44ch; margin-bottom: 36px; }
+.quatre li { display: grid; grid-template-columns: 44px 1fr; padding: 12px 0; border-top: 1px solid rgba(246,242,234,.3); font-size: .9375rem; }
+.quatre li:last-child { border-bottom: 1px solid rgba(246,242,234,.3); }
+.quatre b { font-family: var(--font-titre); font-weight: 400; color: var(--creme-brulee); }
+.planche .lien { border-color: rgba(246,242,234,.5); } .planche .lien:hover { color: var(--creme-brulee); border-color: var(--creme-brulee); }
+.cabine { margin: 0; }
+.bande-v { background: var(--creme-brulee); padding: 12px; display: grid; gap: 8px; color: var(--encre); }
+.planche h2 { margin-top: 0; }
+.bande-v .vue { aspect-ratio: 1 / 1; background: var(--papier); }
+.cabine figcaption { margin-top: 14px; display: flex; justify-content: space-between; gap: 12px; font-size: .9375rem; opacity: .9; }
+.cabine .main-ecrite { color: var(--creme-brulee); font-size: 1.25rem; }
+
+/* Médaillons numérotés sur les pièces */
+.medaillon { position: absolute; left: 12px; top: 12px; z-index: 1; width: 34px; height: 34px; border: 1px solid var(--encre); border-radius: 50%; display: grid; place-items: center; font-family: var(--font-titre); font-size: .9375rem; background: rgba(246,242,234,.6); }
+.medaillon::after { content: ""; position: absolute; inset: 3px; border: 1px dashed var(--encre); border-radius: 50%; opacity: .5; }
+
+/* Petit bonheur* : étiquette de colis, rayures de confiserie très fines */
+.bonheur__grille { display: grid; grid-template-columns: minmax(260px, 380px) 1fr; gap: clamp(28px, 6vw, 96px); align-items: center; }
+.etiquette-colis { position: relative; padding: 44px 32px 28px; border: 1px solid var(--encre); transform: rotate(-1.2deg);
+  background: repeating-linear-gradient(90deg, rgba(169,47,40,.10) 0 1px, transparent 1px 9px), var(--creme-brulee); }
+.etiquette-colis::before { content: ""; position: absolute; top: 14px; left: 50%; width: 14px; height: 14px; margin-left: -7px; border: 1px solid var(--encre); border-radius: 50%; background: var(--papier); }
+.etiquette-colis .main-ecrite { color: var(--accent); font-size: 1.625rem; line-height: 1.15; }
+.etiquette-colis small { display: block; margin-top: 22px; padding-top: 12px; border-top: 1px dashed rgba(56,39,31,.4); font-size: .8125rem; letter-spacing: .14em; text-transform: uppercase; }
+.bonheur h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); margin-bottom: 14px; }
+.bonheur h2 sup { color: var(--clementine); font-size: .6em; }
+.bonheur p { color: var(--encre-douce); max-width: 44ch; }
+
+/* Pied de page brun chocolat */
+.pied { background: var(--encre); color: var(--papier); margin-top: var(--section); padding-top: clamp(56px, 7vw, 96px); }
+.pied__grille { border-top-color: rgba(246,242,234,.45); }
+.pied h3, .pied__marque p, .pied__bas { color: rgba(246,242,234,.7); }
+.pied .rubrique__label::before { background: var(--miel); }
+.pied a:hover { color: var(--creme-brulee); }
+.pied .logo { color: var(--creme-brulee); }
+.pied .logo svg { width: 64px; height: 64px; }
+.proto { border-top-color: rgba(246,242,234,.25); color: rgba(246,242,234,.6); }
+.lettre { padding-bottom: 0; }
+
+@media (max-width: 820px) {
+  .planche__grille, .planche__corps, .bonheur__grille { grid-template-columns: 1fr; }
+  .planche__corps { row-gap: 40px; }
+  .cabine { max-width: 230px; }
+  .rayures { height: 5px; background: repeating-linear-gradient(90deg, var(--accent) 0 5px, var(--papier) 5px 10px); }
+}
+
+/* Photomaton 2 x 2 : photos de mise en scène (lumière du jour, du soir, projecteur) */
+.bande-v--2x2 { grid-template-columns: 1fr 1fr; }
+.bande-v--2x2 .vue { aspect-ratio: 4 / 5; background: var(--papier); }
+.bande-v--2x2 .vue img { mix-blend-mode: normal; }
+.bande-v--2x2 .vue span { background: rgba(246,242,234,.85); padding: 3px 7px; color: var(--encre); }
+.planche__corps { grid-template-columns: 1fr minmax(320px, 480px); }
+.h-image-texte .wrap { grid-template-columns: 1fr minmax(320px, 480px); }
+@media (max-width: 820px) { .planche__corps, .h-image-texte .wrap { grid-template-columns: 1fr; } .cabine { max-width: 440px; } }
+
+/* Photomaton en cartes instantanées sur tapis vert (style de la planche de référence).
+   Papier crème propre, jamais artificiellement vieilli (moodboard). Marge basse large pour la légende manuscrite. */
+.table-feutre { background: #22402B; padding: clamp(14px, 2.4vw, 24px); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 2vw, 22px); position: relative; isolation: isolate; }
+.table-feutre::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .22; mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .8 0 0 0 0 .9 0 0 0 0 .8 0 0 0 1 0'/></filter><rect width='140' height='140' filter='url(%23f)'/></svg>"); }
+.polaroid { margin: 0; background: #F4EEE0; border-radius: 3px; padding: 5.5% 5.5% 0; box-shadow: inset 0 0 0 1px rgba(56,39,31,.10); display: flex; flex-direction: column; }
+.polaroid__photo { aspect-ratio: 1 / 1; overflow: hidden; background: var(--tuile); }
+.polaroid__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 52%; display: block; }
+.polaroid figcaption { flex: 1; display: flex; align-items: center; gap: 10px; padding: 0 2% 3%; min-height: 3.1rem; font-family: var(--font-main); font-size: 1.25rem; line-height: 1.1; color: var(--encre); }
+.polaroid figcaption span { font-family: var(--font-texte); font-size: .75rem; letter-spacing: .12em; color: var(--encre-douce); }
+.planche__corps { grid-template-columns: 1fr minmax(320px, 540px); }
+.h-image-texte .wrap { grid-template-columns: 1fr minmax(320px, 540px); }
+@media (max-width: 820px) { .planche__corps, .h-image-texte .wrap { grid-template-columns: 1fr; } .cabine { max-width: 460px; } .polaroid figcaption { font-size: 1.0625rem; min-height: 2.6rem; } }
+
+/* Coins arrondis des cartes instantanées, comme sur la planche de référence (carte ~16 px, photo ~8 px) */
+.polaroid { border-radius: clamp(12px, 1.4vw, 18px); }
+.polaroid__photo { border-radius: clamp(5px, .7vw, 9px); }
+.polaroid__photo img { border-radius: inherit; }

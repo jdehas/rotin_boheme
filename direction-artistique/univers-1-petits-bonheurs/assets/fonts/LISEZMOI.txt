@@ -1,0 +1,1 @@
+assets/fonts/ : déposer Cochin-Regular.woff2 Cochin-Italic.woff2 PietroHandwriting.woff2

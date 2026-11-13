@@ -1,0 +1,137 @@
+/* Rotin Bohème · Univers 2 · Raccommodeuse de merveilles (version Mobbin)
+   Références : Palmer Dinnerware (objets sur fond uni, cellules à filet fin), Kalstore et Trawelt (étapes), Faire (serif calme).
+   Un fond craie, un texte noir encre, un accent bleu cyanotype. Les couleurs sourdes du moodboard n'apparaissent que dans les trois cartes du truc du tour. */
+
+:root {
+  --papier: #F4F0E7; --craie: #EDE6D8; --tuile: #EAE4D7; --kraft: #D9C29C;
+  --bleu: #28507A; --jaune: #E2B93B; --rose: #D9A7B0; --encre: #1C1F24;
+  --encre-douce: rgba(28,31,36,.66); --filet: rgba(28,31,36,.16);
+  --font-titre: "Cormorant Garamond", "Cormorant", "Iowan Old Style", Georgia, serif;
+  --font-texte: "Karla", "Helvetica Neue", Arial, sans-serif;
+  --font-main: "Caveat", "Segoe Script", "Bradley Hand", cursive;
+  --gutter: clamp(20px, 4vw, 56px); --section: clamp(80px, 10vw, 150px); --max: 1360px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--papier); color: var(--encre); font-family: var(--font-texte); font-size: 1rem; line-height: 1.65; overflow-x: hidden; -webkit-font-smoothing: antialiased; font-variant-numeric: lining-nums; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+a:focus-visible, summary:focus-visible, input:focus-visible, button:focus-visible { outline: 2px solid var(--bleu); outline-offset: 4px; }
+h1, h2, h3, p, figure, ul, ol { margin: 0; padding: 0; }
+h1, h2, h3 { font-family: var(--font-titre); font-weight: 500; letter-spacing: -0.012em; line-height: 1.04; }
+ul, ol { list-style: none; }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+.main-ecrite { font-family: var(--font-main); font-size: 1.375rem; line-height: 1.2; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.accent { font-style: italic; color: var(--bleu); }
+.lien { font-size: .9375rem; letter-spacing: .03em; border-bottom: 1px solid var(--filet); padding-bottom: 3px; transition: border-color .2s, color .2s; }
+.lien:hover { border-color: var(--bleu); color: var(--bleu); }
+.bouton-pill { display: inline-flex; align-items: center; gap: 10px; font-size: .9375rem; padding: 12px 22px; border: 1px solid var(--encre); border-radius: 999px; transition: background .2s, color .2s; }
+.bouton-pill:hover { background: var(--encre); color: var(--papier); }
+
+/* Annonce + en-tête */
+.annonce { text-align: center; font-size: .875rem; padding: 10px var(--gutter); border-bottom: 1px solid var(--filet); }
+.annonce i { color: var(--bleu); font-style: normal; font-weight: 700; }
+.entete { background: var(--papier); position: relative; z-index: 5; border-bottom: 1px solid var(--filet); }
+.entete__in { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; padding: 18px var(--gutter); max-width: var(--max); margin: 0 auto; }
+.nav { display: flex; gap: 28px; font-size: .9375rem; }
+.nav--droite { justify-content: flex-end; }
+.nav a { transition: color .2s; } .nav a:hover { color: var(--bleu); }
+.logo { display: flex; align-items: center; gap: 12px; justify-self: center; color: var(--bleu); }
+.logo svg { width: 44px; height: 44px; }
+.logo__mot { font-family: var(--font-titre); font-size: 1.75rem; font-weight: 600; line-height: 1; white-space: nowrap; }
+.menu-mobile { display: none; }
+
+/* Héro : objets posés autour d'un titre centré (Palmer) */
+.hero { padding: clamp(32px, 5vw, 72px) 0 var(--section); }
+.hero__scene { display: grid; grid-template-columns: 1fr minmax(320px, 1.15fr) 1fr; gap: clamp(16px, 3vw, 48px); align-items: center; }
+.hero__col { display: grid; gap: clamp(16px, 3vw, 40px); }
+.hero__col--g { justify-items: start; } .hero__col--d { justify-items: end; }
+.hero__col .photo:nth-child(1) { width: 88%; } .hero__col .photo:nth-child(2) { width: 56%; }
+.hero__col--d .photo:nth-child(1) { width: 56%; } .hero__col--d .photo:nth-child(2) { width: 88%; }
+.hero__texte { text-align: center; display: grid; gap: 28px; justify-items: center; padding: 24px 0; }
+.hero h1 { font-size: clamp(2.5rem, 5.2vw, 4.75rem); max-width: 12ch; }
+.hero__texte p { color: var(--encre-douce); max-width: 34ch; }
+.photo { background: var(--tuile); overflow: hidden; aspect-ratio: 4 / 5; position: relative; }
+.photo img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; }
+
+/* Titres de section */
+.sec { padding: var(--section) 0 0; }
+.sec__tete { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-bottom: clamp(24px, 3vw, 40px); flex-wrap: wrap; }
+.sec__tete h2 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); }
+.sec__tete p { color: var(--encre-douce); max-width: 44ch; }
+
+/* Cellules à filet fin (Palmer) */
+.cellules { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(10px, 1.4vw, 20px); }
+.cellule { display: block; }
+.cellule__cadre { border: 1px solid var(--filet); border-radius: 8px; padding: clamp(8px, 1vw, 14px); transition: border-color .2s; }
+.cellule:hover .cellule__cadre { border-color: var(--bleu); }
+.cellule .photo { border-radius: 4px; }
+.cellule .photo img { transition: transform .8s cubic-bezier(.2,.6,.2,1); }
+.cellule:hover .photo img { transform: scale(1.03); }
+.cellule__legende { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 12px; font-size: .9375rem; }
+.cellule__legende span { color: var(--encre-douce); white-space: nowrap; font-size: .875rem; }
+.cellule__legende--col { flex-direction: column; gap: 2px; }
+.sec__pied { margin-top: 28px; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: baseline; font-size: .9375rem; color: var(--encre-douce); }
+.sec__pied i { color: var(--bleu); font-style: normal; font-weight: 700; }
+
+/* Le truc du tour : cartes sourdes (Kalstore) autour d'une photo à repères */
+.truc__grille { display: grid; grid-template-columns: minmax(280px, 5fr) 7fr; gap: clamp(20px, 3vw, 48px); align-items: start; }
+.fiche { margin: 0; position: relative; }
+.fiche .photo { border-radius: 10px; aspect-ratio: 4 / 5; }
+.repere { position: absolute; width: 30px; height: 30px; margin: -15px 0 0 -15px; display: grid; place-items: center; font: 700 .8125rem/1 var(--font-texte); background: var(--papier); color: var(--bleu); border: 1.5px solid var(--bleu); border-radius: 50%; }
+.fiche figcaption { margin-top: 12px; display: flex; justify-content: space-between; gap: 16px; font-size: .9375rem; color: var(--encre-douce); }
+.fiche .main-ecrite { color: var(--bleu); font-size: 1.25rem; }
+.etapes { display: grid; gap: clamp(10px, 1.4vw, 16px); }
+.etape { border-radius: 10px; padding: clamp(20px, 2.4vw, 32px); min-height: 190px; display: grid; grid-template-columns: 44px 1fr; column-gap: 20px; align-content: space-between; }
+.etape__n { width: 34px; height: 34px; border: 1px solid currentColor; border-radius: 50%; display: grid; place-items: center; font-size: .875rem; }
+.etape h3 { font-size: clamp(1.5rem, 2.2vw, 2rem); grid-column: 2; align-self: end; margin-top: 56px; }
+.etape p { grid-column: 2; margin-top: 8px; font-size: .9375rem; max-width: 46ch; opacity: .85; }
+.etape--1 { background: #E6DECE; } .etape--2 { background: var(--kraft); } .etape--3 { background: var(--bleu); color: var(--papier); }
+
+/* Atelier : citation centrée (Faire) */
+.atelier { text-align: center; }
+.atelier blockquote { margin: 0 auto 24px; font-family: var(--font-titre); font-weight: 500; font-size: clamp(2rem, 3.8vw, 3.5rem); line-height: 1.08; max-width: 20ch; }
+.atelier .main-ecrite { display: block; color: var(--bleu); margin-bottom: 40px; }
+.atelier__photo { width: min(100%, 360px); margin: 0 auto 28px; }
+.atelier .photo { border-radius: 10px; }
+.atelier p { color: var(--encre-douce); max-width: 46ch; margin: 0 auto 24px; }
+
+/* Lettre */
+.lettre { padding: var(--section) 0; text-align: center; }
+.lettre h2 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); }
+.lettre p { color: var(--encre-douce); margin: 10px auto 28px; max-width: 40ch; }
+.lettre form { display: flex; border: 1px solid var(--encre); border-radius: 999px; max-width: 460px; margin: 0 auto; padding: 4px 4px 4px 22px; }
+.lettre input { flex: 1; min-width: 0; background: transparent; border: 0; font: inherit; font-size: 1rem; color: var(--encre); }
+.lettre input::placeholder { color: var(--encre-douce); }
+.lettre button { background: var(--encre); color: var(--papier); border: 0; border-radius: 999px; font: inherit; font-size: .9375rem; padding: 11px 22px; cursor: pointer; transition: background .2s; }
+.lettre button:hover { background: var(--bleu); }
+
+/* Pied de page */
+.pied { background: var(--encre); color: var(--papier); padding: clamp(56px, 7vw, 96px) 0 32px; font-size: .9375rem; }
+.pied__grille { display: grid; grid-template-columns: 4fr 2fr 2fr 2fr; gap: 32px; }
+.pied h3 { font-family: var(--font-texte); font-size: .8125rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; margin-bottom: 16px; color: rgba(244,240,231,.6); }
+.pied ul { display: grid; gap: 8px; } .pied a:hover { color: var(--jaune); }
+.pied .logo { justify-self: start; color: var(--papier); margin-bottom: 14px; }
+.pied .logo svg { width: 64px; height: 64px; }
+.pied__marque p { max-width: 30ch; color: rgba(244,240,231,.7); }
+.pied__bas { margin-top: 56px; padding-top: 18px; border-top: 1px solid rgba(244,240,231,.25); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: rgba(244,240,231,.7); }
+.proto { margin-top: 16px; font-size: .8125rem; color: rgba(244,240,231,.55); }
+
+@media (max-width: 1024px) { .cellules { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 20px; } }
+@media (max-width: 820px) {
+  .nav { display: none; }
+  .entete__in { grid-template-columns: 1fr auto; padding: 14px var(--gutter); }
+  .logo { justify-self: start; } .logo svg { width: 38px; height: 38px; } .logo__mot { font-size: 1.5rem; }
+  .menu-mobile { display: block; justify-self: end; }
+  .menu-mobile summary { list-style: none; cursor: pointer; padding: 8px 0; font-size: .9375rem; }
+  .menu-mobile summary::-webkit-details-marker { display: none; }
+  .menu-mobile nav { position: absolute; left: 0; right: 0; top: 100%; background: var(--papier); border-bottom: 1px solid var(--filet); padding: 4px var(--gutter) 16px; display: grid; }
+  .menu-mobile nav a { padding: 12px 0; border-top: 1px solid var(--filet); }
+  .hero__scene { grid-template-columns: 1fr 1fr; }
+  .hero__texte { grid-column: 1 / -1; grid-row: 1; padding: 8px 0 24px; }
+  .hero__col { grid-row: 2; } .hero__col .photo { width: 100% !important; } .hero__col .photo:nth-child(2) { display: none; }
+  .truc__grille { grid-template-columns: 1fr; }
+  .pied__grille { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) { .pied__grille { grid-template-columns: 1fr; } .etape { min-height: 160px; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
