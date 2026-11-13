@@ -35,9 +35,9 @@ elsa=par['elsa-mandarine']
 RUB=[('lampes.html','Lampes',G.L(elsa['imgs'][0][0],640),'Lampes, Elsa Mandarine'),
      ('meubles.html','Meubles','https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/rotin-boheme/meubles/meuble-01-chevet-corail-studio.jpg','Meubles, chevet corail'),
      ('objets.html','Objets','https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/rotin-boheme/objets/objet-01-pichet-bleu-roses.jpg','Objets, pichet bleu aux roses'),
-     ('kids.html','Enfants','https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/rotin-boheme/kids/kids-01-poupee-princesse.jpg','Enfants, poupée princesse')]
-cards=''.join(f'<a class="cat" href="{u}"><img src="{i}" alt="{a}" loading="lazy"><span class="cat__l"><span>{n}</span><i>{arr}</i></span></a>' for u,n,i,a in RUB)
-rub=f'<section class="sec rub" id="rubriques"><div class="wrap"><p class="rub__sup" data-r>La troupe</p><h2 class="rub__t" data-r>Entrez par la porte de votre choix</h2><div class="cats" data-r>{cards}</div></div></section>'
+     ('kids.html','Enfants',G.L('local/kids-07-ours-orange-studio',640),'Enfants, ourson orange')]
+cards=''.join(f'<a class="rub__c" href="{u}"><span class="rub__ph"><img src="{i}" alt="{a}" loading="lazy"></span><span class="rub__n">{n}</span></a>' for u,n,i,a in RUB)
+rub=f'<section class="sec rub" id="rubriques"><div class="wrap"><div class="rub__g" data-r>{cards}</div></div></section>'
 h=open('index.html').read()
 h=re.sub(r'<section class="sec rub" id="rubriques">.*?</section>','',h,count=1,flags=re.S)
 h,n=re.subn(r'<section class="sec (?:noms|aff-home)" id="programme">.*?</section>(?=<section class="sec carnet")',lambda m:rub+sec,h,count=1,flags=re.S)
