@@ -19,10 +19,13 @@ def pied(t):
     t=re.sub(r'<div><h3>Boutique</h3><ul>.*?</ul></div>','<div><h3>La troupe</h3><ul><li><a href="lampes.html">Lampes</a></li><li><a href="meubles.html">Meubles</a></li><li><a href="objets.html">Objets</a></li><li><a href="kids.html">Enfants</a></li></ul></div>',t,flags=re.S)
     t=re.sub(r'<div><h3>La maison</h3><ul>.*?</ul></div>','<div><h3>Les coulisses</h3><ul><li><a href="#">L\'atelier</a></li><li><a href="a-propos.html">Le carnet de route</a></li><li><a href="#lettre">Le programme</a></li></ul></div>',t,flags=re.S)
     t=t.replace('<div><h3>Aide</h3>','<div><h3>Le guichet</h3>')
+    if 'À l\'affiche</h3>' not in t:  # colonne « À l'affiche » : la collection Il est 12 h, Miss Flower
+        aff='<div><h3>À l\'affiche</h3><ul><li><a href="piece-il-est-12h-miss-flower.html">Il est 12 h, Miss Flower</a></li>'+''.join(f'<li><a href="lampe-{sl}.html">{n}</a></li>' for sl,n in (('miss-flower','Miss Flower'),('elsa-mandarine','Elsa Mandarine'),('dori-morse','Dori Morse'),('bob-longcou','Bob Longcou'),('lulu-guinguette','Lulu Guinguette')))+'</ul></div>'
+        t=t.replace('<div><h3>Les coulisses</h3>',aff+'<div><h3>Les coulisses</h3>',1)
     return t
-# menu mobile : ajouter « Le programme » s'il manque
+# menu principal : pas de lien « Le programme » (il reste dans le pied de page)
 def menu_mobile(t):
-    return re.sub(r'(<div class="menu"[^>]*>.*?<nav>)(.*?)(</nav>)',lambda m: m.group(1)+m.group(2)+('' if 'Le programme' in m.group(2) else '<a href="#lettre">Le programme</a>')+m.group(3),t,count=1,flags=re.S)
+    return re.sub(r'(<div class="menu"[^>]*>.*?<nav>)(.*?)(</nav>)',lambda m: m.group(1)+m.group(2).replace('<a href="#lettre">Le programme</a>','')+m.group(3),t,count=1,flags=re.S)
 # home : découpage de l'affiche (Aussi à l'affiche, Le petit théâtre)
 def home(t):
     if 'aff-home' in t: return t

@@ -166,7 +166,7 @@ body.jour .hero__tag{color:#2A241F}
 .lettre input:focus{outline:none}
 .lettre button{border:0;border-radius:62.4375rem;background:var(--fg);color:var(--bg);padding:0.75rem 1.5rem}
 .pied{border-top:1px solid var(--line);padding:3.5rem 0 2rem;font-size:.9375rem}
-.pied__g{display:grid;grid-template-columns:4fr 2fr 2fr 2fr;gap:2rem}
+.pied__g{display:grid;grid-template-columns:3fr 2fr 2.6fr 2fr 2fr;gap:2rem}
 .pied h3{font-family:var(--sans);font-size:.8125rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:0.875rem}
 .pied ul{display:grid;gap:0.5rem}.pied a:hover{color:var(--accent)}
 .pied__m p{color:var(--muted);max-width:30ch;margin-top:0.625rem}
