@@ -37,9 +37,12 @@ RUB=[('lampes.html','Lampes',G.L(elsa['imgs'][0][0],640),'Lampes, Elsa Mandarine
      ('objets.html','Objets','https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/rotin-boheme/objets/objet-01-pichet-bleu-roses.jpg','Objets, pichet bleu aux roses'),
      ('kids.html','Enfants',G.L('local/kids-07-ours-orange-studio',640),'Enfants, ourson orange')]
 cards=''.join(f'<a class="rub__c" href="{u}"><span class="rub__ph"><img src="{i}" alt="{a}" loading="lazy"></span><span class="rub__n">{n}</span></a>' for u,n,i,a in RUB)
+MOT=("Je chine des pieds de lampe, des fauteuils et des miroirs qui ont déjà beaucoup servi. Je les habille. Je les maquille parfois. Je leur cherche ensuite le décor où ils brilleront le mieux. Chez Rotin Bohème, chaque pièce reçoit un nom et un rôle\u00a0: c'est ma façon de leur offrir une nouvelle scène.","Bernadette")  # texte de Ginette, version A choisie par John (à faire approuver par Bernadette avant mise en ligne)
+mot=f'<section class="sec mdb" id="mot"><div class="wrap"><p class="mdb__t" data-r>{MOT[0]}</p><p class="mdb__sig" data-r>{MOT[1]}</p></div></section>'
 rub=f'<section class="sec rub" id="rubriques"><div class="wrap"><div class="rub__g" data-r>{cards}</div></div></section>'
 h=open('index.html').read()
 h=re.sub(r'<section class="sec rub" id="rubriques">.*?</section>','',h,count=1,flags=re.S)
-h,n=re.subn(r'<section class="sec (?:noms|aff-home)" id="programme">.*?</section>(?=<section class="sec carnet")',lambda m:rub+sec,h,count=1,flags=re.S)
+h=re.sub(r'<section class="sec mdb" id="mot">.*?</section>','',h,count=1,flags=re.S)
+h,n=re.subn(r'<section class="sec (?:noms|aff-home)" id="programme">.*?</section>(?=<section class="sec carnet")',lambda m:mot+rub+sec,h,count=1,flags=re.S)
 assert n==1
 open('index.html','w').write(h); print('home affiche ok')
