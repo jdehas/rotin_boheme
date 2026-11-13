@@ -40,9 +40,9 @@ def slugify(t):
 # Photos livrées dans le dépôt (docs/assets/photos/), en attendant le dépôt Cloudinary. Ordre : studio d'abord.
 # Écartées : les chambres qui contiennent un tableau parodie (marque déposée), voir docs/assets/photos/LISEZMOI.md
 LOCAL={
- 'kids-08-chaise-menthe':[('kids-08-chaise-menthe-studio','sur fond rose poudré'),('kids-08-chaise-menthe-podium','sur un podium rose'),('kids-08-chaise-menthe-detail-dossier','détail du dossier vissé'),('kids-08-chaise-menthe-detail-pieds','détail des pieds aux bouts blancs')],
+ 'kids-08-chaise-menthe':[('kids-08-chaise-menthe-studio','sur fond rose poudré'),('kids-08-chaise-menthe-chambre-matin-v3','dans une chambre d’enfant rose, avec la lampe 13'),('kids-chambre-matin-ours-chaise','dans une chambre d’enfant, avec l’ourson orange et la lampe 13'),('kids-08-chaise-menthe-podium','sur un podium rose'),('kids-08-chaise-menthe-detail-dossier','détail du dossier vissé'),('kids-08-chaise-menthe-detail-pieds','détail des pieds aux bouts blancs')],
  'kids-10-locomotive':[('kids-10-locomotive-studio','sur fond lilas gris'),('kids-10-locomotive-socle','sur un socle lilas'),('kids-10-locomotive-detail-avant','détail de l’avant'),('kids-10-locomotive-detail-panneau','détail du panneau')],
- 'kids-07-ours-orange':[('kids-07-ours-orange-studio','sur fond bleu ciel fané'),('kids-07-ours-orange-socle','sur un socle bleu'),('kids-07-ours-orange-detail-visage','détail du visage'),('kids-07-ours-orange-detail-pattes','détail des pattes')],
+ 'kids-07-ours-orange':[('kids-07-ours-orange-studio','sur fond bleu ciel fané'),('kids-chambre-matin-ours-chaise','dans une chambre d’enfant, avec la chaise menthe et la lampe 13'),('kids-07-ours-orange-socle','sur un socle bleu'),('kids-07-ours-orange-detail-visage','détail du visage'),('kids-07-ours-orange-detail-pattes','détail des pattes')],
  'kids-03-cabane':[('kids-03-cabane-studio','sur fond vert amande'),('kids-03-cabane-chambre-matin-v2','dans une chambre d’enfant, le matin'),('kids-03-cabane-detail-interieur','détail de l’intérieur'),('kids-03-cabane-detail-toit','détail du toit')],
  'objet-03-miroir-soleil':[('objet-03-miroir-soleil-studio','sur un mur bleu ciel'),('objet-03-miroir-soleil-detail-miroir','détail du miroir bombé'),('objet-03-miroir-soleil-detail-rayons','détail des rayons en feuilles')],
 }

@@ -264,6 +264,22 @@ sec=f'''<section class="sec coll" id="lampes"><div class="wrap">
   <div class="coll__g" data-r>{cards}</div>
   {piece_html}
 </div>{js}</section>'''
+# --- Page dédiée à la pièce (non reliée au menu pour l'instant) ------------------------------------
+def page_piece(pc,slug):
+    roles=''
+    for sl,r in pc['roles']:
+        c=next(x for x in LAMPES if x['slug']==sl)
+        img=L(c['imgs'][0][0],720) if c.get('imgs') else c['card'][0]
+        href=f"lampe-{sl}.html" if c.get('imgs') else '#'
+        roles+=f'<a class="pp__r" href="{href}"><div class="coll__ph"><img src="{img}" alt="{c["prenom"]} {c["nom"]}" loading="lazy"></div><p class="pp__role">{r}</p><h3 class="pp__nom">{c["prenom"]} {c["nom"]}</h3></a>'
+    sec=f'''<section class="pp" id="piece"><div class="pp__hero"><img src="{pc["image"]}" alt="{pc["image_alt"]}"></div>
+  <div class="wrap"><p class="fiche__crumb" data-r><a href="index.html">Accueil</a> <span>/</span> <a href="lampes.html">Lampes</a> <span>/</span> {pc["titre"]}</p>
+  <div class="pp__tete" data-r><p class="piece__sup">Collection</p><h1 class="pp__t">{pc["titre"]}</h1><p class="piece__s">{pc["sous"]}</p></div>
+  <p class="pp__x" data-r>{pc["texte"]}</p>
+  <h2 class="pp__h" data-r>La distribution</h2>
+  <div class="pp__g" data-r>{roles}</div></div></section>'''
+    return page(sec,f"Rotin Bohème · {pc['titre']}",pc['sous']+' '+pc['texte'][:120])
+open('piece-il-est-12h-miss-flower.html','w').write(page_piece(THEATRE[0],'il-est-12h-miss-flower'))
 open('lampes.html','w').write(page(sec,'Rotin Bohème · Les lampes','Les lampes de Rotin Bohème : pièces uniques chinées et habillées à la main.'))
 # affiche de la home : noms et liens des lampes à fiche
 h=open('index.html').read()
