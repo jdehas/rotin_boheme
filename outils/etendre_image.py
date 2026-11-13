@@ -28,9 +28,10 @@ def etendre(src_bytes,out_path):
         e=np.asarray(Image.fromarray(np.clip(np.repeat(e[None],8,0),0,255).astype('uint8').transpose(1,0,2)).filter(ImageFilter.GaussianBlur(10))).astype('float32')
         return e[:,4:5] if False else None
     def edge_col(side):
-        e=col[:,:8].mean(axis=1) if side=='l' else col[:,-8:].mean(axis=1)   # H x 3
-        img=Image.fromarray(np.clip(np.repeat(e[:,None,:],8,1),0,255).astype('uint8')).filter(ImageFilter.GaussianBlur(24))
-        return np.asarray(img).astype('float32')[:,4,:]             # H x 3
+        e=col[:,3:40].mean(axis=1) if side=='l' else col[:,-40:-3].mean(axis=1)   # H x 3, moyenne sur 37 colonnes : réduit le bruit sans flouter verticalement
+        k=np.exp(-0.5*(np.arange(-6,7)/2.2)**2); k/=k.sum()                          # lissage vertical léger (sigma 2,2 px) : garde la ligne sol / mur
+        pad=np.pad(e,((6,6),(0,0)),mode='edge')
+        return np.stack([np.convolve(pad[:,c],k,'valid') for c in range(3)],axis=1)
     el,er=edge_col('l'),edge_col('r')
     side=(W-pw)//2
     # Le décor d'une photo de studio s'assombrit vers les bords (vignettage). Un prolongement plat créerait une cassure de pente,
