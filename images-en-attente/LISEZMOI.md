@@ -11,7 +11,7 @@ Cloudinary et Notion étaient en panne le 13/11/2026. Tout ce qui suit attend le
 | lampe-06-anthracite | Bob Longcou sur anthracite, éteinte et allumée (-v2) | Déposé sur Cloudinary le 13/11/2026 |
 | kids-03 | Cabane : studio, 2 détails, chambre v2 | Déposé sur Cloudinary le 13/11/2026 |
 | midiminuit | Il est 12 h, Miss Flower : image appartement 16:9 | Déposé sur Cloudinary le 13/11/2026 |
-| univers-meubles | 3 meubles dans les univers, avec lampe (miroir dans la loge) | À valider |
+| univers-meubles | 3 meubles dans les univers, avec lampe (miroir dans la loge) | Déposé sur Cloudinary le 13/11/2026 |
 | objet-03 | Miroir soleil : studio, 2 détails | À valider |
 
 | histoire | Carnet de croquis v1 à v3 | Mis de côté, ne pas déposer |
