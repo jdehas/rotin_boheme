@@ -636,11 +636,24 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 /* Essai affiche v4 : la lampe réagit uniquement sur la photo, fondu doux entre photo et fond, plus de pastille */
 .aff__hint{display:none !important}
 .aff__hero .aff__fg{position:absolute;top:0;bottom:0;left:50%;right:auto;width:auto;height:100%;aspect-ratio:4/5;max-width:100%;transform:translateX(-50%);
-  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(180deg,#000 0,#000 78%,transparent 100%);
-  -webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(180deg,#000 0,#000 78%,transparent 100%);mask-composite:intersect}
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.25) 3%,rgba(0,0,0,.7) 7%,#000 12%,#000 88%,rgba(0,0,0,.7) 93%,rgba(0,0,0,.25) 97%,transparent 100%),linear-gradient(180deg,#000 0,#000 78%,transparent 100%);
+  -webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.25) 3%,rgba(0,0,0,.7) 7%,#000 12%,#000 88%,rgba(0,0,0,.7) 93%,rgba(0,0,0,.25) 97%,transparent 100%),linear-gradient(180deg,#000 0,#000 78%,transparent 100%);mask-composite:intersect}
 @media (hover:hover){.aff__hero:has(.aff__fg:hover) .pair__on{opacity:1}}
 .aff__hero.is-on .pair__on{opacity:1}
 .aff__hero::after{display:block;background:linear-gradient(180deg,rgba(21,33,58,0) 70%,var(--bg) 100%)}
 .aff__bg{opacity:.34}
 .afi__gal{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-width:820px){.afi__gal{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Essai affiche v5 : fond moins flou, plus proche des teintes de la photo, fondu plus progressif */
+.aff__bg{opacity:.62}
+.aff__bg img{filter:blur(18px) saturate(.95);transform:scale(1.15)}
+
+/* Essai affiche v6 : le fond prolonge les bords de la photo (colonne de pixels étirée), sans copie floue de la lampe */
+.aff__bg{opacity:1}
+.aff__bg i{position:absolute;top:0;bottom:0;width:50%;background-image:var(--off);background-repeat:no-repeat;background-size:1600% 100%;filter:blur(3px);transform:scale(1.02)}
+.aff__bg i.l{left:0;background-position:0 0}
+.aff__bg i.r{right:0;background-position:100% 0}
+.aff__bg i b{position:absolute;inset:0;background-image:var(--on);background-repeat:no-repeat;background-size:1600% 100%;background-position:inherit;opacity:0;transition:opacity .6s ease}
+.aff__hero.is-on .aff__bg b{opacity:1}
+@media (hover:hover){.aff__hero:has(.aff__fg:hover) .aff__bg b{opacity:1}}
