@@ -121,6 +121,8 @@ for c in LAMPES:
 THEATRE=[dict(titre="Il est 12 h, Miss Flower",sous="Pièce onirique en trois actes.",
  image="assets/heros/midiminuit.jpg",image_alt="Un appartement à midi, le ciel déjà étoilé : Elsa Mandarine près du canapé, Lulu Guinguette près du gramophone, Dori Morse près du téléphone, Bob Longcou tourné vers la lunette et Miss Flower cachée dans les plantes, devant la table du déjeuner",
  texte="Un mardi de mai, le soleil a décidé de se coucher à 12 h. À Midiminuit, personne ou presque ne s'en est inquiété : on a sorti les lampes et la fête a commencé. La danseuse a ouvert le bal. La télégraphiste a invité tous les villages voisins. Le guetteur a compté les étoiles du déjeuner. Le soleil dormait comme un bienheureux. Mais où était Miss Flower ?",
+ intro="Un mardi de mai, le soleil a décidé de se coucher à 12 h. À Midiminuit, personne ou presque ne s'en est inquiété : on a sorti les lampes et la fête a commencé.",
+ scenes=[('lulu-guinguette',"La danseuse a ouvert le bal."),('dori-morse',"La télégraphiste a invité tous les villages voisins."),('bob-longcou',"Le guetteur a compté les étoiles du déjeuner."),('elsa-mandarine',"Le soleil dormait comme un bienheureux."),('miss-flower',"Mais où était Miss Flower ?")],
  roles=[('miss-flower','La jardinière'),('elsa-mandarine','Le Soleil'),('dori-morse','La télégraphiste'),('bob-longcou','Le guetteur'),('lulu-guinguette','La danseuse')])]
 shell=open('lampe-alizee-canopee.html').read()
 arrow=re.search(r'class="btn btn--plein" href="#">Ajouter au panier<span class="ar">(.*?)</span></a>',shell,re.S).group(1)
@@ -276,18 +278,22 @@ sec=f'''<section class="sec coll" id="lampes"><div class="wrap">
 </div>{js}</section>'''
 # --- Page dédiée à la pièce (non reliée au menu pour l'instant) ------------------------------------
 def page_piece(pc,slug):
-    roles=''
-    for sl,r in pc['roles']:
+    role={sl:r for sl,r in pc['roles']}
+    scenes=''
+    for i,(sl,texte) in enumerate(pc['scenes']):
         c=next(x for x in LAMPES if x['slug']==sl)
-        img=L('local/midiminuit-focus-'+sl) if sl in FOCUS else (L(c['imgs'][0][0],720) if c.get('imgs') else c['card'][0])
-        href=f"lampe-{sl}.html" if c.get('imgs') else '#'
-        roles+=f'<a class="pp__r" href="{href}"><div class="coll__ph"><img src="{img}" alt="{c["prenom"]} {c["nom"]}" loading="lazy"></div><p class="pp__role">{r}</p><h3 class="pp__nom">{c["prenom"]} {c["nom"]}</h3></a>'
+        nom=f'{c["prenom"]} {c["nom"]}'
+        img=L('local/midiminuit-focus-'+sl)
+        sens=' pp__sc--inv' if i%2 else ''
+        scenes+=f'''<article class="pp__sc{sens}" data-r><a class="pp__ph" href="lampe-{sl}.html" aria-label="Voir la fiche de {nom}"><img src="{img}" alt="{FOCUS.get(sl,nom)}" loading="lazy"></a>
+    <div class="pp__tx"><p class="pp__role">{role[sl]}</p><p class="pp__phrase">{texte}</p><a class="pp__lien" href="lampe-{sl}.html">{nom}<span aria-hidden="true"> →</span></a></div></article>'''
+    chips=''.join(f'<li><a href="lampe-{sl}.html"><span class="piece__r">{r}</span><span class="piece__n">{next(x for x in LAMPES if x["slug"]==sl)["prenom"]} {next(x for x in LAMPES if x["slug"]==sl)["nom"]}</span></a></li>' for sl,r in pc['roles'])
     sec=f'''<section class="pp" id="piece"><div class="pp__hero"><img src="{pc["image"]}" alt="{pc["image_alt"]}"></div>
   <div class="wrap"><p class="fiche__crumb" data-r><a href="index.html">Accueil</a> <span>/</span> <a href="lampes.html">Lampes</a> <span>/</span> {pc["titre"]}</p>
   <div class="pp__tete" data-r><p class="piece__sup">Collection</p><h1 class="pp__t">{pc["titre"]}</h1><p class="piece__s">{pc["sous"]}</p></div>
-  <p class="pp__x" data-r>{pc["texte"]}</p>
-  <h2 class="pp__h" data-r>La distribution</h2>
-  <div class="pp__g" data-r>{roles}</div></div></section>'''
+  <p class="pp__intro" data-r>{pc["intro"]}</p>
+  <div class="pp__scenes">{scenes}</div>
+  <div class="pp__fin" data-r><h2 class="pp__h">La distribution</h2><ul class="piece__d">{chips}</ul></div></div></section>'''
     return page(sec,f"Rotin Bohème · {pc['titre']}",pc['sous']+' '+pc['texte'][:120])
 open('piece-il-est-12h-miss-flower.html','w').write(page_piece(THEATRE[0],'il-est-12h-miss-flower'))
 open('lampes.html','w').write(page(sec,'Rotin Bohème · Les lampes','Les lampes de Rotin Bohème : pièces uniques chinées et habillées à la main.'))
