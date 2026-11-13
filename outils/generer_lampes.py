@@ -129,7 +129,7 @@ def page(sec,title,meta):
 def fiche(c):
     th=''.join(f'<button class="fiche__t" type="button" data-full="{L(p)}" data-alt="{a}"'+(f' data-lit="{L(l)}"' if l else '')+f' aria-label="Voir la photo {i+1}"'+(' aria-current="true"' if i==0 else '')+f'><img src="{L(p,200)}" alt="" loading="lazy" width="200" height="250"></button>' for i,(p,a,l) in enumerate(c['imgs']))
     p0,a0_,l0=c['imgs'][0]
-    eyebrow=' · '.join(ROLE[c['slug']]) if c['slug'] in ROLE else 'Il est 20h, Miss Flower · rôle de la troupe'
+    eyebrow=' · '.join(ROLE[c['slug']]) if c['slug'] in ROLE else 'La troupe de Rotin Bohème'
     prov='' if c.get('valide') else '<span class="vh"> Texte provisoire.</span>'
     prix=html.escape(c.get('prix') or 'Prix à renseigner',quote=False)
     role=paras(c.get('histoire') or 'Histoire à écrire par Ginette avec Bernadette.')
@@ -179,7 +179,7 @@ noms={c['slug']:f"{c['prenom']} {c['nom']}" for c in LAMPES}
 piece_html=''
 for pc in PIECES:
     lis=''.join(f'<li><a href="lampe-{sl}.html"><span class="piece__r">{r}</span><span class="piece__n">{noms[sl]}</span></a></li>' for sl,r in pc['roles'])
-    piece_html+=f'<div class="piece" data-r><p class="piece__sup">À l\'affiche</p><h2 class="piece__t">{pc["titre"]}</h2><p class="piece__s">{pc["sous"]}</p><p class="piece__x">{pc["texte"]}</p><ul class="piece__d">{lis}</ul></div>'
+    piece_html+=f'<div class="piece" id="piece" data-r><p class="piece__sup">Collection</p><h2 class="piece__t">{pc["titre"]}</h2><p class="piece__s">{pc["sous"]}</p><p class="piece__x">{pc["texte"]}</p><ul class="piece__d">{lis}</ul></div>'
 sec=f'''<section class="sec coll" id="lampes"><div class="wrap">
   <p class="fiche__crumb" data-r><a href="index.html">Accueil</a> <span>/</span> Lampes</p>
   <div class="coll__tete" data-r><h1 class="coll__t">Les lampes</h1><p class="coll__nb"><b>({len(LAMPES)})</b> pièces uniques</p></div>
@@ -200,6 +200,12 @@ for c in LAMPES:
         pat=re.compile(r'(<li><a href="lampe-'+re.escape(c['slug'])+r'\.html" data-img=")[^"]*(")(.*?<span class="th"><img src=")[^"]*(")',re.S)
         if pat.search(h):
             h=pat.sub(lambda m: m.group(1)+L(c['imgs'][0][0],520)+m.group(2)+m.group(3)+L(c['imgs'][0][0],200)+m.group(4),h,1)
+# annonce de la collection en tête de l'affiche de la home (une seule source : PIECES)
+pc=PIECES[0]
+home_piece=f'<div class="piece piece--home" data-r><p class="piece__sup">Collection</p><h2 class="piece__t">{pc["titre"]}</h2><p class="piece__s">{pc["sous"]}</p><a class="btn" href="lampes.html#piece">Voir la pièce<span class="ar">{arrow}</span></a></div>'
+h=re.sub(r'<div class="piece piece--home".*?</div>\s*','',h,flags=re.S)
+assert h.count('<p class="noms__tete"')==1
+h=h.replace('<p class="noms__tete"',home_piece+'\n  <p class="noms__tete"',1)
 open('index.html','w').write(h)
 for f in glob.glob('*.html'):
     pass

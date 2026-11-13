@@ -561,3 +561,5 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 .piece__d a{display:inline-flex;gap:0.625rem;border:1px solid var(--line2);border-radius:62.4375rem;padding:0.5rem 1rem;font-size:0.9375rem}
 .piece__r{color:var(--muted)}
 .piece__d a:hover .piece__r{color:var(--fg)}
+.piece--home{margin-bottom:3rem}
+.piece--home .piece__s{margin-bottom:1.25rem}
