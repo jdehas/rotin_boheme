@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rotin Bohème · Cinq contrastes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English&family=Caveat+Brush&family=Ultra&family=Cormorant+Infant:ital,wght@1,300&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,900&family=Special+Elite&family=Rye&family=EB+Garamond:wght@400;500&family=Shrikhand&family=Karla:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--nuit:#15213A;--creme:#F2E9DA;--papier:#F7EFDE;--orange:#D6A65A;--braise:#8A5F12;--confiture:#A92F28;--bouteille:#31573C;--choco:#38271F;--rose:#E8C9C3;--amande:#C9D3B4;--paille:#EFDDA8}
+*{box-sizing:border-box;margin:0}
+body{background:#EEE8DE;font-family:Karla,Arial,sans-serif;color:var(--choco);padding:64px 72px}
+header p{max-width:760px;line-height:1.5;color:#5b4d43;margin-top:10px}
+.k{font-size:13px;letter-spacing:.24em;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:44px}
+.card{min-width:0;overflow:hidden;border-radius:14px;padding:30px 34px;min-height:430px;display:flex;flex-direction:column}
+.card.wide{grid-column:1 / -1;min-height:400px}
+.top{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.22em;text-transform:uppercase;opacity:.75}
+.stage{flex:1;display:flex;align-items:center;justify-content:center;padding:26px 0}
+.why{font-size:15px;line-height:1.5;max-width:560px;opacity:.85}
+/* 1 Ce qui a vécu / ce qui reste à vivre */
+.c1{background:var(--papier)}
+.l1{display:flex;align-items:baseline;gap:22px}
+.l1 .r{font-family:"IM Fell English",serif;font-size:84px;color:var(--choco);letter-spacing:.01em}
+.l1 .b{font-family:"Caveat Brush",cursive;font-size:104px;color:var(--confiture);transform:rotate(-4deg) translateY(-6px)}
+/* 2 Immobilité et mouvement */
+.c2{background:var(--nuit);color:var(--creme)}
+.l2{position:relative;width:600px;height:210px}
+.l2 .r{font-family:Ultra,serif;font-size:92px;color:var(--creme);position:absolute;left:0;bottom:20px;line-height:1}
+.l2 .r:after{content:"";position:absolute;left:0;right:0;bottom:-14px;height:5px;background:var(--creme)}
+.l2 .b{font-family:"Cormorant Infant",serif;font-style:italic;font-weight:300;font-size:80px;color:var(--orange);position:absolute;left:330px;bottom:62px;line-height:1}
+.l2 .b span{display:inline-block}
+/* 3 Repos et aventure */
+.c3{background:var(--amande)}
+.l3{text-align:center}
+.l3 .r{font-family:"Bodoni Moda",serif;font-weight:400;font-size:24px;letter-spacing:.9em;text-transform:uppercase;color:var(--bouteille);padding-left:.9em}
+.l3 .b{font-family:"Bodoni Moda",serif;font-style:italic;font-weight:900;font-size:124px;line-height:.9;color:var(--bouteille);letter-spacing:-.02em}
+/* 4 Mémoire et liberté */
+.c4{background:var(--paille)}
+.l4{display:flex;flex-direction:column;align-items:center;gap:6px}
+.l4 .r{font-family:"Special Elite",monospace;font-size:38px;color:var(--choco);background:var(--papier);border:1.5px solid var(--choco);padding:6px 18px 4px;letter-spacing:.18em;transform:rotate(-2deg)}
+.l4 .b{font-family:Rye,serif;font-size:90px;color:var(--confiture);letter-spacing:.03em;line-height:1.05}
+/* 5 Âge et vitalité */
+.c5{background:var(--rose)}
+.l5{display:flex;align-items:center;gap:30px}
+.l5 .r{font-family:"EB Garamond",serif;font-weight:500;font-size:34px;letter-spacing:.32em;text-transform:uppercase;color:var(--nuit);writing-mode:vertical-rl;transform:rotate(180deg)}
+.l5 .b{font-family:Shrikhand,serif;font-size:140px;color:var(--confiture);line-height:1}
+.l5 .b em{font-style:normal;color:var(--orange)}
+footer{margin-top:30px;font-size:13px;color:#6f6257;max-width:900px;line-height:1.5}
+</style>
+</head>
+<body>
+<header>
+  <div class="k">Rotin Bohème · cinq logotypes en contraste</div>
+  <p>Chaque version part d'une tension de la plateforme narrative : le rotin, c'est ce qui a vécu, la bohème, c'est ce qui reste à vivre. Les deux mots ne parlent jamais la même langue typographique.</p>
+</header>
+<div class="grid">
+  <section class="card c1">
+    <div class="top"><span>1 · Mémoire et liberté</span><span>IM Fell English / Caveat Brush</span></div>
+    <div class="stage"><div class="l1"><span class="r">Rotin</span><span class="b">Bohème</span></div></div>
+    <p class="why">Rotin dans une gravure ancienne, un peu usée, comme sur une étiquette de brocante. Bohème écrit au pinceau, d'un geste, qui penche et repart.</p>
+  </section>
+  <section class="card c2">
+    <div class="top"><span>2 · Immobilité et mouvement</span><span>Ultra / Cormorant Infant</span></div>
+    <div class="stage"><div class="l2"><span class="r">Rotin</span><span class="b"><span style="transform:translateY(0)">B</span><span style="transform:translateY(-6px)">o</span><span style="transform:translateY(-12px)">h</span><span style="transform:translateY(-20px)">è</span><span style="transform:translateY(-30px)">m</span><span style="transform:translateY(-42px)">e</span></span></div></div>
+    <p class="why">Rotin pèse, posé sur sa ligne comme un fauteuil sur le parquet. Bohème, en italique légère, quitte la ligne de base lettre après lettre : le fauteuil à bascule qui rêve de prendre la route.</p>
+  </section>
+  <section class="card c3">
+    <div class="top"><span>3 · Repos et aventure</span><span>Bodoni Moda, deux graisses</span></div>
+    <div class="stage"><div class="l3"><div class="r">Rotin</div><div class="b">Bohème</div></div></div>
+    <p class="why">Une seule famille, deux extrêmes. Rotin chuchote en petites capitales très espacées. Bohème crie en noir italique. Le contraste est dans la voix, pas dans le style.</p>
+  </section>
+  <section class="card c4">
+    <div class="top"><span>4 · Nostalgie et fantaisie</span><span>Special Elite / Rye</span></div>
+    <div class="stage"><div class="l4"><span class="r">ROTIN</span><span class="b">Bohème</span></div></div>
+    <p class="why">Rotin tapé à la machine sur une étiquette d'inventaire, un peu de travers. Bohème en lettres de foire, celles de l'affiche de la troupe ambulante.</p>
+  </section>
+  <section class="card c5 wide">
+    <div class="top"><span>5 · Âge et vitalité</span><span>EB Garamond / Shrikhand</span></div>
+    <div class="stage"><div class="l5"><span class="r">Rotin</span><span class="b">Boh<em>è</em>me</span></div></div>
+    <p class="why">Rotin en capitales classiques, droit comme un dos de fauteuil, posé à la verticale. Bohème déborde, ronde et gourmande. L'accent en orange est la lumière de la lampe, la seule couleur d'accent de la charte.</p>
+  </section>
+</div>
+<footer>Polices libres (Google Fonts) pour l'exploration. Couleurs tirées des tokens de la charte et des palettes des univers. Textes d'explication internes, non destinés au site.</footer>
+</body>
+</html>
