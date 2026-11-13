@@ -14,7 +14,9 @@ import re, os, glob, html
 DOCS=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','docs')
 os.chdir(DOCS)
 B='https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_%d/rotin-boheme/lampes/'
-def L(n,w=900): return (B%w)+n+'.jpg'
+def L(n,w=900):
+    if n.startswith('local/'): return 'assets/photos/'+n[6:]+'.jpg'          # photo déposée dans le dépôt (docs/assets/photos/)
+    return (B%w)+n+'.jpg'
 def paras(t): return ''.join('<p>'+html.escape(p.strip(),quote=False)+'</p>' for p in t.strip().split('\n\n') if p.strip())
 
 # Lampes mises en scène : noms validés dans la base Notion « Rotin Bohème, passations de Ginette »
@@ -110,12 +112,14 @@ for c in LAMPES:
         if existe(pre+'-'+a): imgs.append((pre+'-'+a,n+', en situation',None)); break
     for suf,lab in (('detail-abat-jour',"détail de l'abat-jour"),('detail-pied','détail du pied')):
         if existe(pre+'-'+suf): imgs.append((pre+'-'+suf,n+', '+lab,None))
+    REMPLACE={'lampe-06-bureau-noire-studio-eteinte':'local/lampe-06-bureau-noire-studio-eteinte-v2','lampe-06-bureau-noire-studio-allumee':'local/lampe-06-bureau-noire-studio-allumee-v2'}
+    imgs=[(REMPLACE.get(a,a),b,REMPLACE.get(l,l) if l else l) for a,b,l in imgs]
     c['imgs']=imgs
     c.setdefault('tag','lampe'); c.setdefault('desc','Description à écrire par Ginette.'); c.setdefault('meta',n+' : lampe de Rotin Bohème.')
     print('photos studio détectées :',n)
 # Pièces de théâtre : une collection est présentée comme une pièce (titre, genre, synopsis, distribution). Texte de Ginette.
 THEATRE=[dict(titre="Il est 12 h, Miss Flower",sous="Pièce onirique en trois actes.",
- image="assets/heros/hero-1.jpg",image_alt="La roulotte de la troupe, ouverte de nuit, éclairée par une guirlande d'ampoules (image provisoire en attendant celle de la collection)",
+ image="assets/heros/midiminuit.jpg",image_alt="Un appartement à midi, le ciel déjà étoilé : Elsa Mandarine près du canapé, Lulu Guinguette près du gramophone, Dori Morse près du téléphone, Bob Longcou tourné vers la lunette et Miss Flower cachée dans les plantes, devant la table du déjeuner",
  texte="Un mardi de mai, le soleil a décidé de se coucher à 12 h. À Midiminuit, personne ou presque ne s'en est inquiété : on a sorti les lampes et la fête a commencé. La danseuse a ouvert le bal. La télégraphiste a invité tous les villages voisins. Le guetteur a compté les étoiles du déjeuner. Le soleil dormait comme un bienheureux. Mais où était Miss Flower ?",
  roles=[('miss-flower','La jardinière'),('elsa-mandarine','Le Soleil'),('dori-morse','La télégraphiste'),('bob-longcou','Le guetteur'),('lulu-guinguette','La danseuse')])]
 shell=open('lampe-alizee-canopee.html').read()
@@ -178,7 +182,8 @@ def largeur(nom):
     rel=f'assets/wide/{base}.jpg'
     if not os.path.exists(rel):
         os.makedirs('assets/wide',exist_ok=True)
-        etendre_image.depuis_url(L(nom,1600),rel)
+        if nom.startswith('local/'): etendre_image.depuis_fichier(L(nom),rel)
+        else: etendre_image.depuis_url(L(nom,1600),rel)
     return rel
 def affiche(c):
     p0,a0_,l0=c['imgs'][0]

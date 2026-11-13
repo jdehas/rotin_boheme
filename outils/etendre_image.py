@@ -75,3 +75,6 @@ def depuis_url(url,out_path):
         except Exception: 
             if t==2: raise
     etendre(data,out_path)
+
+def depuis_fichier(chemin,out_path):
+    etendre(open(chemin,'rb').read(),out_path)

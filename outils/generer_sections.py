@@ -37,6 +37,15 @@ SECTIONS={
 def slugify(t): 
     import unicodedata
     t=unicodedata.normalize('NFKD',t).encode('ascii','ignore').decode().lower(); return re.sub(r'[^a-z0-9]+','-',t).strip('-')
+# Photos livrées dans le dépôt (docs/assets/photos/), en attendant le dépôt Cloudinary. Ordre : studio d'abord.
+# Écartées : les chambres qui contiennent un tableau parodie (marque déposée), voir docs/assets/photos/LISEZMOI.md
+LOCAL={
+ 'kids-08-chaise-menthe':[('kids-08-chaise-menthe-studio','sur fond rose poudré'),('kids-08-chaise-menthe-podium','sur un podium rose'),('kids-08-chaise-menthe-detail-dossier','détail du dossier vissé'),('kids-08-chaise-menthe-detail-pieds','détail des pieds aux bouts blancs')],
+ 'kids-10-locomotive':[('kids-10-locomotive-studio','sur fond lilas gris'),('kids-10-locomotive-socle','sur un socle lilas'),('kids-10-locomotive-detail-avant','détail de l’avant'),('kids-10-locomotive-detail-panneau','détail du panneau')],
+ 'kids-07-ours-orange':[('kids-07-ours-orange-studio','sur fond bleu ciel fané'),('kids-07-ours-orange-socle','sur un socle bleu'),('kids-07-ours-orange-detail-visage','détail du visage'),('kids-07-ours-orange-detail-pattes','détail des pattes')],
+ 'kids-03-cabane':[('kids-03-cabane-studio','sur fond vert amande'),('kids-03-cabane-chambre-matin-v2','dans une chambre d’enfant, le matin'),('kids-03-cabane-detail-interieur','détail de l’intérieur'),('kids-03-cabane-detail-toit','détail du toit')],
+ 'objet-03-miroir-soleil':[('objet-03-miroir-soleil-studio','sur un mur bleu ciel'),('objet-03-miroir-soleil-detail-miroir','détail du miroir bombé'),('objet-03-miroir-soleil-detail-rayons','détail des rayons en feuilles')],
+}
 items=[]
 for sec,(titre,menu,lst) in SECTIONS.items():
     for base,prenom,nom,tag,desc in lst:
@@ -47,11 +56,18 @@ for sec,(titre,menu,lst) in SECTIONS.items():
             import urllib.request
             try: return urllib.request.urlopen(urllib.request.Request(U(sec,nm,200),method='HEAD'),timeout=10).status==200
             except Exception: return False
-        main=base+'-studio' if ex(base+'-studio') else base
-        imgs.append((sec+'/'+main,f'{n}, {tag}',None))
-        if main!=base: imgs.append((sec+'/'+base,f'{n}, photo sur fond blanc',None))
-        seen={main,base}
-        for suf,lab in SUFFIXES[1:]:
+        loc=next((v for k,v in LOCAL.items() if base.startswith(k)),None)
+        if loc:
+            imgs=[('local/'+f,f'{n}, {lab}',None) for f,lab in loc]
+            imgs.insert(1,(sec+'/'+base,f'{n}, photo sur fond blanc',None))
+            seen={base}
+            main=None
+        else:
+            main=base+'-studio' if ex(base+'-studio') else base
+            imgs.append((sec+'/'+main,f'{n}, {tag}',None))
+            if main!=base: imgs.append((sec+'/'+base,f'{n}, photo sur fond blanc',None))
+            seen={main,base}
+        for suf,lab in ([] if loc else SUFFIXES[1:]):
             nm=base+suf
             if nm in seen: continue
             if ex(nm): imgs.append((sec+'/'+nm,f'{n}, {lab}',None)); seen.add(nm)
@@ -59,7 +75,9 @@ for sec,(titre,menu,lst) in SECTIONS.items():
         items.append(dict(sec=sec,slug=slug,file=f'{sec[:-1] if sec.endswith("s") else sec}-{slugify(n if prenom!="À nommer" else nom)}.html',prenom=prenom,nom=nom,tag=tag,desc=desc,meta=f'{n} : {tag}, Rotin Bohème.',imgs=imgs,key=None))
 # l'image se construit avec G.L qui préfixe lampes/ : on la contourne en fournissant des chemins relatifs à rotin-boheme/
 G.B='https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_%d/rotin-boheme/'
-def L2(n,w=900): return (G.B%w)+n+'.jpg'
+def L2(n,w=900):
+    if n.startswith('local/'): return 'assets/photos/'+n[6:]+'.jpg'
+    return (G.B%w)+n+'.jpg'
 G.L=L2
 for it in items: G.LAMPES.append(it)
 out={}
