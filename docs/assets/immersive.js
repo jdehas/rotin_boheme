@@ -43,7 +43,7 @@
       var sr=st.getBoundingClientRect(),ar=a.getBoundingClientRect(),y=(ar.top-sr.top+ar.height/2)+'px';
       var soon=a.dataset.soon;
       L.classList.toggle('is-soon',!!soon);R.classList.toggle('is-soon',!!soon);
-      if(!soon){li.src=a.dataset.img;ri.src=a.dataset.img;R.style.setProperty('--o',a.dataset.o);R.style.setProperty('--s',a.dataset.s);}
+      if(!soon){li.src=a.dataset.img;ri.src=a.dataset.scene||a.dataset.img;R.style.setProperty('--o',a.dataset.o||'50% 50%');R.style.setProperty('--s',a.dataset.s||'1');}
       L.style.top=y;R.style.top=y;st.classList.add('on');
     }
     function hide(){st.classList.remove('on');list.classList.remove('hov');list.querySelectorAll('a.cur').forEach(function(x){x.classList.remove('cur');});}
@@ -53,6 +53,16 @@
       a.addEventListener('blur',hide);
     });
     list.addEventListener('mouseleave',hide);
+  }
+
+  /* À l'affiche : le nom au centre de l'écran passe à l'orange au scroll */
+  var ah=d.querySelectorAll('.aff-home .noms__list a');
+  if(ah.length){
+    var tick=false;
+    function sc(){tick=false;var mid=w.innerHeight*.5,best=null,bd=1e9;
+      ah.forEach(function(a){var r=a.getBoundingClientRect(),dd=Math.abs(r.top+r.height/2-mid);if(dd<bd){bd=dd;best=a;}});
+      ah.forEach(function(a){a.classList.toggle('sc',a===best&&bd<w.innerHeight*.28);});}
+    w.addEventListener('scroll',function(){if(!tick){tick=true;w.requestAnimationFrame(sc);}},{passive:true});sc();
   }
 
   var menu=d.querySelector('.menu'),mb=d.querySelector('.menu-btn'),mc=d.querySelector('.menu-close');

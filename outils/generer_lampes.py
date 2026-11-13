@@ -317,23 +317,24 @@ open('piece-il-est-12h-miss-flower.html','w').write(page_piece(THEATRE[0],'il-es
 open('lampes.html','w').write(page(sec,'Rotin Bohème · Les lampes','Les lampes de Rotin Bohème : pièces uniques chinées et habillées à la main.'))
 # affiche de la home : noms et liens des lampes à fiche
 h=open('index.html').read()
-for c in LAMPES:
-    if not c.get('key'): continue
-    pat=re.compile(r'<li><a href="([^"]*)"( data-img="[^"]*'+re.escape(c['key'])+r'\.jpg"[^>]*>)<span class="t">[^<]*</span><span class="n">[^<]*</span>')
-    assert pat.search(h),c['key']
-    href=f'lampe-{c["slug"]}.html' if c.get('imgs') else '\\1'
-    h=pat.sub(f'<li><a href="{href}"\\2<span class="t">{c["prenom"]}</span><span class="n">{c["nom"]}</span>',h,1)
-for c in LAMPES:
-    if c.get('imgs') and not c.get('key'):
-        pat=re.compile(r'(<li><a href="lampe-'+re.escape(c['slug'])+r'\.html" data-img=")[^"]*(")(.*?<span class="th"><img src=")[^"]*(")',re.S)
-        if pat.search(h):
-            h=pat.sub(lambda m: m.group(1)+L(c['imgs'][0][0],520)+m.group(2)+m.group(3)+L(c['imgs'][0][0],200)+m.group(4),h,1)
-pc=THEATRE[0]
-home_piece=f'<div class="piece piece--home" data-r><p class="piece__sup">Collection</p><h2 class="piece__t">{pc["titre"]}</h2><p class="piece__s">{pc["sous"]}</p><a class="btn" href="lampes.html#piece">Voir la pièce<span class="ar">{arrow}</span></a></div>'
-h=re.sub(r'<div class="piece piece--home".*?</div>\s*','',h,flags=re.S)
-assert h.count('<p class="noms__tete"')==1
-h=h.replace('<p class="noms__tete"',home_piece+'\n  <p class="noms__tete"',1)
-open('index.html','w').write(h)
+if 'class="aff-home"' not in h:  # la home « À l'affiche » est ensuite réécrite par home_affiche.py
+    for c in LAMPES:
+        if not c.get('key'): continue
+        pat=re.compile(r'<li><a href="([^"]*)"( data-img="[^"]*'+re.escape(c['key'])+r'\.jpg"[^>]*>)<span class="t">[^<]*</span><span class="n">[^<]*</span>')
+        assert pat.search(h),c['key']
+        href=f'lampe-{c["slug"]}.html' if c.get('imgs') else '\\1'
+        h=pat.sub(f'<li><a href="{href}"\\2<span class="t">{c["prenom"]}</span><span class="n">{c["nom"]}</span>',h,1)
+    for c in LAMPES:
+        if c.get('imgs') and not c.get('key'):
+            pat=re.compile(r'(<li><a href="lampe-'+re.escape(c['slug'])+r'\.html" data-img=")[^"]*(")(.*?<span class="th"><img src=")[^"]*(")',re.S)
+            if pat.search(h):
+                h=pat.sub(lambda m: m.group(1)+L(c['imgs'][0][0],520)+m.group(2)+m.group(3)+L(c['imgs'][0][0],200)+m.group(4),h,1)
+    pc=THEATRE[0]
+    home_piece=f'<div class="piece piece--home" data-r><p class="piece__sup">Collection</p><h2 class="piece__t">{pc["titre"]}</h2><p class="piece__s">{pc["sous"]}</p><a class="btn" href="lampes.html#piece">Voir la pièce<span class="ar">{arrow}</span></a></div>'
+    h=re.sub(r'<div class="piece piece--home".*?</div>\s*','',h,flags=re.S)
+    assert h.count('<p class="noms__tete"')==1
+    h=h.replace('<p class="noms__tete"',home_piece+'\n  <p class="noms__tete"',1)
+    open('index.html','w').write(h)
 for f in glob.glob('*.html'):
     pass
 print('ok',len(LAMPES),'lampes')
