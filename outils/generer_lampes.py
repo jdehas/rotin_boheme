@@ -156,29 +156,63 @@ for f in glob.glob('lampe-*.html'):
     if f!='lampe-alizee-canopee.html': os.remove(f)
 for c in LAMPES:
     if c.get('imgs'): open(f"lampe-{c['slug']}.html",'w').write(fiche(c))
-# --- Mise en page « affiche » (essai) : photo pleine largeur, nom géant, détails dessous -------------
+# --- Mise en page « affiche » (essai) : grand écran sans texte, infos dessous -------------------------
+# Ordre : nom, courte description, prix, ajouter au panier, matière et état, dimensions, autres photos, rôle, collections.
+PIECES={'il-est-12h':'Il est 12h, Miss Flower'}
+def carte_piece(slug):
+    c=next(x for x in LAMPES if x['slug']==slug)
+    if c.get('imgs'): img=L(c['imgs'][0][0],640); href=f"lampe-{slug}.html"
+    else: img=c['card'][0]; href='#'
+    return f'<a class="coll__c" href="{href}"><div class="coll__ph"><img src="{img}" alt="{c["prenom"]} {c["nom"]}" loading="lazy"></div><p class="coll__p">{c["prenom"]}</p><h3 class="coll__n">{c["nom"]}</h3></a>'
 def affiche(c):
     p0,a0_,l0=c['imgs'][0]
     role=paras(c.get('histoire') or 'Histoire à écrire par Ginette avec Bernadette.')
     mat=paras(c.get('matiere') or 'À renseigner.')
     dim=paras(c.get('dimensions') or 'À renseigner.')
     prix=html.escape(c.get('prix') or 'Prix à renseigner',quote=False)
-    reste=''
-    for i,(p,a,l) in enumerate(c['imgs'][1:],1):
+    reste=[]
+    for p,a,l in c['imgs'][1:]:
         if p.endswith('-allumee'): continue  # les photos allumées servent au survol
-        if l: reste+=f'<div class="aff__ph pair"><img src="{L(p,720)}" alt="{a}" loading="lazy"><img class="pair__on" src="{L(l,720)}" alt="" aria-hidden="true" loading="lazy"></div>'
-        else: reste+=f'<div class="aff__ph"><img src="{L(p,720)}" alt="{a}" loading="lazy"></div>'
-    sec=f'''<section class="aff" id="fiche">
-  <div class="aff__hero"><div class="aff__bg pair" aria-hidden="true"><img src="{L(p0,300)}" alt=""><img class="pair__on" src="{L(l0,300)}" alt=""></div><div class="aff__fg pair"><img src="{L(p0,1600)}" alt="{a0_}"><img class="pair__on" src="{L(l0,1600)}" alt="" aria-hidden="true"></div>
-    <p class="aff__tag">Il est 20h, Miss Flower · rôle de la troupe</p>
-    <div class="aff__t"><p class="aff__pre">{c['prenom']}</p><h1 class="aff__nom">{c['nom']}</h1></div></div>
-  <div class="aff__txt wrap"><div><h2>Matière et état</h2>{mat}</div><div><h2>Dimensions</h2>{dim}</div><div><h2>Prix</h2><p class="aff__prix"><b>{prix}</b> · pièce unique</p><p>{c['tag']}</p><div class="fiche__cta" style="margin:0"><a class="btn btn--plein" href="#">Ajouter au panier<span class="ar">{arrow}</span></a></div></div></div>
-  <div class="aff__gal wrap" style="--n:{4 if reste.count('class="aff__ph')==4 else 3}">{reste}</div>
-  <div class="aff__role wrap"><h2>Le rôle</h2><div>{role}</div></div>
-</section>'''
+        reste.append((p,a,l))
+    gal=''
+    for i,(p,a,l) in enumerate(reste):
+        on=f'<img class="pair__on" src="{L(l,720)}" alt="" aria-hidden="true" loading="lazy">' if l else ''
+        gal+=f'<button class="afi__ph{" pair" if l else ""}" type="button" data-full="{L(p,1800)}" data-alt="{a}" aria-label="Agrandir la photo {i+1}"><img src="{L(p,720)}" alt="{a}" loading="lazy">{on}</button>'
+    colls=''
+    for cle,membres in c.get('pieces',[]):
+        colls+=f'<div class="afi__piece"><h3>{PIECES[cle]}</h3><div class="coll__g afi__cg">'+''.join(carte_piece(m) for m in membres)+'</div></div>'
+    sec=f"""<section class="aff" id="fiche">
+  <div class="aff__hero" id="hero" role="button" tabindex="0" aria-pressed="false" aria-label="Allumer ou éteindre la lampe"><div class="aff__bg pair" aria-hidden="true"><img src="{L(p0,300)}" alt=""><img class="pair__on" src="{L(l0,300)}" alt=""></div><div class="aff__fg pair"><img src="{L(p0,1600)}" alt="{a0_}"><img class="pair__on" src="{L(l0,1600)}" alt="" aria-hidden="true"></div><span class="aff__hint" id="hint">Touche la photo pour allumer</span></div>
+  <div class="afi wrap">
+    <div class="afi__main">
+      <p class="eyebrow">{PIECES['il-est-12h']} · rôle de la troupe</p>
+      <p class="afi__pre">{c['prenom']}</p>
+      <h1 class="afi__nom">{c['nom']}</h1>
+      <p class="afi__desc">{c['desc']}</p>
+      <p class="afi__prix"><b>{prix}</b> · pièce unique</p>
+      <div class="fiche__cta" style="margin:0"><a class="btn btn--plein" href="#">Ajouter au panier<span class="ar">{arrow}</span></a></div>
+    </div>
+    <div class="afi__spec"><div><h2>Matière et état</h2>{mat}</div><div><h2>Dimensions</h2>{dim}</div></div>
+  </div>
+  <div class="afi__gal wrap" style="--n:{4 if len(reste)==4 else 3}">{gal}</div>
+  <div class="afi__role wrap"><h2 class="vh">Le rôle</h2>{role}</div>
+  <div class="afi__coll wrap"><h2>Collections</h2><p class="afi__sub">Les pièces dans lesquelles {c['prenom']} a joué : les autres lampes avec lesquelles elle s'accorde.</p>{colls}</div>
+  <div class="lb" id="lb" hidden><button class="lb__x" type="button" aria-label="Fermer">×</button><button class="lb__p" type="button" aria-label="Photo précédente">‹</button><img id="lbimg" alt=""><button class="lb__n" type="button" aria-label="Photo suivante">›</button></div>
+  <script>(function(){{var h=document.getElementById('hero'),ht=document.getElementById('hint');function tog(){{var on=h.classList.toggle('is-on');h.setAttribute('aria-pressed',on);ht.textContent=on?'Touche la photo pour éteindre':'Touche la photo pour allumer'}}
+  if(window.matchMedia('(hover:none)').matches){{h.addEventListener('click',tog)}}h.addEventListener('keydown',function(e){{if(e.key==='Enter'||e.key===' '){{e.preventDefault();tog()}}}});
+  var ph=[].slice.call(document.querySelectorAll('.afi__ph')),lb=document.getElementById('lb'),im=document.getElementById('lbimg'),cur=0;
+  function show(i){{cur=(i+ph.length)%ph.length;im.src=ph[cur].dataset.full;im.alt=ph[cur].dataset.alt;lb.hidden=false;document.body.style.overflow='hidden'}}
+  function close(){{lb.hidden=true;document.body.style.overflow=''}}
+  ph.forEach(function(b,i){{b.addEventListener('click',function(){{show(i)}})}});
+  lb.querySelector('.lb__x').onclick=close;lb.querySelector('.lb__p').onclick=function(e){{e.stopPropagation();show(cur-1)}};lb.querySelector('.lb__n').onclick=function(e){{e.stopPropagation();show(cur+1)}};
+  lb.addEventListener('click',function(e){{if(e.target===lb||e.target===im)close()}});
+  document.addEventListener('keydown',function(e){{if(lb.hidden)return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')show(cur-1);if(e.key==='ArrowRight')show(cur+1)}});}})();</script>
+</section>"""
     return page(sec,f"Rotin Bohème · {c['prenom']} {c['nom']}, essai affiche",c['meta'])
 for c in LAMPES:
-    if c.get('imgs') and c['slug'] in ('lulu-guinguette',): open(f"essai-affiche-{c['slug']}.html",'w').write(affiche(c))
+    if c.get('imgs') and c['slug'] in ('lulu-guinguette',):
+        c.setdefault('pieces',[('il-est-12h',['dori-morse','elsa-mandarine','melville-black','jelly-bell'])])
+        open(f"essai-affiche-{c['slug']}.html",'w').write(affiche(c))
 # collection
 cards=''
 for c in LAMPES:
