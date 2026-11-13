@@ -198,7 +198,7 @@ def affiche(c):
         n=nom.split('/')[-1]
         if 'detail' in n: return 2
         if any(k in n for k in ('-plateau','-socle','-formica','-arche')): return 3
-        if 'midiminuit' in n: return 1
+        if any(k in n for k in ('midiminuit','roulotte','kids-chambre')): return 1
         if any(k in n for k in ('-salon','-chambre','-entree','-bureau-jour','-salle-a-manger','-cuisine','-bibliotheque','-jour','-nuit')): return 1
         return 0
     reste=sorted(c['imgs'],key=lambda t:rang(t[0]))  # toutes les photos : éteintes et allumées comprises
@@ -249,6 +249,21 @@ FOCUS={'bob-longcou':"Bob Longcou, le guetteur, tourné vers les étoiles et la 
 for c in LAMPES:
     if c.get('imgs') and c['slug'] in FOCUS and not any('midiminuit-focus' in i[0] for i in c['imgs']):
         c['imgs']=list(c['imgs'])+[('local/midiminuit-focus-'+c['slug'],FOCUS[c['slug']],None)]
+# Photos qui mêlent plusieurs objets ou toute la pièce : elles figurent dans la galerie de chacun des objets visibles
+MIXTES={
+ 'miss-flower':[('local/midiminuit-5-lampes',"Les cinq lampes de la pièce « Il est 12 h, Miss Flower » dans l'appartement, Miss Flower cachée dans les plantes à droite"),
+                ('local/kids-chambre-matin-ours-chaise',"Miss Flower dans une chambre d'enfant, avec la chaise menthe et l'ourson orange"),
+                ('local/kids-08-chaise-menthe-chambre-matin-v3',"Miss Flower dans une chambre d'enfant rose, près de la chaise menthe")],
+ 'lulu-guinguette':[('local/midiminuit-5-lampes',"Les cinq lampes de la pièce « Il est 12 h, Miss Flower », Lulu Guinguette près du gramophone"),
+                ('local/roulotte-troupe',"Lulu Guinguette dans la roulotte de la troupe, avec les fauteuils en rotin et les autres lampes")],
+ 'elsa-mandarine':[('local/midiminuit-5-lampes',"Les cinq lampes de la pièce « Il est 12 h, Miss Flower », Elsa Mandarine éteinte près du canapé"),
+                ('local/roulotte-troupe',"Elsa Mandarine dans la roulotte de la troupe, entre les deux fauteuils en rotin")],
+ 'dori-morse':[('local/midiminuit-5-lampes',"Les cinq lampes de la pièce « Il est 12 h, Miss Flower », Dori Morse près du téléphone")],
+ 'bob-longcou':[('local/midiminuit-5-lampes',"Les cinq lampes de la pièce « Il est 12 h, Miss Flower », Bob Longcou près de la lunette")]}
+for c in LAMPES:
+    if c.get('imgs') and c['slug'] in MIXTES:
+        dej={i[0] for i in c['imgs']}
+        c['imgs']=list(c['imgs'])+[(f,a,None) for f,a in MIXTES[c['slug']] if f not in dej]
 for c in LAMPES:
     if c.get('imgs'):
         c['pieces']=suggestions(c)

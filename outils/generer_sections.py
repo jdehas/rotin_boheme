@@ -46,6 +46,12 @@ LOCAL={
  'kids-03-cabane':[('kids-03-cabane-studio','sur fond vert amande'),('kids-03-cabane-chambre-matin-v2','dans une chambre d’enfant, le matin'),('kids-03-cabane-detail-interieur','détail de l’intérieur'),('kids-03-cabane-detail-toit','détail du toit')],
  'objet-03-miroir-soleil':[('objet-03-miroir-soleil-studio','sur un mur bleu ciel'),('objet-03-miroir-soleil-detail-miroir','détail du miroir bombé'),('objet-03-miroir-soleil-detail-rayons','détail des rayons en feuilles')],
 }
+# Photos mixtes : un même fichier figure dans la galerie de chaque objet visible
+MIXTES={
+ 'meuble-02-fauteuil-rotin-naturel':[('roulotte-troupe',"dans la roulotte de la troupe, avec le fauteuil noir et les lampes")],
+ 'meuble-03-fauteuil-rotin-noir':[('roulotte-troupe',"dans la roulotte de la troupe, avec le fauteuil naturel et les lampes")],
+ 'kids-08-chaise-menthe':[('midiminuit-5-lampes',None)][:0],
+}
 items=[]
 for sec,(titre,menu,lst) in SECTIONS.items():
     for base,prenom,nom,tag,desc in lst:
@@ -71,6 +77,10 @@ for sec,(titre,menu,lst) in SECTIONS.items():
             nm=base+suf
             if nm in seen: continue
             if ex(nm): imgs.append((sec+'/'+nm,f'{n}, {lab}',None)); seen.add(nm)
+        for k,v in MIXTES.items():
+            if base.startswith(k):
+                dej={i[0] for i in imgs}
+                imgs+=[('local/'+f,f'{n}, {lab}',None) for f,lab in v if 'local/'+f not in dej]
         slug=f'{sec}-{slugify(n)}' if prenom!='À nommer' else f'{sec}-{slugify(nom)}'
         items.append(dict(sec=sec,slug=slug,file=f'{sec[:-1] if sec.endswith("s") else sec}-{slugify(n if prenom!="À nommer" else nom)}.html',prenom=prenom,nom=nom,tag=tag,desc=desc,meta=f'{n} : {tag}, Rotin Bohème.',imgs=imgs,key=None))
 # l'image se construit avec G.L qui préfixe lampes/ : on la contourne en fournissant des chemins relatifs à rotin-boheme/
