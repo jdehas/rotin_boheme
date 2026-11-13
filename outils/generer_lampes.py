@@ -265,6 +265,7 @@ for c in LAMPES:
     if c.get('imgs') and c['slug'] in FOCUS and not any('midiminuit-focus' in i[0] for i in c['imgs']):
         c['imgs']=list(c['imgs'])+[('local/midiminuit-focus-'+c['slug'],FOCUS[c['slug']],None)]
 # Photos qui mêlent plusieurs objets ou toute la pièce : elles figurent dans la galerie de chacun des objets visibles
+PAYSAGE={'local/midiminuit-5-lampes','local/roulotte-troupe'}
 MIXTES={
  'miss-flower':[('local/midiminuit-5-lampes',"Les cinq lampes de la pièce « Il est 12 h, Miss Flower » dans l'appartement, Miss Flower cachée dans les plantes à droite"),
                 ('local/kids-chambre-matin-ours-chaise',"Miss Flower dans une chambre d'enfant, avec la chaise menthe et l'ourson orange"),
@@ -278,7 +279,7 @@ MIXTES={
 for c in LAMPES:
     if c.get('imgs') and c['slug'] in MIXTES:
         dej={i[0] for i in c['imgs']}
-        c['imgs']=list(c['imgs'])+[(f,a,None) for f,a in MIXTES[c['slug']] if f not in dej]
+        c['imgs']=list(c['imgs'])+[(f,a,None) for f,a in MIXTES[c['slug']] if f not in dej and f not in PAYSAGE]  # pas de photo paysage dans les albums produit
 for c in LAMPES:
     if c.get('imgs'):
         c['pieces']=suggestions(c)

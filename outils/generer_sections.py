@@ -86,7 +86,7 @@ for sec,(titre,menu,lst) in SECTIONS.items():
         for k,v in MIXTES.items():
             if base.startswith(k):
                 dej={i[0] for i in imgs}
-                imgs+=[('local/'+f,f'{n}, {lab}',None) for f,lab in v if 'local/'+f not in dej]
+                imgs+=[('local/'+f,f'{n}, {lab}',None) for f,lab in v if 'local/'+f not in dej and f not in ('roulotte-troupe','midiminuit-5-lampes')]  # pas de photo paysage dans les albums
         for k,v in UNIVERS.items():
             if base.startswith(k): imgs+=[(sec+'/'+f,f'{n}, {lab}',None) for f,lab in v if ex(f)]
         slug=f'{sec}-{slugify(n)}' if prenom!='À nommer' else f'{sec}-{slugify(nom)}'
