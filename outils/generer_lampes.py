@@ -172,9 +172,9 @@ def affiche(c):
   <div class="aff__hero"><div class="aff__bg pair" aria-hidden="true"><img src="{L(p0,300)}" alt=""><img class="pair__on" src="{L(l0,300)}" alt=""></div><div class="aff__fg pair"><img src="{L(p0,1600)}" alt="{a0_}"><img class="pair__on" src="{L(l0,1600)}" alt="" aria-hidden="true"></div>
     <p class="aff__tag">Il est 20h, Miss Flower · rôle de la troupe</p>
     <div class="aff__t"><p class="aff__pre">{c['prenom']}</p><h1 class="aff__nom">{c['nom']}</h1></div></div>
-  <div class="aff__buy wrap"><p><b>{prix}</b> · pièce unique · {c['tag']}</p><div class="fiche__cta" style="margin:0"><a class="btn btn--plein" href="#">Ajouter au panier<span class="ar">{arrow}</span></a><a class="btn" href="lampes.html">Toutes les lampes<span class="ar">{arrow}</span></a></div></div>
-  <div class="aff__txt wrap"><div><h2>Le rôle</h2>{role}</div><div><h2>Matière et état</h2>{mat}</div><div><h2>Dimensions</h2>{dim}</div></div>
+  <div class="aff__txt wrap"><div><h2>Matière et état</h2>{mat}</div><div><h2>Dimensions</h2>{dim}</div><div><h2>Prix</h2><p class="aff__prix"><b>{prix}</b> · pièce unique</p><p>{c['tag']}</p><div class="fiche__cta" style="margin:0"><a class="btn btn--plein" href="#">Ajouter au panier<span class="ar">{arrow}</span></a></div></div></div>
   <div class="aff__gal wrap" style="--n:{4 if reste.count('class="aff__ph')==4 else 3}">{reste}</div>
+  <div class="aff__role wrap"><h2>Le rôle</h2><div>{role}</div></div>
 </section>'''
     return page(sec,f"Rotin Bohème · {c['prenom']} {c['nom']}, essai affiche",c['meta'])
 for c in LAMPES:
