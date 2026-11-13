@@ -11,7 +11,7 @@ Cloudinary et Notion étaient en panne le 13/11/2026. Tout ce qui suit attend le
 | lampe-06-anthracite | Bob Longcou sur anthracite, éteinte et allumée (-v2) | Déposé sur Cloudinary le 13/11/2026 |
 | kids-03 | Cabane : studio, 2 détails, chambre v2 | Déposé sur Cloudinary le 13/11/2026 |
 | midiminuit | Il est 12 h, Miss Flower : image 16:9 et 5 focus | Déposé sur Cloudinary le 13/11/2026 |
-| kids-04 | Chaise renard : studio bleu ciel fané, 2 détails | À valider |
+| kids-04 | Chaise renard : studio bleu ciel fané, 2 détails | Déposé sur Cloudinary le 13/11/2026 |
 | univers-meubles | 3 meubles dans les univers, avec lampe (miroir dans la loge) | Déposé sur Cloudinary le 13/11/2026 |
 | objet-01, 02, 04, 05 | Pichet bleu aux roses (jaune paille), pichet barbotine (rose poudré), présentoir à asperges (lilas gris), égouttoir à asperges (bleu nuit) : studio, détails, podium | Studio, détails et podium déposés le 13/11/2026, mises en scène déposées aussi |
 | objet-03 | Miroir soleil : studio, 2 détails | Déposé sur Cloudinary le 13/11/2026 |
