@@ -299,7 +299,7 @@ piece_html=''
 for pc in THEATRE:
     lis=''.join(f'<li><a href="lampe-{sl}.html"><span class="piece__r">{r}</span><span class="piece__n">{noms[sl]}</span></a></li>' for sl,r in pc['roles'])
     img=f'<figure class="piece__img"><img src="{pc["image"]}" alt="{pc["image_alt"]}" loading="lazy"></figure>' if pc.get('image') else ''
-    piece_html+=f'<section class="piece piece--page" id="piece" data-r>{img}<div class="piece__body"><p class="piece__sup">Collection</p><h2 class="piece__t">{pc["titre"]}</h2><p class="piece__s">{pc["sous"]}</p><p class="piece__x">{pc["texte"]}</p><ul class="piece__d">{lis}</ul></div></section>'
+    piece_html+=f'<section class="piece piece--page" id="piece" data-r>{img}<div class="piece__body"><p class="piece__sup">Collection</p><h2 class="piece__t">{pc["titre"]}</h2><p class="piece__s">{pc["sous"]}</p><p class="piece__x">{pc["texte"]}</p><ul class="piece__d">{lis}</ul><a class="btn btn--plein piece__cta" href="piece-il-est-12h-miss-flower.html">Découvrir la pièce<span class="ar">{arrow}</span></a></div></section>'
 sec=f'''<section class="sec coll" id="lampes"><div class="wrap">
   <p class="fiche__crumb" data-r><a href="index.html">Accueil</a> <span>/</span> Lampes</p>
   <div class="coll__tete" data-r><h1 class="coll__t">Les lampes</h1><p class="coll__nb"><b>({len(LAMPES)})</b> pièces uniques</p></div>
@@ -320,7 +320,7 @@ def page_piece(pc,slug):
     <div class="pp__tx"><p class="pp__role">{role[sl]}</p><p class="pp__phrase">{texte}</p><p class="pp__corps">{pc['corps'][sl]}</p><a class="btn" href="lampe-{sl}.html">Rencontrer {nom}<span class="ar">{arrow}</span></a></div></article>'''
     chips=''.join(f'<li><a href="lampe-{sl}.html"><span class="piece__r">{r}</span><span class="piece__n">{next(x for x in LAMPES if x["slug"]==sl)["prenom"]} {next(x for x in LAMPES if x["slug"]==sl)["nom"]}</span></a></li>' for sl,r in pc['roles'])
     sec=f'''<section class="pp" id="piece"><div class="pp__hero"><img src="{pc["image"]}" alt="{pc["image_alt"]}"></div>
-  <div class="wrap"><p class="fiche__crumb" data-r><a href="index.html">Accueil</a> <span>/</span> <a href="lampes.html">Lampes</a> <span>/</span> {pc["titre"]}</p>
+  <div class="wrap">
   <div class="pp__tete" data-r><p class="piece__sup">Collection</p><h1 class="pp__t">{pc["titre"]}</h1><p class="piece__s">{pc["sous"]}</p><p class="pp__exergue">{pc["exergue"]}</p></div>
   <p class="pp__intro" data-r>{pc["intro"]}</p>
   <p class="pp__village" data-r>{pc["village"]}</p>
