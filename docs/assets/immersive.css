@@ -850,3 +850,17 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 .mdb__t{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.6vw,2.9rem);line-height:1.22;text-wrap:balance;max-width:54rem;margin:0 auto 2rem;color:#141414}
 .mdb__sig{font-size:.9375rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(20,20,20,.8);margin:0}
 .carnet__ph img{mix-blend-mode:normal;object-position:50% 50%}
+
+/* Lettre (newsletter) sur fond blanc */
+.lettre{--fg:#141414;--bg:#fff;--muted:rgba(20,20,20,.62);--line2:rgba(20,20,20,.3);background:#fff;color:#141414}
+.carnet .lien{display:inline-block;margin-top:.5rem;font-size:1rem}
+
+/* Mobile : « Rotin Bohème » en petit, « Seconde main pour premiers rôles » en grand, tous deux centrés */
+@media (max-width:820px){
+  .lockup--txt.lt-affiche{display:block;text-align:center;font-size:.9rem !important;letter-spacing:.32em;margin:1.75rem var(--gutter) 0;max-width:none}
+  .lockup--txt.lt-affiche span{display:inline}
+  .lockup--txt.lt-affiche span+span::before{content:" "}
+  .hero__bas{align-items:center;text-align:center}
+  .hero__tag,.hero__tag.hero__tag--sans{font-family:var(--serif);font-size:clamp(2.3rem,11vw,3.2rem);line-height:1.05;max-width:14ch !important;margin:.2rem auto 0;text-align:center}
+  .hero__cta{justify-content:center}
+}
