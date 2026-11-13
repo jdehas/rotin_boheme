@@ -58,8 +58,18 @@ LAMPES=[
    dict(studio_off='Lampe au pied bleu nuit et abat-jour en toile jungle, éteinte, sur fond lin',studio_on='La même lampe allumée',
         plateau_off='La lampe sur un plateau de pierre, éteinte',plateau_on='La lampe sur le plateau de pierre, allumée',
         abat="Détail de l'abat-jour en toile jungle",pied='Détail du pied bleu nuit'))),
+ dict(slug='applique-toile-bleue',prenom='À nommer',nom='Applique toile bleue',tag='applique murale en toile de Jouy bleue',
+  desc="Une applique en demi-cylindre habillée d'une toile de Jouy bleue et crème, aux scènes de chasse et de danse sous les arbres.",
+  meta="Applique murale en toile de Jouy bleue et crème, scènes de chasse sous les arbres.",
+  imgs=[('applique-11-toile-bleue-studio-eteinte',"Applique murale en toile de Jouy bleue sur un mur rose poudré, éteinte",'applique-11-toile-bleue-studio-allumee'),
+        ('applique-11-toile-bleue-studio-allumee',"La même applique allumée : une lumière chaude déborde en haut et en bas",None),
+        ('applique-11-toile-bleue-detail-toile',"Détail de la toile de Jouy : deux chasseurs, des chiens et un grand arbre",None),
+        ('applique-11-toile-bleue-detail-passepoil',"Détail du bas de l'applique : toile de Jouy et passepoil bleu",None)]),
  # lampes sans noms ni mises en scène pour l'instant (noms provisoires)
+ dict(slug='melville-black',prenom='Melville',nom='Black',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794062832/rotin-boheme/lampes/lampe-13-bois-tourne.jpg',None)),
+ dict(slug='geraldine-pistache',prenom='Géraldine',nom='Pistache',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061934/rotin-boheme/lampes/lampe-03-canton-verte.jpg',None)),
  dict(slug='raphaelle-d',prenom='Raphaëlle',nom='D.',fiche=False,key='lampe-09-raphia-haute',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061942/rotin-boheme/lampes/lampe-09-raphia-haute.jpg',None)),
+ dict(slug='bob-longcou',prenom='Bob',nom='Longcou',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061938/rotin-boheme/lampes/lampe-06-bureau-noire.jpg',None)),
  dict(slug='octave-orphiste',prenom='Octave',nom='Orphiste',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061932/rotin-boheme/lampes/lampe-01-orphiste-haute.jpg',None)),
  dict(slug='gaston-patchwork',prenom='Gaston',nom='Patchwork',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061940/rotin-boheme/lampes/lampe-08-abstraite-gres.jpg',None)),
 ]
