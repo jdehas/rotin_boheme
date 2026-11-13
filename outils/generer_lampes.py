@@ -66,13 +66,37 @@ LAMPES=[
         ('applique-11-toile-bleue-detail-toile',"Détail de la toile de Jouy : deux chasseurs, des chiens et un grand arbre",None),
         ('applique-11-toile-bleue-detail-passepoil',"Détail du bas de l'applique : toile de Jouy et passepoil bleu",None)]),
  # lampes sans noms ni mises en scène pour l'instant (noms provisoires)
- dict(slug='bois-tourne',prenom='À nommer',nom='Bois tourné',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794062832/rotin-boheme/lampes/lampe-13-bois-tourne.jpg',None)),
- dict(slug='geraldine-pistache',prenom='Géraldine',nom='Pistache',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061934/rotin-boheme/lampes/lampe-03-canton-verte.jpg',None)),
- dict(slug='lea-raphia',prenom='Léa',nom='Raphia',fiche=False,key='lampe-09-raphia-haute',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061942/rotin-boheme/lampes/lampe-09-raphia-haute.jpg',None)),
- dict(slug='bob-longcou',prenom='Bob',nom='Longcou',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061938/rotin-boheme/lampes/lampe-06-bureau-noire.jpg',None)),
- dict(slug='octave-orphiste',prenom='Octave',nom='Orphiste',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061932/rotin-boheme/lampes/lampe-01-orphiste-haute.jpg',None)),
- dict(slug='gaston-patchwork',prenom='Gaston',nom='Patchwork',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061940/rotin-boheme/lampes/lampe-08-abstraite-gres.jpg',None)),
+ dict(slug='bois-tourne',auto='lampe-13-bois-tourne',prenom='À nommer',nom='Bois tourné',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794062832/rotin-boheme/lampes/lampe-13-bois-tourne.jpg',None)),
+ dict(slug='geraldine-pistache',auto='lampe-03-canton-verte',prenom='Géraldine',nom='Pistache',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061934/rotin-boheme/lampes/lampe-03-canton-verte.jpg',None)),
+ dict(slug='lea-raphia',auto='lampe-09-raphia-haute',prenom='Léa',nom='Raphia',fiche=False,key='lampe-09-raphia-haute',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061942/rotin-boheme/lampes/lampe-09-raphia-haute.jpg',None)),
+ dict(slug='bob-longcou',auto='lampe-06-bureau-noire',prenom='Bob',nom='Longcou',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061938/rotin-boheme/lampes/lampe-06-bureau-noire.jpg',None)),
+ dict(slug='octave-orphiste',prenom='Octave',nom='Orphiste',fiche=False,auto='lampe-01-orphiste-haute',key='lampe-01-orphiste-haute',tag='lampe, pied noir sculpté et abat-jour en tapisserie graphique',desc='Un pied noir sculpté en lobes superposés et un abat-jour en tapisserie aux cercles rouges, noirs, bleus et crème.',meta='Lampe au pied noir sculpté et abat-jour en tapisserie graphique aux cercles colorés.',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061932/rotin-boheme/lampes/lampe-01-orphiste-haute.jpg',None)),
+ dict(slug='gaston-patchwork',auto='lampe-08-abstraite-gres',prenom='Gaston',nom='Patchwork',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061940/rotin-boheme/lampes/lampe-08-abstraite-gres.jpg',None)),
 ]
+# --- Détection automatique des photos mises en scène -------------------------------------------
+# Une lampe sans fiche qui a une clé « auto » est promue dès que Cloudinary contient son jeu :
+#   <auto>-studio-eteinte et <auto>-studio-allumee (obligatoires), puis -plateau-eteinte/-allumee,
+#   une photo d'ambiance (-chambre-jour, -salon-jour, -entree-jour, -bureau-jour...), -detail-abat-jour, -detail-pied.
+# La carte de la collection montre alors la photo studio éteinte, et l'allumée au survol.
+import urllib.request
+AMBIANCES=['chambre-jour','salon-jour','entree-jour','bureau-jour','salle-a-manger-jour','cuisine-jour','bibliotheque-jour']
+def existe(nom):
+    try: return urllib.request.urlopen(urllib.request.Request(L(nom,200),method='HEAD'),timeout=10).status==200
+    except Exception: return False
+for c in LAMPES:
+    pre=c.get('auto')
+    if c.get('imgs') or not pre or not (existe(pre+'-studio-eteinte') and existe(pre+'-studio-allumee')): continue
+    n=f"{c['prenom']} {c['nom']}"
+    imgs=[(pre+'-studio-eteinte',n+', studio éteinte',pre+'-studio-allumee'),(pre+'-studio-allumee',n+', studio allumée',None)]
+    if existe(pre+'-plateau-eteinte') and existe(pre+'-plateau-allumee'):
+        imgs+=[(pre+'-plateau-eteinte',n+', sur un plateau, éteinte',pre+'-plateau-allumee'),(pre+'-plateau-allumee',n+', sur un plateau, allumée',None)]
+    for a in AMBIANCES:
+        if existe(pre+'-'+a): imgs.append((pre+'-'+a,n+', en situation',None)); break
+    for suf,lab in (('detail-abat-jour',"détail de l'abat-jour"),('detail-pied','détail du pied')):
+        if existe(pre+'-'+suf): imgs.append((pre+'-'+suf,n+', '+lab,None))
+    c['imgs']=imgs
+    c.setdefault('tag','lampe'); c.setdefault('desc','Description à écrire par Ginette.'); c.setdefault('meta',n+' : lampe de Rotin Bohème.')
+    print('photos studio détectées :',n)
 shell=open('lampe-alizee-canopee.html').read()
 arrow=re.search(r'class="btn btn--plein" href="#">Ajouter au panier<span class="ar">(.*?)</span></a>',shell,re.S).group(1)
 a0=shell.index('<section class="sec fiche fiche--page"'); b0=shell.index('</section>',a0)+len('</section>')
