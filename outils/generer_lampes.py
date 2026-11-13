@@ -159,9 +159,22 @@ for f in glob.glob('lampe-*.html'):
 PIECES={'il-est-12h':'Il est 12h, Miss Flower','suggestions':'Aussi à l’affiche'}
 def carte_piece(slug):
     c=next(x for x in LAMPES if x['slug']==slug)
-    if c.get('imgs'): img=L(c['imgs'][0][0],640); href=f"lampe-{slug}.html"
+    if c.get('imgs'): img=L(c['imgs'][0][0],640); href=c.get('file') or f"lampe-{slug}.html"
     else: img=c['card'][0]; href='#'
     return f'<a class="coll__c" href="{href}"><div class="coll__ph"><img src="{img}" alt="{c["prenom"]} {c["nom"]}" loading="lazy"></div><p class="coll__p">{c["prenom"]}</p><h3 class="coll__n">{c["nom"]}</h3></a>'
+
+# --- Image large d'un seul tenant (voir outils/etendre_image.py) -----------------------------------
+import sys
+sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
+import etendre_image
+def largeur(nom):
+    """Chemin relatif de l'image étendue de la photo <nom> ; la crée au besoin depuis Cloudinary."""
+    base=nom.split('/')[-1]
+    rel=f'assets/wide/{base}.jpg'
+    if not os.path.exists(rel):
+        os.makedirs('assets/wide',exist_ok=True)
+        etendre_image.depuis_url(L(nom,1600),rel)
+    return rel
 def affiche(c):
     p0,a0_,l0=c['imgs'][0]
     role=paras(c.get('histoire') or 'Histoire à écrire par Ginette avec Bernadette.')
@@ -175,8 +188,10 @@ def affiche(c):
     colls=''
     for cle,membres in c.get('pieces',[]):
         colls+='<div class="afi__piece"><div class="coll__g afi__cg">'+''.join(carte_piece(m) for m in membres)+'</div></div>'
+    WIDE0=largeur(p0); WIDE1=f'<img class="aff__w aff__won" src="{largeur(l0)}" alt="" aria-hidden="true">' if l0 else ''
+    HERO_ATTR=' role="button" tabindex="0" aria-pressed="false" aria-label="Allumer ou éteindre la lampe"' if l0 else ''
     sec=f"""<section class="aff" id="fiche">
-  <div class="aff__hero" id="hero" role="button" tabindex="0" aria-pressed="false" aria-label="Allumer ou éteindre la lampe"><div class="aff__bg" aria-hidden="true"><i class="l" style="--off:url({L(p0,300)});--on:url({L(l0,300)})"><b></b></i><i class="r" style="--off:url({L(p0,300)});--on:url({L(l0,300)})"><b></b></i></div><div class="aff__fg pair" style="--off:url({L(p0,300)});--on:url({L(l0,300)})"><b class="aff__fgb"></b><img src="{L(p0,1600)}" alt="{a0_}"><img class="pair__on" src="{L(l0,1600)}" alt="" aria-hidden="true"></div></div>
+  <div class="aff__hero" id="hero"{HERO_ATTR}><img class="aff__w" src="{WIDE0}" alt="{a0_}">{WIDE1}<div class="aff__zone" aria-hidden="true"></div></div>
   <div class="afi wrap">
     <div class="afi__main">
       <p class="afi__pre" style="margin-top:0">{c['prenom']}</p>
