@@ -19,7 +19,7 @@ sec=f'''<section class="sec aff-home" id="programme">
     <p class="ah__sup" data-r>À l'affiche</p>
     <h2 class="ah__t" data-r>{pc['titre']}</h2>
     <p class="ah__s" data-r>{pc['sous']}</p>
-    <p class="ah__x" data-r>{pc['texte']}</p>
+    <p class="ah__x" data-r>{pc['home']}</p>
     <p class="ah__dist" data-r><b>({len(pc['roles'])})</b> Les lampes à l'affiche</p>
     <div class="noms__stage" data-r>
       <div class="noms__pic noms__pic--l" aria-hidden="true"><img src="" alt=""></div>

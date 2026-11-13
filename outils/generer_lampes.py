@@ -125,7 +125,19 @@ THEATRE=[dict(titre="Il est 12 h, Miss Flower",sous="Pièce onirique en trois ac
  texte="Un mardi de mai, le soleil a décidé de se coucher à 12 h. À Midiminuit, personne ou presque ne s'en est inquiété : on a sorti les lampes et la fête a commencé. La danseuse a ouvert le bal. La télégraphiste a invité tous les villages voisins. Le guetteur a compté les étoiles du déjeuner. Le soleil dormait comme un bienheureux. Mais où était Miss Flower ?",
  intro="Un mardi de mai, le soleil a décidé de se coucher à 12 h. À Midiminuit, personne ou presque ne s'en est inquiété : on a sorti les lampes et la fête a commencé.",
  scenes=[('lulu-guinguette',"La danseuse a ouvert le bal."),('dori-morse',"La télégraphiste a invité tous les villages voisins."),('bob-longcou',"Le guetteur a compté les étoiles du déjeuner."),('elsa-mandarine',"Le soleil dormait comme un bienheureux."),('miss-flower',"Mais où était Miss Flower ?")],
- roles=[('miss-flower','La jardinière'),('elsa-mandarine','Le Soleil'),('dori-morse','La télégraphiste'),('bob-longcou','Le guetteur'),('lulu-guinguette','La danseuse')])]
+ roles=[('miss-flower','La jardinière'),('elsa-mandarine','Le Soleil'),('dori-morse','La télégraphiste'),('bob-longcou','Le guetteur'),('lulu-guinguette','La danseuse')],
+ # Textes de Ginette (Notion, 13/11/2026) : tout est fiction
+ exergue="À Midiminuit, la nuit tombe à midi.",
+ home="Le soleil s'est couché à midi. Le village en a fait une fête.",
+ village="Midiminuit est un village de toits roses où l'on déjeune tard et où les horloges ont renoncé depuis longtemps à avoir raison.",
+ actes=[('Acte I','Le soleil se couche','À 12 h, il bâille et part dormir derrière la colline.'),
+        ('Acte II','La nuit de midi','Le village sort ses lampes et la fête commence.'),
+        ('Acte III','Où est Miss Flower ?','Tout le monde danse sauf une, qu\'on retrouve sous les feuilles.')],
+ corps={'lulu-guinguette':"Dès que la nuit est tombée sur le déjeuner, elle a remonté son vieux gramophone et enfilé ses chaussons. C'était à elle d'ouvrir le bal : personne au village ne fait danser les gens aussi bien qu'une jupe à franges. Elle a valsé jusqu'à ce que tout le monde oublie l'heure.",
+  'dori-morse':"Elle a tapé la nouvelle en points et en traits : le soleil dort, venez danser. Les villages voisins ont répondu par des enveloppes pleines de confettis. Au téléphone, on l'a entendue rire jusqu'à tard dans l'après-midi.",
+  'bob-longcou':"Depuis sa fenêtre, il a braqué sa lunette sur le ciel pour vérifier que le soleil était bien parti. Il a compté trente-sept étoiles avant le dessert, puis il a renoncé : elles arrivaient trop vite. Il en a conclu qu'un déjeuner sous les étoiles n'était finalement pas si mal.",
+  'elsa-mandarine':"Il n'a donné de raison à personne : un soleil a bien le droit d'être fatigué. Il s'est couché près du canapé en rêvant d'un ciel rien qu'à lui, avec des nuages en guise d'oreillers. Quand il se réveillera, il fera sans doute semblant de n'avoir rien remarqué.",
+  'miss-flower':"Elle n'était pas perdue : on ne l'avait simplement pas cherchée sous les feuilles. Pendant que le village dansait, ses jungles avaient profité de la nuit pour grimper jusqu'aux toits de la place du marché. Quand on a fini par la trouver, elle a offert à chacun une fleur qui ne s'ouvre qu'à la lumière d'une lampe."})]
 shell=open('lampe-alizee-canopee.html').read()
 arrow=re.search(r'class="btn btn--plein" href="#">Ajouter au panier<span class="ar">(.*?)</span></a>',shell,re.S).group(1)
 a0=shell.index('<main>')+len('<main>'); b0=shell.index('<section class="lettre"')  # le contenu de la fiche se place entre l'en-tête et la lettre
@@ -297,6 +309,7 @@ sec=f'''<section class="sec coll" id="lampes"><div class="wrap">
 # --- Page dédiée à la pièce (non reliée au menu pour l'instant) ------------------------------------
 def page_piece(pc,slug):
     role={sl:r for sl,r in pc['roles']}
+    actes=''.join(f'<li><span class="pp__an">{a}</span><b class="pp__at">{t}</b><span class="pp__ad">{d}</span></li>' for a,t,d in pc['actes'])
     scenes=''
     for i,(sl,texte) in enumerate(pc['scenes']):
         c=next(x for x in LAMPES if x['slug']==sl)
@@ -304,12 +317,14 @@ def page_piece(pc,slug):
         img=L('local/midiminuit-focus-'+sl)
         sens=' pp__sc--inv' if i%2 else ''
         scenes+=f'''<article class="pp__sc{sens}" data-r><a class="pp__ph" href="lampe-{sl}.html" aria-label="Voir la fiche de {nom}"><img src="{img}" alt="{FOCUS.get(sl,nom)}" loading="lazy"></a>
-    <div class="pp__tx"><p class="pp__role">{role[sl]}</p><p class="pp__phrase">{texte}</p><a class="pp__lien" href="lampe-{sl}.html">{nom}<span aria-hidden="true"> →</span></a></div></article>'''
+    <div class="pp__tx"><p class="pp__role">{role[sl]}</p><p class="pp__phrase">{texte}</p><p class="pp__corps">{pc['corps'][sl]}</p><a class="btn" href="lampe-{sl}.html">Rencontrer {nom}<span class="ar">{arrow}</span></a></div></article>'''
     chips=''.join(f'<li><a href="lampe-{sl}.html"><span class="piece__r">{r}</span><span class="piece__n">{next(x for x in LAMPES if x["slug"]==sl)["prenom"]} {next(x for x in LAMPES if x["slug"]==sl)["nom"]}</span></a></li>' for sl,r in pc['roles'])
     sec=f'''<section class="pp" id="piece"><div class="pp__hero"><img src="{pc["image"]}" alt="{pc["image_alt"]}"></div>
   <div class="wrap"><p class="fiche__crumb" data-r><a href="index.html">Accueil</a> <span>/</span> <a href="lampes.html">Lampes</a> <span>/</span> {pc["titre"]}</p>
-  <div class="pp__tete" data-r><p class="piece__sup">Collection</p><h1 class="pp__t">{pc["titre"]}</h1><p class="piece__s">{pc["sous"]}</p></div>
+  <div class="pp__tete" data-r><p class="piece__sup">Collection</p><h1 class="pp__t">{pc["titre"]}</h1><p class="piece__s">{pc["sous"]}</p><p class="pp__exergue">{pc["exergue"]}</p></div>
   <p class="pp__intro" data-r>{pc["intro"]}</p>
+  <p class="pp__village" data-r>{pc["village"]}</p>
+  <ol class="pp__actes" data-r>{actes}</ol>
   <div class="pp__scenes">{scenes}</div>
   <div class="pp__fin" data-r><h2 class="pp__h">La distribution</h2><ul class="piece__d">{chips}</ul></div></div></section>'''
     return page(sec,f"Rotin Bohème · {pc['titre']}",pc['sous']+' '+pc['texte'][:120])
