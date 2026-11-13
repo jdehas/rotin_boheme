@@ -28,7 +28,17 @@ def jeu(prefixe,studio,plateau,ambiance,alts):
      (prefixe+'-detail-abat-jour',alts['abat'],None),
      (prefixe+'-detail-pied',alts['pied'],None)]
 LAMPES=[
- dict(slug='alizee-canopee',prenom='Alizée',nom='Canopée',fiche=False,card=('assets/heros/alizee-1.jpg',None)),  # fiche écrite à la main
+ dict(slug='alizee-canopee',prenom='Alizée',nom='Canopée',fiche=False,auto='lampe-14-alizee-canopee',tag='lampe, pied en cuivre et abat-jour en velours Thévenon',
+  desc='Une jungle de singe, de paon et de serpent qui s\'éclaire le soir venu. Seconde vie de premier rôle.',
+  meta='Alizée Canopée : pied en cuivre style Hollywood Regency, abat-jour en velours Thévenon Animalia.',
+  histoire="""Elle a fait ses débuts dans les années 60, sur un pied de cuivre en éventail de palmes, du genre qu'on ne trouvait que dans les salons où l'on savait recevoir. Puis la mode a changé et on l'a oubliée dans un coin.
+
+Je lui ai offert un nouveau costume : un velours de la maison parisienne Thévenon, motif Animalia. Un singe guette depuis sa branche, un paon fait la roue et un serpent se faufile entre les feuillages. Toute une jungle en noir et blanc, qui s'illumine dès que le soir tombe.
+
+Elle sait tenir la scène. Sur une console, un chevet ou un coin de bibliothèque, elle prend toute la place sans jamais couvrir les autres.""",
+  matiere="Pied en cuivre style Hollywood Regency, années 60. Abat-jour en velours de la maison Thévenon, motif « Animalia ».",
+  dimensions="Largeur 36 cm\n\nHauteur de l'abat-jour 18 cm\n\nHauteur totale 45 cm",
+  card=('assets/heros/alizee-1.jpg',None)),  # repli : photo recadrée tant que le jeu Cloudinary n'existe pas
  dict(slug='lulu-guinguette',prenom='Lulu',nom='Guinguette',tag='lampe, pied blanc et abat-jour fleuri à franges',
   desc='Un pied blanc tout en rondeurs, un abat-jour fleuri bleu ciel et une cascade de franges dorées.',
   meta="Lulu Guinguette : lampe au pied blanc sculpté et abat-jour fleuri à franges dorées.",key='lampe-12-frange-fleurs',
@@ -84,7 +94,7 @@ LAMPES=[
 # La carte de la collection montre alors la photo studio éteinte, et l'allumée au survol.
 import urllib.request
 AMBIANCES=['chambre-jour','chambre-nuit','salon-jour','entree-jour','bureau-jour','salle-a-manger-jour','cuisine-doree','cuisine-jour','bibliotheque-jour']
-PAIRES=[('plateau','sur un plateau'),('socle','sur son socle'),('formica','sur un bureau en formica')]
+PAIRES=[('arche','sous une arche'),('plateau','sur un plateau'),('socle','sur son socle'),('formica','sur un bureau en formica')]
 def existe(nom):
     try: return urllib.request.urlopen(urllib.request.Request(L(nom,200),method='HEAD'),timeout=10).status==200
     except Exception: return False
@@ -171,6 +181,11 @@ for c in LAMPES:
     assert pat.search(h),c['key']
     href=f'lampe-{c["slug"]}.html' if c.get('imgs') else '\\1'
     h=pat.sub(f'<li><a href="{href}"\\2<span class="t">{c["prenom"]}</span><span class="n">{c["nom"]}</span>',h,1)
+for c in LAMPES:
+    if c.get('imgs') and not c.get('key'):
+        pat=re.compile(r'(<li><a href="lampe-'+re.escape(c['slug'])+r'\.html" data-img=")[^"]*(")(.*?<span class="th"><img src=")[^"]*(")',re.S)
+        if pat.search(h):
+            h=pat.sub(lambda m: m.group(1)+L(c['imgs'][0][0],520)+m.group(2)+m.group(3)+L(c['imgs'][0][0],200)+m.group(4),h,1)
 open('index.html','w').write(h)
 for f in glob.glob('*.html'):
     pass
