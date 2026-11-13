@@ -14,6 +14,7 @@ def etendre(src_bytes,out_path):
     im=Image.open(io.BytesIO(src_bytes)).convert('RGB')
     ph=int(H*0.88); pw=int(round(ph*im.width/im.height))
     im=im.resize((pw,ph),Image.LANCZOS); a=np.asarray(im).astype('float32')
+    a=a[:,3:-3]; pw=a.shape[1]            # on écarte 3 px de chaque côté : le bord d'une photo exportée est souvent légèrement faussé
     # 1) bas : prolonger les 6 dernières lignes, lissées horizontalement
     last=a[-6:].mean(axis=0,keepdims=True)                       # 1 x pw x 3
     last=np.asarray(Image.fromarray(np.clip(np.repeat(last,8,0),0,255).astype('uint8')).filter(ImageFilter.GaussianBlur(14))).astype('float32')[4:5]
@@ -32,23 +33,36 @@ def etendre(src_bytes,out_path):
         return np.asarray(img).astype('float32')[:,4,:]             # H x 3
     el,er=edge_col('l'),edge_col('r')
     side=(W-pw)//2
+    # Le décor d'une photo de studio s'assombrit vers les bords (vignettage). Un prolongement plat créerait une cassure de pente,
+    # visible comme une ligne verticale. On prolonge donc la pente du bord, en l'estompant, avec une dérive totale bornée.
+    tau=170.0; dmax=14.0
+    def derive(cols):
+        a_=col[:,cols[0]:cols[1]].mean(axis=1); b_=col[:,cols[2]:cols[3]].mean(axis=1)
+        sl=(b_-a_)/abs((cols[2]+cols[3]-cols[0]-cols[1])/2.0)            # variation par pixel, vers l'intérieur
+        img=Image.fromarray(np.clip(np.repeat((sl*tau*4+128)[:,None,:],8,1),0,255).astype('uint8')).filter(ImageFilter.GaussianBlur(60))
+        d=(np.asarray(img).astype('float32')[:,4,:]-128)/4.0
+        return -np.clip(d,-dmax,dmax)                                  # dérive vers l'extérieur
+    Dl=derive((0,10,60,130)); Dr=derive((pw-10,pw,pw-130,pw-60)); Dr=Dr
+    # côté droit : « vers l'intérieur » = vers la gauche, on inverse la pente mesurée
+    sgn=-1.0
     canvas=np.zeros((H,W,3),'float32')
-    canvas[:,:side]=el[:,None,:]; canvas[:,side+pw:]=er[:,None,:]
+    xl=np.arange(side)[::-1].astype('float32')+1.0
+    canvas[:,:side]=el[:,None,:]+Dl[:,None,:]*(1-np.exp(-xl/tau))[None,:,None]
+    xr=np.arange(W-side-pw).astype('float32')+1.0
+    canvas[:,side+pw:]=er[:,None,:]+Dr[:,None,:]*(1-np.exp(-xr/tau))[None,:,None]
     canvas[:,side:side+pw]=col
-    # 3) fondu de raccord sur 60 px de chaque côté de la jonction (la photo se fond dans le prolongement)
-    f=60
-    for i in range(f):
-        t=i/f
-        # à gauche : de la photo vers la couleur de bord
-        canvas[:,side+i]=col[:,i]*t+ (el*(1-t)+col[:,i]*t)*0+ col[:,i]*0 + (el*(1-t))
-        canvas[:,side+pw-1-i]=col[:,pw-1-i]*t+er*(1-t)
-    # 4) grain très léger pour éviter les bandes, puis léger flou horizontal des seules zones prolongées
-    ext=Image.fromarray(np.clip(canvas,0,255).astype('uint8'))
-    blur=ext.filter(ImageFilter.GaussianBlur(6))
-    mask=Image.new('L',(W,H),0)
-    m=np.zeros((H,W),'uint8'); m[:,:side+f//2]=255; m[:,side+pw-f//2:]=255; m[ph:,:]=255
-    mask=Image.fromarray(m).filter(ImageFilter.GaussianBlur(20))
-    out=Image.composite(blur,ext,mask)
+    # 3) texture : la photo a son propre bruit (compression, grain) ; le prolongement lisse en est dépourvu, ce qui dessinerait
+    #    une césure verticale à la jonction. On lui ajoute donc le même niveau de bruit, mesuré près du bord de la photo.
+    ph_gray=col[:ph,:80].mean(axis=2)
+    base=np.asarray(Image.fromarray(np.clip(ph_gray,0,255).astype('uint8')).filter(ImageFilter.GaussianBlur(2))).astype('float32')
+    sigma=float(np.std(ph_gray-base)); sigma=min(max(sigma,0.6),4.0)
+    g0=np.random.default_rng(11)
+    nz=g0.normal(0,sigma,(H,W,1))*0.9+g0.normal(0,sigma*0.35,(H,W,3))
+    nz=np.asarray(Image.fromarray(np.clip(nz*10+128,0,255).astype('uint8')).filter(ImageFilter.GaussianBlur(0.6))).astype('float32')
+    nz=(nz-128)/10.0
+    ext_mask=np.zeros((H,W,1),'float32'); ext_mask[:,:side]=1; ext_mask[:,side+pw:]=1; ext_mask[ph:,:]=1
+    canvas=canvas+nz*ext_mask
+    out=Image.fromarray(np.clip(canvas,0,255).astype('uint8'))
     # grain (tramage) sur toute l'image : casse les marches des dégradés sombres, d'où les stries à 8 bits
     arr=np.asarray(out).astype('float32')
     g=np.random.default_rng(7)
