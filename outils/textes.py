@@ -50,11 +50,20 @@ def home(t):
         deb=items[0].start(); t=t[:deb]+'<li class="noms__sep" id="petit-theatre"><b>(1)</b> Le petit théâtre</li>'+t[deb:]
     t=re.sub(r'(<p class="noms__tete"[^>]*><b>)\(\d+\)(</b> À l\'affiche</p>)',lambda m:m.group(1)+'(%d)'%len(lampes)+m.group(2),t)
     return t
+# home : mot de Bernadette, juste après le héros (explique, avec légèreté, que chaque pièce a un nom et un rôle)
+MOT=("Je chine des pieds de lampe, des fauteuils et des miroirs qui ont déjà beaucoup servi. Je les habille. Je les maquille parfois. "
+     "Je leur cherche ensuite le décor où ils brilleront le mieux. Chez Rotin Bohème, chaque pièce reçoit un nom et un rôle : c'est ma façon de leur offrir une nouvelle scène.")
+def mot(t):
+    sec='<section class="sec mb" id="mot-bernadette"><div class="wrap" data-r><p class="mb__t">'+MOT+'</p><p class="mb__sig">Bernadette</p></div></section>'
+    t=re.sub(r'<section class="sec mb" id="mot-bernadette">.*?</section>','',t,flags=re.S)
+    a='<section class="sec rub" id="rubriques">'
+    assert t.count(a)==1
+    return t.replace(a,sec+a,1)
 for f in sorted(glob.glob('*.html')):
     t=open(f).read(); t0=t
     for a,b in REMPL: t=t.replace(a,b)
     t=pied(t); t=menu_mobile(t)
-    if f=='index.html': t=home(t)
+    if f=='index.html': t=mot(home(t))
     # titres des pages de section : Kids → Enfants
     if f=='kids.html': t=t.replace('<h1 class="coll__t">Kids</h1>','<h1 class="coll__t">Enfants</h1>').replace('Accueil</a> <span>/</span> Kids','Accueil</a> <span>/</span> Enfants').replace('Rotin Bohème · Kids','Rotin Bohème · Enfants')
     if t!=t0: open(f,'w').write(t)
