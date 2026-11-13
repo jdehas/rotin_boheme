@@ -545,3 +545,5 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 .coll__lit{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
 .coll__c--lit.is-lit .coll__lit{opacity:1}
 @media (prefers-reduced-motion:reduce){.coll__lit{transition:none}}
+
+@media (hover:hover){.coll__c--lit:hover .coll__lit{opacity:1}}
