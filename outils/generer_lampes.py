@@ -156,6 +156,29 @@ for f in glob.glob('lampe-*.html'):
     if f!='lampe-alizee-canopee.html': os.remove(f)
 for c in LAMPES:
     if c.get('imgs'): open(f"lampe-{c['slug']}.html",'w').write(fiche(c))
+# --- Mise en page « affiche » (essai) : photo pleine largeur, nom géant, détails dessous -------------
+def affiche(c):
+    p0,a0_,l0=c['imgs'][0]
+    role=paras(c.get('histoire') or 'Histoire à écrire par Ginette avec Bernadette.')
+    mat=paras(c.get('matiere') or 'À renseigner.')
+    dim=paras(c.get('dimensions') or 'À renseigner.')
+    prix=html.escape(c.get('prix') or 'Prix à renseigner',quote=False)
+    reste=''
+    for i,(p,a,l) in enumerate(c['imgs'][1:],1):
+        if p.endswith('-allumee'): continue  # les photos allumées servent au survol
+        if l: reste+=f'<div class="aff__ph pair"><img src="{L(p,720)}" alt="{a}" loading="lazy"><img class="pair__on" src="{L(l,720)}" alt="" aria-hidden="true" loading="lazy"></div>'
+        else: reste+=f'<div class="aff__ph"><img src="{L(p,720)}" alt="{a}" loading="lazy"></div>'
+    sec=f'''<section class="aff" id="fiche">
+  <div class="aff__hero"><div class="aff__bg pair" aria-hidden="true"><img src="{L(p0,300)}" alt=""><img class="pair__on" src="{L(l0,300)}" alt=""></div><div class="aff__fg pair"><img src="{L(p0,1600)}" alt="{a0_}"><img class="pair__on" src="{L(l0,1600)}" alt="" aria-hidden="true"></div>
+    <p class="aff__tag">Il est 20h, Miss Flower · rôle de la troupe</p>
+    <div class="aff__t"><p class="aff__pre">{c['prenom']}</p><h1 class="aff__nom">{c['nom']}</h1></div></div>
+  <div class="aff__buy wrap"><p><b>{prix}</b> · pièce unique · {c['tag']}</p><div class="fiche__cta" style="margin:0"><a class="btn btn--plein" href="#">Ajouter au panier<span class="ar">{arrow}</span></a><a class="btn" href="lampes.html">Toutes les lampes<span class="ar">{arrow}</span></a></div></div>
+  <div class="aff__txt wrap"><div><h2>Le rôle</h2>{role}</div><div><h2>Matière et état</h2>{mat}</div><div><h2>Dimensions</h2>{dim}</div></div>
+  <div class="aff__gal wrap" style="--n:{4 if reste.count('class="aff__ph')==4 else 3}">{reste}</div>
+</section>'''
+    return page(sec,f"Rotin Bohème · {c['prenom']} {c['nom']}, essai affiche",c['meta'])
+for c in LAMPES:
+    if c.get('imgs') and c['slug'] in ('lulu-guinguette',): open(f"essai-affiche-{c['slug']}.html",'w').write(affiche(c))
 # collection
 cards=''
 for c in LAMPES:
