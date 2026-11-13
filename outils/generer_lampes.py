@@ -196,6 +196,7 @@ def affiche(c):
         n=nom.split('/')[-1]
         if 'detail' in n: return 2
         if any(k in n for k in ('-plateau','-socle','-formica','-arche')): return 3
+        if 'midiminuit' in n: return 1
         if any(k in n for k in ('-salon','-chambre','-entree','-bureau-jour','-salle-a-manger','-cuisine','-bibliotheque','-jour','-nuit')): return 1
         return 0
     reste=sorted(c['imgs'],key=lambda t:rang(t[0]))  # toutes les photos : éteintes et allumées comprises
@@ -237,6 +238,15 @@ def suggestions(c):
     avec=[x for x in LAMPES if x.get('imgs')]
     i=next(k for k,x in enumerate(avec) if x['slug']==c['slug'])
     return [('suggestions',[avec[(i+j)%len(avec)]['slug'] for j in range(1,5)])]
+# Focus de la pièce « Il est 12 h, Miss Flower » (validés par John le 13/11/2026) : photo de la lampe dans la scène, rangée avec les décors
+FOCUS={'bob-longcou':"Bob Longcou, le guetteur, tourné vers les étoiles et la lunette, dans l'appartement de la pièce",
+ 'dori-morse':"Dori Morse, la télégraphiste, près du téléphone et des enveloppes, dans l'appartement de la pièce",
+ 'elsa-mandarine':"Elsa Mandarine, le Soleil, éteinte près du canapé, dans l'appartement de la pièce",
+ 'lulu-guinguette':"Lulu Guinguette, la danseuse, près du gramophone et des chaussons, dans l'appartement de la pièce",
+ 'miss-flower':"Miss Flower, la jardinière, cachée dans les plantes, dans l'appartement de la pièce"}
+for c in LAMPES:
+    if c.get('imgs') and c['slug'] in FOCUS and not any('midiminuit-focus' in i[0] for i in c['imgs']):
+        c['imgs']=list(c['imgs'])+[('local/midiminuit-focus-'+c['slug'],FOCUS[c['slug']],None)]
 for c in LAMPES:
     if c.get('imgs'):
         c['pieces']=suggestions(c)
@@ -269,7 +279,7 @@ def page_piece(pc,slug):
     roles=''
     for sl,r in pc['roles']:
         c=next(x for x in LAMPES if x['slug']==sl)
-        img=L(c['imgs'][0][0],720) if c.get('imgs') else c['card'][0]
+        img=L('local/midiminuit-focus-'+sl) if sl in FOCUS else (L(c['imgs'][0][0],720) if c.get('imgs') else c['card'][0])
         href=f"lampe-{sl}.html" if c.get('imgs') else '#'
         roles+=f'<a class="pp__r" href="{href}"><div class="coll__ph"><img src="{img}" alt="{c["prenom"]} {c["nom"]}" loading="lazy"></div><p class="pp__role">{r}</p><h3 class="pp__nom">{c["prenom"]} {c["nom"]}</h3></a>'
     sec=f'''<section class="pp" id="piece"><div class="pp__hero"><img src="{pc["image"]}" alt="{pc["image_alt"]}"></div>
