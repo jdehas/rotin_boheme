@@ -60,9 +60,12 @@ LAMPES=[
         abat="Détail de l'abat-jour en toile jungle",pied='Détail du pied bleu nuit'))),
  # lampes sans noms ni mises en scène pour l'instant (noms provisoires)
  dict(slug='lea-raphia',prenom='Léa',nom='Raphia',fiche=False,key='lampe-09-raphia-haute',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061942/rotin-boheme/lampes/lampe-09-raphia-haute.jpg',None)),
- dict(slug='octave-orphiste',prenom='Octave',nom='Orphiste',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061932/rotin-boheme/lampes/lampe-01-orphiste-haute.jpg',None)),
- dict(slug='gaston-patchwork',prenom='Gaston',nom='Patchwork',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061940/rotin-boheme/lampes/lampe-08-abstraite-gres.jpg',None)),
+ dict(slug='jelly-bell',prenom='Jelly',nom='Bell',fiche=False,key='lampe-01-orphiste-haute',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061932/rotin-boheme/lampes/lampe-01-orphiste-haute.jpg',None)),
+ dict(slug='marcel-trapp',prenom='Marcel',nom='Trapp',fiche=False,key='lampe-08-abstraite-gres',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061940/rotin-boheme/lampes/lampe-08-abstraite-gres.jpg',None)),
  dict(slug='carol-jouy',prenom='Carol',nom='Jouy',fiche=False,key='applique-11-toile-bleue',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/rotin-boheme/lampes/applique-11-toile-bleue.jpg',None)),  # applique murale en toile de Jouy bleue
+ dict(slug='miss-flower',prenom='Miss',nom='Flower',fiche=False,key='lampe-13-bois-tourne',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/rotin-boheme/lampes/lampe-13-bois-tourne.jpg',None)),
+ dict(slug='daisy-bell',prenom='Daisy',nom='Bell',fiche=False,key='lampe-02-orphiste-large',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/rotin-boheme/lampes/lampe-02-orphiste-large.jpg',None)),
+ dict(slug='amin-boubacar',prenom='Amin',nom='Boubacar',fiche=False,key='lampe-10-bois-sculpte',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/rotin-boheme/lampes/lampe-10-bois-sculpte.jpg',None)),
 ]
 shell=open('lampe-alizee-canopee.html').read()
 arrow=re.search(r'class="btn btn--plein" href="#">Ajouter au panier<span class="ar">(.*?)</span></a>',shell,re.S).group(1)
