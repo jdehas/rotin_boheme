@@ -12,8 +12,8 @@ Cloudinary et Notion étaient en panne le 13/11/2026. Tout ce qui suit attend le
 | kids-03 | Cabane : studio, 2 détails, chambre v2 | Déposé sur Cloudinary le 13/11/2026 |
 | midiminuit | Il est 12 h, Miss Flower : image 16:9 et 5 focus | Déposé sur Cloudinary le 13/11/2026 |
 | univers-meubles | 3 meubles dans les univers, avec lampe (miroir dans la loge) | Déposé sur Cloudinary le 13/11/2026 |
-| objet-01, 02, 04, 05 | Pichet bleu aux roses (jaune paille), pichet barbotine (rose poudré), présentoir à asperges (lilas gris), égouttoir à asperges (bleu nuit) : studio, détails, podium | À valider |
-| objet-03 | Miroir soleil : studio, 2 détails | À valider |
+| objet-01, 02, 04, 05 | Pichet bleu aux roses (jaune paille), pichet barbotine (rose poudré), présentoir à asperges (lilas gris), égouttoir à asperges (bleu nuit) : studio, détails, podium | Studio, détails et podium déposés le 13/11/2026 ; mises en scène à valider |
+| objet-03 | Miroir soleil : studio, 2 détails | Déposé sur Cloudinary le 13/11/2026 |
 
 | histoire | Carnet de croquis v1 à v3 | Mis de côté, ne pas déposer |
 
