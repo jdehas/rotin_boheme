@@ -861,6 +861,6 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
   .lockup--txt.lt-affiche span{display:inline}
   .lockup--txt.lt-affiche span+span::before{content:" "}
   .hero__bas{align-items:center;text-align:center}
-  .hero__tag,.hero__tag.hero__tag--sans{font-family:var(--serif);font-size:clamp(2.3rem,11vw,3.2rem);line-height:1.05;max-width:14ch !important;margin:.2rem auto 0;text-align:center}
+  .hero__tag,.hero__tag.hero__tag--sans{font-family:var(--serif);font-size:clamp(2rem,10vw,3rem);line-height:1.05;max-width:none !important;text-wrap:balance;margin:.2rem auto 0;text-align:center}
   .hero__cta{justify-content:center}
 }
