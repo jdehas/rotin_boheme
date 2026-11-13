@@ -97,6 +97,7 @@ def fiche(c):
     <p class="fiche__prix"><b>{prix}</b> · pièce unique</p>
     <p class="fiche__desc">{c['desc']}{prov}</p>
     <div class="fiche__cta"><a class="btn btn--plein" href="#">Ajouter au panier<span class="ar">{arrow}</span></a><a class="btn" href="index.html#programme">Voir toute la troupe<span class="ar">{arrow}</span></a></div>
+    <p class="fiche__lettre"><a href="#lettre">Être prévenu de la prochaine pièce</a></p>
     <div class="fiche__acc">
       <details open><summary>Le rôle</summary>{role}</details>
       <details><summary>Matière et état</summary>{mat}</details>

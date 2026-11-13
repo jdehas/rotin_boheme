@@ -159,7 +159,7 @@ body.jour .hero__tag{color:#2A241F}
 /* Lettre + pied */
 .lettre{text-align:center;padding:var(--section) 0}
 .lettre h2{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4vw,3.2rem);line-height:1.05}
-.lettre p{color:var(--muted);margin:0.625rem auto 1.75rem;max-width:40ch}
+.lettre p{color:var(--muted);margin:0.625rem auto 1.75rem;max-width:40ch;text-wrap:balance}
 .lettre form{display:flex;border:1px solid var(--line2);border-radius:62.4375rem;max-width:30rem;margin:0 auto;padding:0.3125rem 0.3125rem 0.3125rem 1.5rem}
 .lettre input{flex:1;min-width:0;background:transparent;border:0;font:inherit;color:var(--fg)}
 .lettre input::placeholder{color:var(--muted)}
@@ -321,6 +321,9 @@ body.f-gloock .logo em{font-style:normal}
 .fiche__prix{color:var(--muted);margin-bottom:1.125rem}.fiche__prix b{color:var(--fg);font-weight:500}
 .fiche__desc{color:var(--muted);max-width:40ch;margin-bottom:1.625rem}
 .fiche__cta{display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:2.125rem}
+.fiche__lettre{margin:-1.25rem 0 2.125rem;font-size:0.9375rem}
+.fiche__lettre a{color:var(--muted);text-decoration:underline;text-underline-offset:0.25em}
+.fiche__lettre a:hover{color:var(--fg)}
 .fiche__acc{border-top:1px solid var(--line)}
 .fiche__acc details{border-bottom:1px solid var(--line)}
 .fiche__acc summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:1.125rem 0;font-family:var(--serif);font-size:1.5rem}
