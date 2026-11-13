@@ -6,12 +6,12 @@ import os, re, urllib.request, importlib.util
 here=os.path.dirname(os.path.abspath(__file__)); root=os.path.dirname(here)
 spec=importlib.util.spec_from_file_location('dt',os.path.join(here,'detourer.py')); D=importlib.util.module_from_spec(spec); spec.loader.exec_module(D)
 B='https://res.cloudinary.com/ducsqgqbj/image/upload/f_jpg,q_92,w_800/rotin-boheme/lampes/%s-studio-eteinte.jpg'
-# (fichier, lampe Cloudinary, seuil de détourage, côté, position %, hauteur desktop en px, texte alternatif)
-L=[('elsa-mandarine','lampe-04-canton-orange',7,'l',4,250,'Elsa Mandarine, lampe à pied de porcelaine et abat-jour orange, détourée'),
-   ('dori-morse','lampe-05-blanche-pointilles',7,'l',17,300,'Dori Morse, lampe blanche à abat-jour rayé de pointillés, détourée'),
-   ('bob-longcou','lampe-06-bureau-noire',7,'r',4,250,'Bob Longcou, lampe de bureau noire et laiton, détourée'),
-   ('lulu-guinguette','lampe-12-frange-fleurs',2.5,'r',16,260,'Lulu Guinguette, lampe à abat-jour fleuri et franges, détourée'),
-   ('miss-flower','lampe-13-bois-tourne',7,'r',29,210,'Miss Flower, lampe au pied en bois tourné et abat-jour jungle, détourée')]
+# (fichier, lampe Cloudinary, seuil de détourage, côté, position %, décalage vers le haut en px (les lampes ont toutes la même taille, à des niveaux différents), texte alternatif)
+L=[('elsa-mandarine','lampe-04-canton-orange',7,'l',4,0,'Elsa Mandarine, lampe à pied de porcelaine et abat-jour orange, détourée'),
+   ('dori-morse','lampe-05-blanche-pointilles',7,'l',17,110,'Dori Morse, lampe blanche à abat-jour rayé de pointillés, détourée'),
+   ('bob-longcou','lampe-06-bureau-noire',7,'r',4,60,'Bob Longcou, lampe de bureau noire et laiton, détourée'),
+   ('lulu-guinguette','lampe-12-frange-fleurs',2.5,'r',16,0,'Lulu Guinguette, lampe à abat-jour fleuri et franges, détourée'),
+   ('miss-flower','lampe-13-bois-tourne',7,'r',29,120,'Miss Flower, lampe au pied en bois tourné et abat-jour jungle, détourée')]
 out=os.path.join(root,'docs/assets/cutout'); os.makedirs(out,exist_ok=True)
 tmp=os.path.join(out,'_tmp.jpg')
 for f,src,t,_,_,_,_ in L:
@@ -24,9 +24,9 @@ for f,src,t,_,_,_,_ in L:
 if os.path.exists(tmp): os.remove(tmp)
 from PIL import Image
 imgs=''
-for f,_,_,side,pos,h,alt in L:
+for f,_,_,side,pos,b,alt in L:
     w,hh=Image.open(os.path.join(out,f+'.webp')).size
-    imgs+=f'<img class="lettre__l lettre__l--{side}" style="--p:{pos}%;--h:{h}px" src="assets/cutout/{f}.webp" alt="" width="{w}" height="{hh}" loading="lazy">'
+    imgs+=f'<img class="lettre__l lettre__l--{side}" style="--p:{pos}%;--b:{b}px" src="assets/cutout/{f}.webp" alt="" width="{w}" height="{hh}" loading="lazy">'
 html=f'<div class="lettre__lampes" aria-hidden="true">{imgs}</div>'
 p=os.path.join(root,'docs/index.html'); h=open(p).read()
 h=re.sub(r'<div class="lettre__lampes".*?</div>','',h,count=1,flags=re.S)
