@@ -849,3 +849,4 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 .mdb .wrap{max-width:none}
 .mdb__t{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.6vw,2.9rem);line-height:1.22;text-wrap:balance;max-width:54rem;margin:0 auto 2rem;color:#141414}
 .mdb__sig{font-size:.9375rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(20,20,20,.8);margin:0}
+.carnet__ph img{mix-blend-mode:normal;object-position:50% 50%}
