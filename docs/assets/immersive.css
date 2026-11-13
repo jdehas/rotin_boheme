@@ -864,24 +864,3 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
   .hero__tag,.hero__tag.hero__tag--sans{font-family:var(--serif);font-size:clamp(2.3rem,11vw,3.2rem);line-height:1.05;max-width:14ch !important;margin:.2rem auto 0;text-align:center}
   .hero__cta{justify-content:center}
 }
-
-/* Newsletter : lampes détourées posées sur le bord bas de la section */
-.lettre{position:relative;overflow:hidden}
-.lettre>.wrap{position:relative;z-index:1}
-.lettre__lampes{position:absolute;inset:0;pointer-events:none}
-.lettre__l{pointer-events:auto;display:block;transition:transform .5s cubic-bezier(.2,.6,.2,1)}
-.lettre__l:hover{transform:translateY(-.5rem)}
-.lettre__l img{display:block;height:100%;width:auto}
-.lettre__l{position:absolute;bottom:var(--b);height:230px;width:auto}
-.lettre__l img{filter:drop-shadow(0 .6rem .5rem rgba(20,20,20,.18))}
-.lettre__l--l{left:var(--p)}
-.lettre__l--r{right:var(--p)}
-@media (max-width:1100px){.lettre__l{height:170px;bottom:calc(var(--b)*.7)}}
-@media (max-width:820px){
-  .lettre{padding-bottom:calc(var(--section) + 9rem)}
-  .lettre__lampes{inset:auto 0 0 0;height:9rem;display:flex;justify-content:center;align-items:flex-end;gap:1rem}
-  .lettre__l{position:static;height:8rem;max-width:18vw}
-  .lettre__l img{height:100%;width:100%;object-fit:contain}
-  .lettre__l:nth-child(2n){align-self:flex-start}
-  .lettre__l--r,.lettre__l--l{left:auto;right:auto}
-}
