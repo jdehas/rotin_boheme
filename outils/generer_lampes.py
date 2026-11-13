@@ -51,17 +51,18 @@ LAMPES=[
    dict(studio_off='Lampe en porcelaine de Canton et abat-jour orange, éteinte, sur fond crème',studio_on='La même lampe allumée : l\'abat-jour orange rayonne',
         plateau_off='La lampe sur un plateau de pierre, éteinte',plateau_on='La lampe sur le plateau de pierre, allumée',
         abat="Détail de l'abat-jour orange",pied='Détail du pied en porcelaine de Canton'))),
- dict(slug='carol-jouy',prenom='Carol',nom='Jouy',tag='lampe, pied bleu nuit et abat-jour en toile jungle',
+ dict(slug='melville-black',prenom='Melville',nom='Black',tag='lampe, pied bleu nuit et abat-jour en toile jungle',
   desc="Un pied bleu nuit à long col et un abat-jour en toile jungle blanche et marine.",
-  meta="Carol Jouy : lampe au pied bleu nuit et abat-jour en toile jungle.",key='lampe-07-toile-jungle',
+  meta="Melville Black : lampe au pied bleu nuit et abat-jour en toile jungle.",key='lampe-07-toile-jungle',
   imgs=jeu('lampe-07-toile-jungle',0,0,('entree-jour','La lampe sur une console dans une entrée crème, entre tentures blanc cassé et bleu nuit'),
    dict(studio_off='Lampe au pied bleu nuit et abat-jour en toile jungle, éteinte, sur fond lin',studio_on='La même lampe allumée',
         plateau_off='La lampe sur un plateau de pierre, éteinte',plateau_on='La lampe sur le plateau de pierre, allumée',
         abat="Détail de l'abat-jour en toile jungle",pied='Détail du pied bleu nuit'))),
  # lampes sans noms ni mises en scène pour l'instant (noms provisoires)
- dict(slug='raphaelle-d',prenom='Raphaëlle',nom='D.',fiche=False,key='lampe-09-raphia-haute',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061942/rotin-boheme/lampes/lampe-09-raphia-haute.jpg',None)),
+ dict(slug='lea-raphia',prenom='Léa',nom='Raphia',fiche=False,key='lampe-09-raphia-haute',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061942/rotin-boheme/lampes/lampe-09-raphia-haute.jpg',None)),
  dict(slug='octave-orphiste',prenom='Octave',nom='Orphiste',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061932/rotin-boheme/lampes/lampe-01-orphiste-haute.jpg',None)),
  dict(slug='gaston-patchwork',prenom='Gaston',nom='Patchwork',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061940/rotin-boheme/lampes/lampe-08-abstraite-gres.jpg',None)),
+ dict(slug='carol-jouy',prenom='Carol',nom='Jouy',fiche=False,key='applique-11-toile-bleue',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/rotin-boheme/lampes/applique-11-toile-bleue.jpg',None)),  # applique murale en toile de Jouy bleue
 ]
 shell=open('lampe-alizee-canopee.html').read()
 arrow=re.search(r'class="btn btn--plein" href="#">Ajouter au panier<span class="ar">(.*?)</span></a>',shell,re.S).group(1)
@@ -128,7 +129,9 @@ h=open('index.html').read()
 for c in LAMPES:
     if not c.get('key'): continue
     pat=re.compile(r'<li><a href="([^"]*)"( data-img="[^"]*'+re.escape(c['key'])+r'\.jpg"[^>]*>)<span class="t">[^<]*</span><span class="n">[^<]*</span>')
-    assert pat.search(h),c['key']
+    if not pat.search(h):
+        assert not c.get('imgs'),c['key']  # une lampe sans entrée dans l'affiche de la home reste dans la collection seulement
+        continue
     href=f'lampe-{c["slug"]}.html' if c.get('imgs') else '\\1'
     h=pat.sub(f'<li><a href="{href}"\\2<span class="t">{c["prenom"]}</span><span class="n">{c["nom"]}</span>',h,1)
 open('index.html','w').write(h)
