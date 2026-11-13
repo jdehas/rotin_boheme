@@ -744,3 +744,21 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 .noms__sep{text-align:center;font-size:0.9375rem;color:var(--muted);padding:clamp(2.5rem,6vw,5rem) 0 clamp(1.25rem,3vw,2rem);scroll-margin-top:6rem;list-style:none}
 .noms__sep b{font-weight:400;color:var(--accent);margin-right:0.375rem}
 .lettre p{text-wrap:balance}
+
+/* Collection sous les lampes : image à gauche, la pièce à droite */
+.piece--page{max-width:none;margin:5rem 0 1rem;padding-top:3rem;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:4rem;align-items:center}
+.piece--page .piece__img{margin:0;border-radius:1.4rem;overflow:hidden;aspect-ratio:4/5;background:var(--tile,#1E2D4A)}
+.piece--page .piece__img img{width:100%;height:100%;object-fit:cover;display:block}
+.piece--page .piece__body{max-width:44rem}
+@media (max-width:820px){.piece--page{grid-template-columns:1fr;gap:1.8rem;margin-top:3rem}.piece--page .piece__img{aspect-ratio:4/3}}
+/* Collection : image de la pièce en paysage (16:9) au-dessus, texte et distribution dessous */
+.piece--page{display:block;max-width:none}
+.piece--page .piece__img{aspect-ratio:16/9;border-radius:1.4rem;margin:0 0 2.2rem}
+.piece--page .piece__body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem 4rem;max-width:none;align-items:start}
+.piece--page .piece__sup,.piece--page .piece__t,.piece--page .piece__s{grid-column:1}
+.piece--page .piece__x,.piece--page .piece__d{grid-column:2}
+.piece--page .piece__x{grid-row:1/span 2;margin:0}
+.piece--page .piece__d{grid-row:3;margin-top:.5rem}
+.piece--page .piece__sup{grid-row:1}.piece--page .piece__t{grid-row:2}.piece--page .piece__s{grid-row:3}
+.piece--page .piece__d{grid-row:3;grid-column:2}
+@media (max-width:820px){.piece--page .piece__body{display:block}.piece--page .piece__x{margin:0 0 1.2rem}.piece--page .piece__img{aspect-ratio:4/3}}
