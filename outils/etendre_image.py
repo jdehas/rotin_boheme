@@ -28,7 +28,7 @@ def etendre(src_bytes,out_path):
         return e[:,4:5] if False else None
     def edge_col(side):
         e=col[:,:8].mean(axis=1) if side=='l' else col[:,-8:].mean(axis=1)   # H x 3
-        img=Image.fromarray(np.clip(np.repeat(e[:,None,:],8,1),0,255).astype('uint8')).filter(ImageFilter.GaussianBlur(9))
+        img=Image.fromarray(np.clip(np.repeat(e[:,None,:],8,1),0,255).astype('uint8')).filter(ImageFilter.GaussianBlur(24))
         return np.asarray(img).astype('float32')[:,4,:]             # H x 3
     el,er=edge_col('l'),edge_col('r')
     side=(W-pw)//2
@@ -49,8 +49,11 @@ def etendre(src_bytes,out_path):
     m=np.zeros((H,W),'uint8'); m[:,:side+f//2]=255; m[:,side+pw-f//2:]=255; m[ph:,:]=255
     mask=Image.fromarray(m).filter(ImageFilter.GaussianBlur(20))
     out=Image.composite(blur,ext,mask)
-    arr=np.asarray(out).astype('float32')+np.random.default_rng(7).normal(0,1.1,(H,W,1))
-    Image.fromarray(np.clip(arr,0,255).astype('uint8')).save(out_path,'JPEG',quality=82,optimize=True,progressive=True)
+    # grain (tramage) sur toute l'image : casse les marches des dégradés sombres, d'où les stries à 8 bits
+    arr=np.asarray(out).astype('float32')
+    g=np.random.default_rng(7)
+    n=g.normal(0,2.0,(H,W,1))+g.normal(0,0.6,(H,W,3))
+    Image.fromarray(np.clip(arr+n,0,255).astype('uint8')).save(out_path,'JPEG',quality=90,subsampling=0,optimize=True,progressive=True)
 def depuis_url(url,out_path):
     for t in range(3):
         try:
