@@ -117,7 +117,7 @@ for c in LAMPES:
     REMPLACE={'lampe-06-bureau-noire-studio-eteinte':'local/lampe-06-bureau-noire-studio-eteinte-v2','lampe-06-bureau-noire-studio-allumee':'local/lampe-06-bureau-noire-studio-allumee-v2'}
     imgs=[(REMPLACE.get(a,a),b,REMPLACE.get(l,l) if l else l) for a,b,l in imgs]
     c['imgs']=imgs
-    c.setdefault('tag','lampe'); c.setdefault('desc','Description à écrire par Ginette.'); c.setdefault('meta',n+' : lampe de Rotin Bohème.')
+    c.setdefault('tag','lampe'); c.setdefault('desc','Description à venir.'); c.setdefault('meta',n+' : lampe de Rotin Bohème.')
     print('photos studio détectées :',n)
 # Pièces de théâtre : une collection est présentée comme une pièce (titre, genre, synopsis, distribution). Texte de Ginette.
 THEATRE=[dict(titre="Il est 12 h, Miss Flower",sous="Pièce onirique en trois actes.",
@@ -150,7 +150,7 @@ def fiche(c):
     p0,a0_,l0=c['imgs'][0]
     prov='' if c.get('valide') else '<span class="vh"> Texte provisoire.</span>'
     prix=html.escape(c.get('prix') or 'Prix à renseigner',quote=False)
-    role=paras(c.get('histoire') or 'Histoire à écrire par Ginette avec Bernadette.')
+    role=paras(c.get('histoire') or 'Histoire à venir.')
     mat=paras(c.get('matiere') or 'À renseigner.')
     dim=paras(c.get('dimensions') or 'À renseigner.')
     sec=f'''<section class="sec fiche fiche--page" id="fiche"><div class="wrap">
@@ -203,7 +203,7 @@ def largeur(nom):
     return rel
 def affiche(c):
     p0,a0_,l0=c['imgs'][0]
-    role=paras(c.get('histoire') or 'Histoire à écrire par Ginette avec Bernadette.')
+    role=paras(c.get('histoire') or 'Histoire à venir.')
     mat=paras(c.get('matiere') or 'À renseigner.')
     dim=paras(c.get('dimensions') or 'À renseigner.')
     prix=html.escape(c.get('prix') or 'Prix à renseigner',quote=False)

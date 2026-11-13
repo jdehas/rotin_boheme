@@ -4,6 +4,9 @@ Idempotent : on peut le relancer sans risque. À lancer après generer_lampes.py
 import os, re, glob
 D=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','docs'); os.chdir(D)
 REMPL=[
+ # pied de page : plus aucun nom de l'équipe
+ (' Textes provisoires pour Léa.',''),
+ (' Photos de héros : pistes de Jonathan.',''),
  # menu : Kids devient Enfants
  ('>Kids</a>','>Enfants</a>'),
  # lettre d'information : « Demandez le programme ! », vouvoiement
