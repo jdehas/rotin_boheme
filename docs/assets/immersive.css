@@ -672,3 +672,42 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 /* Essai affiche v8 : colonnes plus espacées sur ordinateur, bloc « Aussi à l'affiche » sans texte */
 @media (min-width:821px){.afi__cols{column-gap:6rem}.afi__cols p{max-width:36ch}}
 .afi__coll h2{margin:0 0 1.4rem}
+
+/* Fiche v9 : du fond sous la lampe, dégradé court, et sur mobile l'image et le nom tiennent sans défilement */
+.aff__hero .aff__fg{top:0;bottom:auto;height:88%;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.25) 3%,rgba(0,0,0,.7) 7%,#000 12%,#000 88%,rgba(0,0,0,.7) 93%,rgba(0,0,0,.25) 97%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.25) 3%,rgba(0,0,0,.7) 7%,#000 12%,#000 88%,rgba(0,0,0,.7) 93%,rgba(0,0,0,.25) 97%,transparent 100%);
+  -webkit-mask-composite:source-over;mask-composite:add}
+.aff__bg i{bottom:auto;height:88%}
+.aff__ground{position:absolute;left:0;right:0;bottom:0;height:12%;overflow:hidden}
+.aff__ground::before{content:"";position:absolute;inset:-4px;background-image:var(--off);background-repeat:no-repeat;background-size:100% 1500%;background-position:0 100%;filter:blur(2px)}
+.aff__ground b{position:absolute;inset:-4px;background-image:var(--on);background-repeat:no-repeat;background-size:100% 1500%;background-position:0 100%;filter:blur(2px);opacity:0;transition:opacity .6s ease}
+.aff__hero.is-on .aff__ground b{opacity:1}
+@media (hover:hover){.aff__hero:has(.aff__fg:hover) .aff__ground b{opacity:1}}
+.aff__hero::after{top:auto;bottom:0;height:12%;background:linear-gradient(180deg,rgba(21,33,58,0) 0%,var(--bg) 100%)}
+@media (max-width:560px){
+  .aff__hero{height:min(140vw,calc(100svh - 79px - 9.5rem));max-height:none;aspect-ratio:auto}
+  .afi{padding-block:1rem 1.4rem}
+  .afi__nom{font-size:clamp(2.4rem,13vw,3.4rem);margin-bottom:.5rem}
+  .afi__pre{margin-bottom:.1rem}
+}
+
+/* v9b : jonction photo / fond du bas sans couture */
+.aff__hero .aff__fg{-webkit-mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.25) 3%,rgba(0,0,0,.7) 7%,#000 12%,#000 88%,rgba(0,0,0,.7) 93%,rgba(0,0,0,.25) 97%,transparent 100%),linear-gradient(180deg,#000 0,#000 94%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.25) 3%,rgba(0,0,0,.7) 7%,#000 12%,#000 88%,rgba(0,0,0,.7) 93%,rgba(0,0,0,.25) 97%,transparent 100%),linear-gradient(180deg,#000 0,#000 94%,transparent 100%);-webkit-mask-composite:source-in;mask-composite:intersect}
+.aff__ground{height:15%}
+
+/* v9c : du décor sous la lampe, dans la même colonne que la photo, donc sans couture */
+.aff__hero .aff__fg{top:0;bottom:0;height:100%;box-sizing:border-box;-webkit-mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.25) 3%,rgba(0,0,0,.7) 7%,#000 12%,#000 88%,rgba(0,0,0,.7) 93%,rgba(0,0,0,.25) 97%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.25) 3%,rgba(0,0,0,.7) 7%,#000 12%,#000 88%,rgba(0,0,0,.7) 93%,rgba(0,0,0,.25) 97%,transparent 100%);-webkit-mask-composite:source-over;mask-composite:add;background-image:var(--off);background-repeat:no-repeat;background-size:100% 1500%;background-position:0 100%}
+.aff__fg > img{inset:0 0 12% 0 !important;height:88% !important}
+.aff__fgb{position:absolute;left:0;right:0;bottom:0;height:12.5%;background-image:var(--on);background-repeat:no-repeat;background-size:100% 1500%;background-position:0 100%;opacity:0;transition:opacity .6s ease;pointer-events:none}
+.aff__hero.is-on .aff__fgb{opacity:1}
+@media (hover:hover){.aff__hero:has(.aff__fg:hover) .aff__fgb{opacity:1}}
+.aff__bg i{height:100%;bottom:0}
+.aff__ground{display:none}
+.aff__hero::after{height:8%}
+/* v9d : la boîte de la photo garde le ratio de l'image une fois le décor ajouté dessous */
+.aff__hero .aff__fg{aspect-ratio:.704;width:auto}
+.aff__fg > img{object-fit:cover}
+/* v9e : le bas du décor allumé se fond progressivement dans la photo */
+.aff__fgb{height:22%;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 55%);mask-image:linear-gradient(180deg,transparent 0,#000 55%);filter:blur(3px)}
+.aff__fg > img.pair__on{-webkit-mask-image:linear-gradient(180deg,#000 0,#000 86%,transparent 100%);mask-image:linear-gradient(180deg,#000 0,#000 86%,transparent 100%)}

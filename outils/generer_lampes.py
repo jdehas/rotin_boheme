@@ -176,7 +176,7 @@ def affiche(c):
     for cle,membres in c.get('pieces',[]):
         colls+='<div class="afi__piece"><div class="coll__g afi__cg">'+''.join(carte_piece(m) for m in membres)+'</div></div>'
     sec=f"""<section class="aff" id="fiche">
-  <div class="aff__hero" id="hero" role="button" tabindex="0" aria-pressed="false" aria-label="Allumer ou éteindre la lampe"><div class="aff__bg" aria-hidden="true"><i class="l" style="--off:url({L(p0,300)});--on:url({L(l0,300)})"><b></b></i><i class="r" style="--off:url({L(p0,300)});--on:url({L(l0,300)})"><b></b></i></div><div class="aff__fg pair"><img src="{L(p0,1600)}" alt="{a0_}"><img class="pair__on" src="{L(l0,1600)}" alt="" aria-hidden="true"></div></div>
+  <div class="aff__hero" id="hero" role="button" tabindex="0" aria-pressed="false" aria-label="Allumer ou éteindre la lampe"><div class="aff__bg" aria-hidden="true"><i class="l" style="--off:url({L(p0,300)});--on:url({L(l0,300)})"><b></b></i><i class="r" style="--off:url({L(p0,300)});--on:url({L(l0,300)})"><b></b></i></div><div class="aff__fg pair" style="--off:url({L(p0,300)});--on:url({L(l0,300)})"><b class="aff__fgb"></b><img src="{L(p0,1600)}" alt="{a0_}"><img class="pair__on" src="{L(l0,1600)}" alt="" aria-hidden="true"></div></div>
   <div class="afi wrap">
     <div class="afi__main">
       <p class="afi__pre" style="margin-top:0">{c['prenom']}</p>
