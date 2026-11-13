@@ -113,6 +113,12 @@ for c in LAMPES:
     c['imgs']=imgs
     c.setdefault('tag','lampe'); c.setdefault('desc','Description à écrire par Ginette.'); c.setdefault('meta',n+' : lampe de Rotin Bohème.')
     print('photos studio détectées :',n)
+# Pièces de théâtre : une collection est présentée comme une pièce (titre, genre, synopsis, distribution)
+# La distribution associe une lampe (slug) à son rôle. Le rôle s'affiche sur la fiche et sur la page des lampes.
+PIECES=[dict(titre="Il est 12 h, Miss Flower",sous="Pièce onirique en trois actes.",
+ texte="Un mardi de mai, le soleil a décidé de se coucher à 12 h. À Midiminuit, personne ou presque ne s'en est inquiété : on a sorti les lampes et la fête a commencé. La danseuse a ouvert le bal. La télégraphiste a invité tous les villages voisins. Le guetteur a compté les étoiles du déjeuner. Le soleil dormait comme un bienheureux. Mais où était Miss Flower ?",
+ roles=[('miss-flower','La jardinière'),('elsa-mandarine','Le Soleil'),('dori-morse','La télégraphiste'),('bob-longcou','Le guetteur'),('lulu-guinguette','La danseuse')])]
+ROLE={sl:(pc['titre'],r) for pc in PIECES for sl,r in pc['roles']}
 shell=open('lampe-alizee-canopee.html').read()
 arrow=re.search(r'class="btn btn--plein" href="#">Ajouter au panier<span class="ar">(.*?)</span></a>',shell,re.S).group(1)
 a0=shell.index('<section class="sec fiche fiche--page"'); b0=shell.index('</section>',a0)+len('</section>')
@@ -123,6 +129,7 @@ def page(sec,title,meta):
 def fiche(c):
     th=''.join(f'<button class="fiche__t" type="button" data-full="{L(p)}" data-alt="{a}"'+(f' data-lit="{L(l)}"' if l else '')+f' aria-label="Voir la photo {i+1}"'+(' aria-current="true"' if i==0 else '')+f'><img src="{L(p,200)}" alt="" loading="lazy" width="200" height="250"></button>' for i,(p,a,l) in enumerate(c['imgs']))
     p0,a0_,l0=c['imgs'][0]
+    eyebrow=' · '.join(ROLE[c['slug']]) if c['slug'] in ROLE else 'Il est 20h, Miss Flower · rôle de la troupe'
     prov='' if c.get('valide') else '<span class="vh"> Texte provisoire.</span>'
     prix=html.escape(c.get('prix') or 'Prix à renseigner',quote=False)
     role=paras(c.get('histoire') or 'Histoire à écrire par Ginette avec Bernadette.')
@@ -136,7 +143,7 @@ def fiche(c):
     <div class="fiche__thumbs" style="--n:{len(c['imgs'])}">{th}</div>
   </div>
   <div class="fiche__txt" data-r>
-    <p class="eyebrow">Il est 20h, Miss Flower · rôle de la troupe</p>
+    <p class="eyebrow">{eyebrow}</p>
     <p class="fiche__prenom">{c['prenom']}</p>
     <h2 class="fiche__nom">{c['nom']}</h2>
     <p class="fiche__tag">{c['tag']}</p>
@@ -168,9 +175,15 @@ for c in LAMPES:
         ph=f'<img src="{c["card"][0]}" alt="{c["prenom"]} {c["nom"]}" width="640" height="800" loading="lazy">'; cl='coll__c'
     cards+=f'<a class="{cl}" href="{href}"><div class="coll__ph">{ph}</div><p class="coll__p">{c["prenom"]}</p><h2 class="coll__n">{c["nom"]}</h2></a>'
 js='''<script>(function(){var c=document.querySelectorAll('.coll__c--lit');if(!('IntersectionObserver' in window)||!window.matchMedia('(hover:none)').matches){return}var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('is-lit',e.isIntersecting)})},{rootMargin:'-38% 0px -38% 0px'});c.forEach(function(x){io.observe(x)})})();</script>'''
+noms={c['slug']:f"{c['prenom']} {c['nom']}" for c in LAMPES}
+piece_html=''
+for pc in PIECES:
+    lis=''.join(f'<li><a href="lampe-{sl}.html"><span class="piece__r">{r}</span><span class="piece__n">{noms[sl]}</span></a></li>' for sl,r in pc['roles'])
+    piece_html+=f'<div class="piece" data-r><p class="piece__sup">À l\'affiche</p><h2 class="piece__t">{pc["titre"]}</h2><p class="piece__s">{pc["sous"]}</p><p class="piece__x">{pc["texte"]}</p><ul class="piece__d">{lis}</ul></div>'
 sec=f'''<section class="sec coll" id="lampes"><div class="wrap">
   <p class="fiche__crumb" data-r><a href="index.html">Accueil</a> <span>/</span> Lampes</p>
   <div class="coll__tete" data-r><h1 class="coll__t">Les lampes</h1><p class="coll__nb"><b>({len(LAMPES)})</b> pièces uniques</p></div>
+  {piece_html}
   <div class="coll__g" data-r>{cards}</div>
 </div>{js}</section>'''
 open('lampes.html','w').write(page(sec,'Rotin Bohème · Les lampes','Les lampes de Rotin Bohème : pièces uniques chinées et habillées à la main.'))

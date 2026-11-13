@@ -550,3 +550,14 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 @media (prefers-reduced-motion:reduce){.coll__lit{transition:none}}
 
 @media (hover:hover){.coll__c--lit:hover .coll__lit{opacity:1}}
+
+/* Pièce de théâtre d'une collection */
+.piece{max-width:44rem;margin:0 0 4rem}
+.piece__sup{font-size:0.8125rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:0 0 0.75rem}
+.piece__t{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4vw,3.2rem);line-height:1.05;margin:0}
+.piece__s{font-style:italic;color:var(--muted);margin:0.5rem 0 1.25rem}
+.piece__x{line-height:1.6;margin:0 0 1.5rem;text-wrap:pretty}
+.piece__d{display:flex;flex-wrap:wrap;gap:0.5rem;list-style:none;margin:0;padding:0}
+.piece__d a{display:inline-flex;gap:0.625rem;border:1px solid var(--line2);border-radius:62.4375rem;padding:0.5rem 1rem;font-size:0.9375rem}
+.piece__r{color:var(--muted)}
+.piece__d a:hover .piece__r{color:var(--fg)}
