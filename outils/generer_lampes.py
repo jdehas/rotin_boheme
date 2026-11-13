@@ -42,17 +42,20 @@ LAMPES=[
    dict(studio_off='Lampe en porcelaine de Canton et abat-jour orange, éteinte, sur fond crème',studio_on='La même lampe allumée : l\'abat-jour orange rayonne',
         plateau_off='La lampe sur un plateau de pierre, éteinte',plateau_on='La lampe sur le plateau de pierre, allumée',
         abat="Détail de l'abat-jour orange",pied='Détail du pied en porcelaine de Canton'))),
- dict(slug='melville-black',prenom='Melville',nom='Black',tag='lampe, pied bleu nuit et abat-jour en toile jungle',
+ dict(slug='toile-jungle',prenom='À nommer',nom='Toile jungle',tag='lampe, pied bleu nuit et abat-jour en toile jungle',
   desc="Un pied bleu nuit à long col et un abat-jour en toile jungle blanche et marine.",
-  meta="Melville Black : lampe au pied bleu nuit et abat-jour en toile jungle.",key='lampe-07-toile-jungle',
+  meta="Lampe au pied bleu nuit et abat-jour en toile jungle.",key='lampe-07-toile-jungle',
   imgs=jeu('lampe-07-toile-jungle',0,0,('entree-jour','La lampe sur une console dans une entrée crème, entre tentures blanc cassé et bleu nuit'),
    dict(studio_off='Lampe au pied bleu nuit et abat-jour en toile jungle, éteinte, sur fond lin',studio_on='La même lampe allumée',
         plateau_off='La lampe sur un plateau de pierre, éteinte',plateau_on='La lampe sur le plateau de pierre, allumée',
         abat="Détail de l'abat-jour en toile jungle",pied='Détail du pied bleu nuit'))),
- # lampes sans noms ni mises en scène pour l'instant (noms provisoires)
- dict(slug='lea-raphia',prenom='Léa',nom='Raphia',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061942/rotin-boheme/lampes/lampe-09-raphia-haute.jpg',None)),
- dict(slug='octave-orphiste',prenom='Octave',nom='Orphiste',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061932/rotin-boheme/lampes/lampe-01-orphiste-haute.jpg',None)),
- dict(slug='gaston-patchwork',prenom='Gaston',nom='Patchwork',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061940/rotin-boheme/lampes/lampe-08-abstraite-gres.jpg',None)),
+ # lampes sans mise en scène pour l'instant : noms validés par John (base de Ginette), sauf mention « provisoire »
+ dict(slug='melville-black',prenom='Melville',nom='Black',fiche=False,key='lampe-13-bois-tourne',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794062832/rotin-boheme/lampes/lampe-13-bois-tourne.jpg',None)),
+ dict(slug='geraldine-pistache',prenom='Géraldine',nom='Pistache',fiche=False,key='lampe-03-canton-verte',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061934/rotin-boheme/lampes/lampe-03-canton-verte.jpg',None)),
+ dict(slug='raphaelle-d',prenom='Raphaëlle',nom='D.',fiche=False,key='lampe-09-raphia-haute',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061942/rotin-boheme/lampes/lampe-09-raphia-haute.jpg',None)),
+ dict(slug='bob-longcou',prenom='Bob',nom='Longcou',fiche=False,key='lampe-06-bureau-noire',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061938/rotin-boheme/lampes/lampe-06-bureau-noire.jpg',None)),
+ dict(slug='octave-orphiste',prenom='Octave',nom='Orphiste',fiche=False,key='lampe-01-orphiste-haute',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061932/rotin-boheme/lampes/lampe-01-orphiste-haute.jpg',None)),  # nom provisoire
+ dict(slug='gaston-patchwork',prenom='Gaston',nom='Patchwork',fiche=False,key='lampe-08-abstraite-gres',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061940/rotin-boheme/lampes/lampe-08-abstraite-gres.jpg',None)),  # nom provisoire
 ]
 shell=open('lampe-alizee-canopee.html').read()
 arrow=re.search(r'class="btn btn--plein" href="#">Ajouter au panier<span class="ar">(.*?)</span></a>',shell,re.S).group(1)
@@ -112,10 +115,12 @@ open('lampes.html','w').write(page(sec,'Rotin Bohème · Les lampes','Les lampes
 # affiche de la home : noms et liens des lampes à fiche
 h=open('index.html').read()
 for c in LAMPES:
-    if not c.get('imgs'): continue
+    if not c.get('imgs') and not c.get('key'): continue
+    href_new=f'lampe-{c["slug"]}.html' if c.get('imgs') else None
     pat=re.compile(r'<li><a href="[^"]*"( data-img="[^"]*'+re.escape(c['key'])+r'\.jpg"[^>]*>)<span class="t">[^<]*</span><span class="n">[^<]*</span>')
-    assert pat.search(h),c['key']
-    h=pat.sub(f'<li><a href="lampe-{c["slug"]}.html"\\1<span class="t">{c["prenom"]}</span><span class="n">{c["nom"]}</span>',h,1)
+    if not pat.search(h): continue
+    m=re.search(r'<li><a href="([^"]*)"',pat.search(h).group(0)); hr=href_new or m.group(1)
+    h=pat.sub(f'<li><a href="{hr}"\\1<span class="t">{c["prenom"]}</span><span class="n">{c["nom"]}</span>',h,1)
 open('index.html','w').write(h)
 for f in glob.glob('*.html'):
     pass
