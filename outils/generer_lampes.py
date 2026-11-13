@@ -113,6 +113,10 @@ for c in LAMPES:
     c['imgs']=imgs
     c.setdefault('tag','lampe'); c.setdefault('desc','Description à écrire par Ginette.'); c.setdefault('meta',n+' : lampe de Rotin Bohème.')
     print('photos studio détectées :',n)
+# Pièces de théâtre : une collection est présentée comme une pièce (titre, genre, synopsis, distribution). Texte de Ginette.
+THEATRE=[dict(titre="Il est 12 h, Miss Flower",sous="Pièce onirique en trois actes.",
+ texte="Un mardi de mai, le soleil a décidé de se coucher à 12 h. À Midiminuit, personne ou presque ne s'en est inquiété : on a sorti les lampes et la fête a commencé. La danseuse a ouvert le bal. La télégraphiste a invité tous les villages voisins. Le guetteur a compté les étoiles du déjeuner. Le soleil dormait comme un bienheureux. Mais où était Miss Flower ?",
+ roles=[('miss-flower','La jardinière'),('elsa-mandarine','Le Soleil'),('dori-morse','La télégraphiste'),('bob-longcou','Le guetteur'),('lulu-guinguette','La danseuse')])]
 shell=open('lampe-alizee-canopee.html').read()
 arrow=re.search(r'class="btn btn--plein" href="#">Ajouter au panier<span class="ar">(.*?)</span></a>',shell,re.S).group(1)
 a0=shell.index('<main>')+len('<main>'); b0=shell.index('<section class="lettre"')  # le contenu de la fiche se place entre l'en-tête et la lettre
@@ -242,9 +246,15 @@ for c in LAMPES:
         ph=f'<img src="{c["card"][0]}" alt="{c["prenom"]} {c["nom"]}" width="640" height="800" loading="lazy">'; cl='coll__c'
     cards+=f'<a class="{cl}" href="{href}"><div class="coll__ph">{ph}</div><p class="coll__p">{c["prenom"]}</p><h2 class="coll__n">{c["nom"]}</h2></a>'
 js='''<script>(function(){var c=document.querySelectorAll('.coll__c--lit');if(!('IntersectionObserver' in window)||!window.matchMedia('(hover:none)').matches){return}var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('is-lit',e.isIntersecting)})},{rootMargin:'-38% 0px -38% 0px'});c.forEach(function(x){io.observe(x)})})();</script>'''
+noms={c['slug']:f"{c['prenom']} {c['nom']}" for c in LAMPES}
+piece_html=''
+for pc in THEATRE:
+    lis=''.join(f'<li><a href="lampe-{sl}.html"><span class="piece__r">{r}</span><span class="piece__n">{noms[sl]}</span></a></li>' for sl,r in pc['roles'])
+    piece_html+=f'<div class="piece" id="piece" data-r><p class="piece__sup">Collection</p><h2 class="piece__t">{pc["titre"]}</h2><p class="piece__s">{pc["sous"]}</p><p class="piece__x">{pc["texte"]}</p><ul class="piece__d">{lis}</ul></div>'
 sec=f'''<section class="sec coll" id="lampes"><div class="wrap">
   <p class="fiche__crumb" data-r><a href="index.html">Accueil</a> <span>/</span> Lampes</p>
   <div class="coll__tete" data-r><h1 class="coll__t">Les lampes</h1><p class="coll__nb"><b>({len(LAMPES)})</b> pièces uniques</p></div>
+  {piece_html}
   <div class="coll__g" data-r>{cards}</div>
 </div>{js}</section>'''
 open('lampes.html','w').write(page(sec,'Rotin Bohème · Les lampes','Les lampes de Rotin Bohème : pièces uniques chinées et habillées à la main.'))
@@ -261,6 +271,11 @@ for c in LAMPES:
         pat=re.compile(r'(<li><a href="lampe-'+re.escape(c['slug'])+r'\.html" data-img=")[^"]*(")(.*?<span class="th"><img src=")[^"]*(")',re.S)
         if pat.search(h):
             h=pat.sub(lambda m: m.group(1)+L(c['imgs'][0][0],520)+m.group(2)+m.group(3)+L(c['imgs'][0][0],200)+m.group(4),h,1)
+pc=THEATRE[0]
+home_piece=f'<div class="piece piece--home" data-r><p class="piece__sup">Collection</p><h2 class="piece__t">{pc["titre"]}</h2><p class="piece__s">{pc["sous"]}</p><a class="btn" href="lampes.html#piece">Voir la pièce<span class="ar">{arrow}</span></a></div>'
+h=re.sub(r'<div class="piece piece--home".*?</div>\s*','',h,flags=re.S)
+assert h.count('<p class="noms__tete"')==1
+h=h.replace('<p class="noms__tete"',home_piece+'\n  <p class="noms__tete"',1)
 open('index.html','w').write(h)
 for f in glob.glob('*.html'):
     pass

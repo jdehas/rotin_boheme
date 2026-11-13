@@ -720,3 +720,27 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 @media (hover:hover){.aff__hero:has(.aff__zone:hover) .aff__won{opacity:1}}
 .aff__zone{position:absolute;z-index:2;top:0;left:50%;transform:translateX(-50%);height:88%;aspect-ratio:.8}
 .aff__hero::after{display:block;content:"";position:absolute;left:0;right:0;bottom:0;top:auto;height:5%;background:linear-gradient(180deg,rgba(21,33,58,0),var(--bg));pointer-events:none;z-index:1}
+
+/* Menu sans encadré rond : seuls le bouton Panier et le bouton Menu mobile gardent leur cadre */
+.pill-nav,.hdr.solid .pill-nav,body.poulain .pill-nav{background:transparent;border:0;-webkit-backdrop-filter:none;backdrop-filter:none;padding:0}
+.pill-nav a{border-radius:0;position:relative;padding:.5rem .9rem}
+.pill-nav a::after{content:"";position:absolute;left:.9rem;right:.9rem;bottom:.2rem;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.pill-nav a:hover,.hdr.solid .pill-nav a:hover{background:transparent}
+.pill-nav a:hover::after{transform:scaleX(1)}
+.hdr__act a.btn--ghost:first-child{border-color:transparent;background:transparent}
+/* Pièce de théâtre d'une collection (propositions de Ginette) */
+.piece{max-width:44rem;margin:0 0 4rem}
+.piece__sup{font-size:0.8125rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:0 0 0.75rem}
+.piece__t{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4vw,3.2rem);line-height:1.05;margin:0}
+.piece__s{font-style:italic;color:var(--muted);margin:0.5rem 0 1.25rem}
+.piece__x{line-height:1.6;margin:0 0 1.5rem;text-wrap:pretty}
+.piece__d{display:flex;flex-wrap:wrap;gap:0.5rem;list-style:none;margin:0;padding:0}
+.piece__d a{display:inline-flex;gap:0.625rem;border:1px solid var(--line2);border-radius:62.4375rem;padding:0.5rem 1rem;font-size:0.9375rem}
+.piece__r{color:var(--muted)}
+.piece__d a:hover .piece__r{color:var(--fg)}
+.piece--home{margin-bottom:3rem}
+.piece--home .piece__s{margin-bottom:1.25rem}
+/* Intertitres de l'affiche de la home */
+.noms__sep{text-align:center;font-size:0.9375rem;color:var(--muted);padding:clamp(2.5rem,6vw,5rem) 0 clamp(1.25rem,3vw,2rem);scroll-margin-top:6rem;list-style:none}
+.noms__sep b{font-weight:400;color:var(--accent);margin-right:0.375rem}
+.lettre p{text-wrap:balance}

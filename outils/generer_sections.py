@@ -22,7 +22,7 @@ SECTIONS={
   ('objet-03-miroir-soleil','Ludovic','Soleil','miroir, métal doré','Un miroir soleil en métal doré.'),
   ('objet-04-presentoir-asperges','À nommer','Présentoir aux asperges','présentoir en céramique','Un présentoir décoré d’asperges.'),
   ('objet-05-egouttoir-asperges','À nommer','Égouttoir aux asperges','égouttoir en céramique','Un égouttoir décoré d’asperges.')]),
- 'kids':('Kids','Kids',[
+ 'kids':('Enfants','Enfants',[
   ('kids-01-poupee-princesse','À nommer','Poupée princesse','poupée','Une poupée princesse.'),
   ('kids-02-nain','À nommer','Nain','nain de jardin','Un nain coiffé de son bonnet.'),
   ('kids-03-cabane','À nommer','Cabane','cabane pour enfant','Une cabane pour enfant.'),
