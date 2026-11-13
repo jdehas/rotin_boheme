@@ -115,7 +115,7 @@ for c in LAMPES:
     print('photos studio détectées :',n)
 shell=open('lampe-alizee-canopee.html').read()
 arrow=re.search(r'class="btn btn--plein" href="#">Ajouter au panier<span class="ar">(.*?)</span></a>',shell,re.S).group(1)
-a0=shell.index('<section class="sec fiche fiche--page"'); b0=shell.index('</section>',a0)+len('</section>')
+a0=shell.index('<main>')+len('<main>'); b0=shell.index('<section class="lettre"')  # le contenu de la fiche se place entre l'en-tête et la lettre
 def page(sec,title,meta):
     o=shell[:a0]+sec+shell[b0:]
     o=re.sub(r'<title>.*?</title>',f'<title>{title}</title>',o,1)
@@ -154,11 +154,9 @@ def fiche(c):
 # fiches
 for f in glob.glob('lampe-*.html'):
     if f!='lampe-alizee-canopee.html': os.remove(f)
-for c in LAMPES:
-    if c.get('imgs'): open(f"lampe-{c['slug']}.html",'w').write(fiche(c))
 # --- Mise en page « affiche » (essai) : grand écran sans texte, infos dessous -------------------------
 # Ordre : nom, courte description, prix, ajouter au panier, matière et état, dimensions, autres photos, rôle, collections.
-PIECES={'il-est-12h':'Il est 12h, Miss Flower'}
+PIECES={'il-est-12h':'Il est 12h, Miss Flower','suggestions':'Aussi à l’affiche'}
 def carte_piece(slug):
     c=next(x for x in LAMPES if x['slug']==slug)
     if c.get('imgs'): img=L(c['imgs'][0][0],640); href=f"lampe-{slug}.html"
@@ -201,14 +199,16 @@ def affiche(c):
   lb.addEventListener('click',function(e){{if(e.target===lb||e.target===im)close()}});
   document.addEventListener('keydown',function(e){{if(lb.hidden)return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')show(cur-1);if(e.key==='ArrowRight')show(cur+1)}});}})();</script>
 </section>"""
-    return page(sec,f"Rotin Bohème · {c['prenom']} {c['nom']}, essai affiche",c['meta'])
+    return page(sec,f"Rotin Bohème · {c['prenom']} {c['nom']}, lampe",c['meta'])
+def suggestions(c):
+    """Produits suggérés : les 4 lampes suivantes de la collection (avec fiche), en boucle."""
+    avec=[x for x in LAMPES if x.get('imgs')]
+    i=next(k for k,x in enumerate(avec) if x['slug']==c['slug'])
+    return [('suggestions',[avec[(i+j)%len(avec)]['slug'] for j in range(1,5)])]
 for c in LAMPES:
-    if c.get('imgs') and c['slug'] in ('lulu-guinguette',):
-        c.setdefault('matiere',"Pied en céramique écrue mate, tournée à la main, avec quelques mouchetures naturelles.\n\nAbat-jour en coton imprimé botanique, frange en viscose moutarde.\n\nCâble textile neuf, douille E14, mise aux normes. Très bon état : une petite trace d'usage sous le pied, conservée.")
-        c.setdefault('dimensions',"Hauteur totale : 52 cm\n\nAbat-jour : diamètre 24 cm, hauteur 22 cm\n\nPied : hauteur 30 cm\n\nPoids : 2,4 kg")
-        c.setdefault('prix','185 €')
-        c.setdefault('pieces',[('il-est-12h',['dori-morse','elsa-mandarine','melville-black','jelly-bell'])])
-        open(f"essai-affiche-{c['slug']}.html",'w').write(affiche(c))
+    if c.get('imgs'):
+        c['pieces']=suggestions(c)
+        open(f"lampe-{c['slug']}.html",'w').write(affiche(c))
 # collection
 cards=''
 for c in LAMPES:
