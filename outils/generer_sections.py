@@ -9,7 +9,7 @@ spec=importlib.util.spec_from_file_location('gl',os.path.join(here,'generer_lamp
 os.chdir(G.DOCS)
 B='https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_%d/rotin-boheme/'
 def U(sec,n,w=720): return (B%w)+sec+'/'+n+'.jpg'
-SUFFIXES=[('-studio','studio'),('-detail-pieds','détail des pieds'),('-detail-coussin','détail du coussin'),('-detail-pied','détail du pied'),('-detail-assise','détail de l’assise'),('-detail-dossier','détail du dossier'),('-detail-matiere','détail de la matière'),('-detail','détail'),('-detail-1','détail'),('-detail-2','second détail'),('-plateau','sur un plateau'),('-salon-jour','en situation, dans un salon'),('-chambre-jour','en situation, dans une chambre'),('-chambre-enfant-jour','dans une chambre d’enfant'),('-salle-a-manger-jour','dans une salle à manger'),('-entree-jour','dans une entrée'),('-cuisine-jour','dans une cuisine'),('-bureau-jour','sur un bureau')]
+SUFFIXES=[('-studio','studio'),('-detail-pieds','détail des pieds'),('-detail-coussin','détail du coussin'),('-detail-pied','détail du pied'),('-detail-assise','détail de l’assise'),('-detail-dossier','détail du dossier'),('-detail-matiere','détail de la matière'),('-detail','détail'),('-detail-1','détail'),('-detail-2','second détail'),('-plateau','sur un plateau'),('-salon-jour','en situation, dans un salon'),('-chambre-jour','en situation, dans une chambre'),('-chambre-enfant-jour','dans une chambre d’enfant'),('-salle-a-manger-jour','dans une salle à manger'),('-entree-jour','dans une entrée'),('-cuisine-jour','dans une cuisine'),('-bureau-jour','sur un bureau'),('-bureau-dore','sur un bureau doré'),('-chambre-matin','dans une chambre, le matin'),('-detail-etagere','détail de l’étagère'),('-detail-tressage','détail du tressage'),('-podium','sur un podium')]
 # (section, fichier de sortie, titre, nom du menu, base Cloudinary, prénom, nom, étiquette, description courte)
 SECTIONS={
  'meubles':('Les meubles','Meubles',[
@@ -52,6 +52,12 @@ MIXTES={
  'meuble-03-fauteuil-rotin-noir':[('roulotte-troupe',"dans la roulotte de la troupe, avec le fauteuil naturel et les lampes")],
  'kids-08-chaise-menthe':[('midiminuit-5-lampes',None)][:0],
 }
+# Scènes « univers » déposées par Ambre : meuble mis en scène avec d'autres objets
+UNIVERS={
+ 'meuble-01-chevet-corail':[('univers-chevet-atelier-raccommodeuse',"dans l'atelier de la raccommodeuse")],
+ 'meuble-02-fauteuil-rotin-naturel':[('univers-honore-loge-miroir',"dans la loge, près du miroir")],
+ 'meuble-03-fauteuil-rotin-noir':[('univers-frida-petit-bonheur',"dans l'univers de Frida, au petit bonheur")],
+}
 items=[]
 for sec,(titre,menu,lst) in SECTIONS.items():
     for base,prenom,nom,tag,desc in lst:
@@ -76,11 +82,14 @@ for sec,(titre,menu,lst) in SECTIONS.items():
         for suf,lab in ([] if loc else SUFFIXES[1:]):
             nm=base+suf
             if nm in seen: continue
+            if ex(nm+'-v2'): nm=nm+'-v2'  # la version v2 d'Ambre remplace la première
             if ex(nm): imgs.append((sec+'/'+nm,f'{n}, {lab}',None)); seen.add(nm)
         for k,v in MIXTES.items():
             if base.startswith(k):
                 dej={i[0] for i in imgs}
                 imgs+=[('local/'+f,f'{n}, {lab}',None) for f,lab in v if 'local/'+f not in dej]
+        for k,v in UNIVERS.items():
+            if base.startswith(k): imgs+=[(sec+'/'+f,f'{n}, {lab}',None) for f,lab in v if ex(f)]
         slug=f'{sec}-{slugify(n)}' if prenom!='À nommer' else f'{sec}-{slugify(nom)}'
         items.append(dict(sec=sec,slug=slug,file=f'{sec[:-1] if sec.endswith("s") else sec}-{slugify(n if prenom!="À nommer" else nom)}.html',prenom=prenom,nom=nom,tag=tag,desc=desc,meta=f'{n} : {tag}, Rotin Bohème.',imgs=imgs,key=None))
 # l'image se construit avec G.L qui préfixe lampes/ : on la contourne en fournissant des chemins relatifs à rotin-boheme/

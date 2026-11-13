@@ -44,7 +44,7 @@ Elle sait tenir la scène. Sur une console, un chevet ou un coin de bibliothèqu
  dict(slug='lulu-guinguette',prenom='Lulu',nom='Guinguette',tag='lampe, pied blanc et abat-jour fleuri à franges',
   desc='Un pied blanc tout en rondeurs, un abat-jour fleuri bleu ciel et une cascade de franges dorées.',
   meta="Lulu Guinguette : lampe au pied blanc sculpté et abat-jour fleuri à franges dorées.",key='lampe-12-frange-fleurs',
-  imgs=[('lampe-12-frange-fleurs-studio-eteinte','Lampe au pied blanc sculpté en rondeurs empilées et abat-jour fleuri bleu ciel à franges dorées, éteinte','lampe-12-frange-fleurs-studio-allumee'),
+  imgs=[('lampe-12-frange-fleurs-studio-eteinte','Lampe à poser au pied en céramique écrue mate à trois renflements arrondis superposés, abat-jour cylindrique bleu ciel à motif botanique exotique et frange moutarde, sur fond blanc','lampe-12-frange-fleurs-studio-allumee'),
         ('lampe-12-frange-fleurs-studio-allumee',"La même lampe allumée : l'abat-jour s'illumine et la lumière chaude s'étale sur le sol",None),
         ('lampe-12-frange-fleurs-plateau-eteinte','La lampe sur un plateau patiné, éteinte','lampe-12-frange-fleurs-plateau-allumee'),
         ('lampe-12-frange-fleurs-plateau-allumee','La lampe sur le plateau patiné, allumée',None),
@@ -77,6 +77,7 @@ Elle sait tenir la scène. Sur une console, un chevet ou un coin de bibliothèqu
   meta="Carol Jouy : applique murale en toile de Jouy bleue et crème, scènes de chasse sous les arbres.",
   imgs=[('applique-11-toile-bleue-studio-eteinte',"Applique murale en toile de Jouy bleue sur un mur rose poudré, éteinte",'applique-11-toile-bleue-studio-allumee'),
         ('applique-11-toile-bleue-studio-allumee',"La même applique allumée : une lumière chaude déborde en haut et en bas",None),
+        ('applique-11-toile-bleue-salle-a-manger-nuit-v2',"L'applique allumée dans une salle à manger, le soir",None),
         ('applique-11-toile-bleue-detail-toile',"Détail de la toile de Jouy : deux chasseurs, des chiens et un grand arbre",None),
         ('applique-11-toile-bleue-detail-passepoil',"Détail du bas de l'applique : toile de Jouy et passepoil bleu",None)]),
  # lampes sans noms ni mises en scène pour l'instant (noms provisoires)
@@ -95,7 +96,7 @@ Elle sait tenir la scène. Sur une console, un chevet ou un coin de bibliothèqu
 #   une photo d'ambiance (-chambre-jour, -salon-jour, -entree-jour, -bureau-jour...), -detail-abat-jour, -detail-pied.
 # La carte de la collection montre alors la photo studio éteinte, et l'allumée au survol.
 import urllib.request
-AMBIANCES=['chambre-jour','chambre-nuit','salon-jour','entree-jour','bureau-jour','salle-a-manger-jour','cuisine-doree','cuisine-jour','bibliotheque-jour']
+AMBIANCES=['chambre-jour','chambre-nuit','salon-jour','salon-dore','entree-jour','entree-matin','bureau-jour','bureau-dore','salle-a-manger-jour','salle-a-manger-nuit','cuisine-doree','cuisine-jour','bibliotheque-jour']
 PAIRES=[('arche','sous une arche'),('plateau','sur un plateau'),('socle','sur son socle'),('formica','sur un bureau en formica')]
 def existe(nom):
     try: return urllib.request.urlopen(urllib.request.Request(L(nom,200),method='HEAD'),timeout=10).status==200
@@ -109,7 +110,8 @@ for c in LAMPES:
         if existe(pre+'-'+k+'-eteinte') and existe(pre+'-'+k+'-allumee'):
             imgs+=[(pre+'-'+k+'-eteinte',n+', '+lab+', éteinte',pre+'-'+k+'-allumee'),(pre+'-'+k+'-allumee',n+', '+lab+', allumée',None)]
     for a in AMBIANCES:
-        if existe(pre+'-'+a): imgs.append((pre+'-'+a,n+', en situation',None)); break
+        v=[x for x in (pre+'-'+a+'-v2',pre+'-'+a) if existe(x)]  # la version v2 d'Ambre remplace la première
+        if v: imgs.append((v[0],n+', en situation',None))
     for suf,lab in (('detail-abat-jour',"détail de l'abat-jour"),('detail-pied','détail du pied')):
         if existe(pre+'-'+suf): imgs.append((pre+'-'+suf,n+', '+lab,None))
     REMPLACE={'lampe-06-bureau-noire-studio-eteinte':'local/lampe-06-bureau-noire-studio-eteinte-v2','lampe-06-bureau-noire-studio-allumee':'local/lampe-06-bureau-noire-studio-allumee-v2'}
@@ -197,11 +199,12 @@ def affiche(c):
         """Ordre de la galerie : studio, puis décor, puis zoom, puis sur support. À rang égal, l'ordre d'origine (éteinte avant allumée)."""
         n=nom.split('/')[-1]
         if 'detail' in n: return 2
-        if any(k in n for k in ('-plateau','-socle','-formica','-arche')): return 3
-        if any(k in n for k in ('midiminuit','roulotte','kids-chambre')): return 1
-        if any(k in n for k in ('-salon','-chambre','-entree','-bureau-jour','-salle-a-manger','-cuisine','-bibliotheque','-jour','-nuit')): return 1
+        if any(k in n for k in ('-plateau','-socle','-formica','-arche','-podium')): return 3
+        if any(k in n for k in ('midiminuit','roulotte','kids-chambre','univers')): return 1
+        if any(k in n for k in ('-salon','-chambre','-entree','-bureau','-salle-a-manger','-cuisine','-bibliotheque','-jour','-nuit')): return 1
         return 0
-    reste=sorted(c['imgs'],key=lambda t:rang(t[0]))  # toutes les photos : éteintes et allumées comprises
+    horsgal={p0,l0}  # le hero (et sa version allumée) ne se répète pas dans la galerie
+    reste=sorted([t for t in c['imgs'] if t[0] not in horsgal],key=lambda t:rang(t[0]))
     gal=''
     for i,(p,a,l) in enumerate(reste):
         gal+=f'<button class="afi__ph" type="button" data-full="{L(p,1800)}" data-alt="{a}" aria-label="Agrandir la photo {i+1}"><img src="{L(p,720)}" alt="{a}" loading="lazy"></button>'
