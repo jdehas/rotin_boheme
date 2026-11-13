@@ -1,14 +1,23 @@
 """Génère la collection Lampes et les fiches lampes du site (dossier docs/).
 Les noms, histoires et textes viennent de Ginette : les modifier dans LAMPES ci-dessous, puis relancer :
     python3 outils/generer_lampes.py
+
+Champs facultatifs d'une lampe, tous fournis par Ginette :
+    histoire    texte de l'onglet « Le rôle » (paragraphes séparés par une ligne vide)
+    matiere     texte de l'onglet « Matière et état »
+    dimensions  texte de l'onglet « Dimensions »
+    prix        prix affiché sous le nom
+    valide      True quand les textes sont validés par John (retire la mention « Texte provisoire »)
+Sans valeur, la fiche garde les mentions provisoires.
 """
-import re, os, glob
+import re, os, glob, html
 DOCS=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','docs')
 os.chdir(DOCS)
 B='https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_%d/rotin-boheme/lampes/'
 def L(n,w=900): return (B%w)+n+'.jpg'
+def paras(t): return ''.join('<p>'+html.escape(p.strip(),quote=False)+'</p>' for p in t.strip().split('\n\n') if p.strip())
 
-# Quatre lampes mises en scène : noms issus de la base Notion « passations de Ginette » (correspondance à confirmer)
+# Lampes mises en scène : noms validés dans la base Notion « Rotin Bohème, passations de Ginette »
 def jeu(prefixe,studio,plateau,ambiance,alts):
     return [
      (prefixe+'-studio-eteinte',alts['studio_off'],prefixe+'-studio-allumee'),
@@ -42,20 +51,17 @@ LAMPES=[
    dict(studio_off='Lampe en porcelaine de Canton et abat-jour orange, éteinte, sur fond crème',studio_on='La même lampe allumée : l\'abat-jour orange rayonne',
         plateau_off='La lampe sur un plateau de pierre, éteinte',plateau_on='La lampe sur le plateau de pierre, allumée',
         abat="Détail de l'abat-jour orange",pied='Détail du pied en porcelaine de Canton'))),
- dict(slug='toile-jungle',prenom='À nommer',nom='Toile jungle',tag='lampe, pied bleu nuit et abat-jour en toile jungle',
+ dict(slug='carol-jouy',prenom='Carol',nom='Jouy',tag='lampe, pied bleu nuit et abat-jour en toile jungle',
   desc="Un pied bleu nuit à long col et un abat-jour en toile jungle blanche et marine.",
-  meta="Lampe au pied bleu nuit et abat-jour en toile jungle.",key='lampe-07-toile-jungle',
+  meta="Carol Jouy : lampe au pied bleu nuit et abat-jour en toile jungle.",key='lampe-07-toile-jungle',
   imgs=jeu('lampe-07-toile-jungle',0,0,('entree-jour','La lampe sur une console dans une entrée crème, entre tentures blanc cassé et bleu nuit'),
    dict(studio_off='Lampe au pied bleu nuit et abat-jour en toile jungle, éteinte, sur fond lin',studio_on='La même lampe allumée',
         plateau_off='La lampe sur un plateau de pierre, éteinte',plateau_on='La lampe sur le plateau de pierre, allumée',
         abat="Détail de l'abat-jour en toile jungle",pied='Détail du pied bleu nuit'))),
- # lampes sans mise en scène pour l'instant : noms validés par John (base de Ginette), sauf mention « provisoire »
- dict(slug='melville-black',prenom='Melville',nom='Black',fiche=False,key='lampe-13-bois-tourne',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794062832/rotin-boheme/lampes/lampe-13-bois-tourne.jpg',None)),
- dict(slug='geraldine-pistache',prenom='Géraldine',nom='Pistache',fiche=False,key='lampe-03-canton-verte',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061934/rotin-boheme/lampes/lampe-03-canton-verte.jpg',None)),
+ # lampes sans noms ni mises en scène pour l'instant (noms provisoires)
  dict(slug='raphaelle-d',prenom='Raphaëlle',nom='D.',fiche=False,key='lampe-09-raphia-haute',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061942/rotin-boheme/lampes/lampe-09-raphia-haute.jpg',None)),
- dict(slug='bob-longcou',prenom='Bob',nom='Longcou',fiche=False,key='lampe-06-bureau-noire',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061938/rotin-boheme/lampes/lampe-06-bureau-noire.jpg',None)),
- dict(slug='octave-orphiste',prenom='Octave',nom='Orphiste',fiche=False,key='lampe-01-orphiste-haute',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061932/rotin-boheme/lampes/lampe-01-orphiste-haute.jpg',None)),  # nom provisoire
- dict(slug='gaston-patchwork',prenom='Gaston',nom='Patchwork',fiche=False,key='lampe-08-abstraite-gres',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061940/rotin-boheme/lampes/lampe-08-abstraite-gres.jpg',None)),  # nom provisoire
+ dict(slug='octave-orphiste',prenom='Octave',nom='Orphiste',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061932/rotin-boheme/lampes/lampe-01-orphiste-haute.jpg',None)),
+ dict(slug='gaston-patchwork',prenom='Gaston',nom='Patchwork',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061940/rotin-boheme/lampes/lampe-08-abstraite-gres.jpg',None)),
 ]
 shell=open('lampe-alizee-canopee.html').read()
 arrow=re.search(r'class="btn btn--plein" href="#">Ajouter au panier<span class="ar">(.*?)</span></a>',shell,re.S).group(1)
@@ -67,6 +73,11 @@ def page(sec,title,meta):
 def fiche(c):
     th=''.join(f'<button class="fiche__t" type="button" data-full="{L(p)}" data-alt="{a}"'+(f' data-lit="{L(l)}"' if l else '')+f' aria-label="Voir la photo {i+1}"'+(' aria-current="true"' if i==0 else '')+f'><img src="{L(p,200)}" alt="" loading="lazy" width="200" height="250"></button>' for i,(p,a,l) in enumerate(c['imgs']))
     p0,a0_,l0=c['imgs'][0]
+    prov='' if c.get('valide') else '<span class="vh"> Texte provisoire.</span>'
+    prix=html.escape(c.get('prix') or 'Prix à renseigner',quote=False)
+    role=paras(c.get('histoire') or 'Histoire à écrire par Ginette avec Bernadette.')
+    mat=paras(c.get('matiere') or 'À renseigner.')
+    dim=paras(c.get('dimensions') or 'À renseigner.')
     sec=f'''<section class="sec fiche fiche--page" id="fiche"><div class="wrap">
   <p class="fiche__crumb" data-r><a href="index.html">Accueil</a> <span>/</span> <a href="lampes.html">Lampes</a> <span>/</span> {c['prenom']} {c['nom']}</p>
   <div class="fiche__g">
@@ -79,13 +90,13 @@ def fiche(c):
     <p class="fiche__prenom">{c['prenom']}</p>
     <h2 class="fiche__nom">{c['nom']}</h2>
     <p class="fiche__tag">{c['tag']}</p>
-    <p class="fiche__prix"><b>Prix à renseigner</b> · pièce unique</p>
-    <p class="fiche__desc">{c['desc']}<span class="vh"> Texte provisoire.</span></p>
+    <p class="fiche__prix"><b>{prix}</b> · pièce unique</p>
+    <p class="fiche__desc">{c['desc']}{prov}</p>
     <div class="fiche__cta"><a class="btn btn--plein" href="#">Ajouter au panier<span class="ar">{arrow}</span></a><a class="btn" href="index.html#programme">Voir toute la troupe<span class="ar">{arrow}</span></a></div>
     <div class="fiche__acc">
-      <details open><summary>Le rôle</summary><p>Histoire à écrire par Ginette avec Bernadette.</p></details>
-      <details><summary>Matière et état</summary><p>À renseigner.</p></details>
-      <details><summary>Dimensions</summary><p>À renseigner.</p></details>
+      <details open><summary>Le rôle</summary>{role}</details>
+      <details><summary>Matière et état</summary>{mat}</details>
+      <details><summary>Dimensions</summary>{dim}</details>
     </div>
   </div></div></div>
   <script>(function(){{var box=document.getElementById('fbox'),m=document.getElementById('fmain'),h=document.getElementById('fhover'),ts=document.querySelectorAll('.fiche__t');ts.forEach(function(b){{b.addEventListener('click',function(){{m.src=b.dataset.full;m.alt=b.dataset.alt;if(b.dataset.lit){{h.src=b.dataset.lit;box.dataset.base='0'}}else{{box.dataset.base='1'}}box.classList.remove('is-on');ts.forEach(function(x){{x.removeAttribute('aria-current')}});b.setAttribute('aria-current','true')}})}});if(window.matchMedia('(hover:none)').matches){{box.addEventListener('click',function(){{if(box.dataset.base==='0')box.classList.toggle('is-on')}})}}}})();</script></section>'''
@@ -115,12 +126,11 @@ open('lampes.html','w').write(page(sec,'Rotin Bohème · Les lampes','Les lampes
 # affiche de la home : noms et liens des lampes à fiche
 h=open('index.html').read()
 for c in LAMPES:
-    if not c.get('imgs') and not c.get('key'): continue
-    href_new=f'lampe-{c["slug"]}.html' if c.get('imgs') else None
-    pat=re.compile(r'<li><a href="[^"]*"( data-img="[^"]*'+re.escape(c['key'])+r'\.jpg"[^>]*>)<span class="t">[^<]*</span><span class="n">[^<]*</span>')
-    if not pat.search(h): continue
-    m=re.search(r'<li><a href="([^"]*)"',pat.search(h).group(0)); hr=href_new or m.group(1)
-    h=pat.sub(f'<li><a href="{hr}"\\1<span class="t">{c["prenom"]}</span><span class="n">{c["nom"]}</span>',h,1)
+    if not c.get('key'): continue
+    pat=re.compile(r'<li><a href="([^"]*)"( data-img="[^"]*'+re.escape(c['key'])+r'\.jpg"[^>]*>)<span class="t">[^<]*</span><span class="n">[^<]*</span>')
+    assert pat.search(h),c['key']
+    href=f'lampe-{c["slug"]}.html' if c.get('imgs') else '\\1'
+    h=pat.sub(f'<li><a href="{href}"\\2<span class="t">{c["prenom"]}</span><span class="n">{c["nom"]}</span>',h,1)
 open('index.html','w').write(h)
 for f in glob.glob('*.html'):
     pass
