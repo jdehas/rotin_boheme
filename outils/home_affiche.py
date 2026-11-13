@@ -29,7 +29,17 @@ sec=f'''<section class="sec aff-home" id="programme">
     <p class="noms__pied" data-r><a class="lien" href="piece-il-est-12h-miss-flower.html">Découvrir la pièce</a> <span class="ah__sep">·</span> <a class="lien" href="lampes.html">Toutes les lampes</a></p>
   </div>
 </section>'''
+# Section des 4 rubriques, sur fond marine : elle s'intercale entre le héros et l'affiche blanche
+arr='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
+elsa=par['elsa-mandarine']
+RUB=[('lampes.html','Lampes',G.L(elsa['imgs'][0][0],640),'Lampes, Elsa Mandarine'),
+     ('meubles.html','Meubles','https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/rotin-boheme/meubles/meuble-01-chevet-corail-studio.jpg','Meubles, chevet corail'),
+     ('objets.html','Objets','https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/rotin-boheme/objets/objet-01-pichet-bleu-roses.jpg','Objets, pichet bleu aux roses'),
+     ('kids.html','Enfants','https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/rotin-boheme/kids/kids-01-poupee-princesse.jpg','Enfants, poupée princesse')]
+cards=''.join(f'<a class="cat" href="{u}"><img src="{i}" alt="{a}" loading="lazy"><span class="cat__l"><span>{n}</span><i>{arr}</i></span></a>' for u,n,i,a in RUB)
+rub=f'<section class="sec rub" id="rubriques"><div class="wrap"><p class="rub__sup" data-r>La troupe</p><h2 class="rub__t" data-r>Entrez par la porte de votre choix</h2><div class="cats" data-r>{cards}</div></div></section>'
 h=open('index.html').read()
-h,n=re.subn(r'<section class="sec (?:noms|aff-home)" id="programme">.*?</section>(?=<section class="sec carnet")',lambda m:sec,h,count=1,flags=re.S)
+h=re.sub(r'<section class="sec rub" id="rubriques">.*?</section>','',h,count=1,flags=re.S)
+h,n=re.subn(r'<section class="sec (?:noms|aff-home)" id="programme">.*?</section>(?=<section class="sec carnet")',lambda m:rub+sec,h,count=1,flags=re.S)
 assert n==1
 open('index.html','w').write(h); print('home affiche ok')

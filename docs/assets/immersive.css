@@ -820,3 +820,10 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 .aff-home .noms__pied .lien{color:var(--ah-fg)}
 .aff-home .ah__sep{margin:0 .6rem;color:var(--ah-mut)}
 @media (max-width:820px){.aff-home .noms__list a{border-bottom-color:rgba(20,20,20,.14)}.aff-home .noms__list li:first-child a{border-top-color:rgba(20,20,20,.14)}.aff-home .noms__list .th{background:#F1EDE4}}
+
+/* Home : rubriques sur fond marine, entre le héros et l'affiche blanche */
+.rub{background:#15213A;color:#EFE8DA;padding:clamp(4rem,8vw,7rem) 0;text-align:center}
+.rub__sup{font-size:.8125rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(239,232,218,.64);margin:0 0 .9rem}
+.rub__t{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.4vw,3.6rem);line-height:1.05;margin:0 0 clamp(2rem,4vw,3.5rem);color:#EFE8DA}
+.rub .cat{text-align:left}
+@media (max-width:820px){.rub .cats{grid-template-columns:repeat(2,minmax(0,1fr))}}

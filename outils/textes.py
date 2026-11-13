@@ -25,7 +25,7 @@ def menu_mobile(t):
     return re.sub(r'(<div class="menu"[^>]*>.*?<nav>)(.*?)(</nav>)',lambda m: m.group(1)+m.group(2)+('' if 'Le programme' in m.group(2) else '<a href="#lettre">Le programme</a>')+m.group(3),t,count=1,flags=re.S)
 # home : découpage de l'affiche (Aussi à l'affiche, Le petit théâtre)
 def home(t):
-    if 'class="aff-home"' in t: return t
+    if 'aff-home' in t: return t
     t=re.sub(r'<li class="noms__sep"[^>]*>.*?</li>','',t)
     liens={'Doña Frida K':'meuble-dona-frida-k.html','Honoré Naturel':'meuble-honore-naturel.html','Ludovic Soleil':'objet-ludovic-soleil.html','Mireille Barbotine':'objet-mireille-barbotine.html'}
     def cible(m):

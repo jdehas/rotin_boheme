@@ -317,7 +317,7 @@ open('piece-il-est-12h-miss-flower.html','w').write(page_piece(THEATRE[0],'il-es
 open('lampes.html','w').write(page(sec,'Rotin Bohème · Les lampes','Les lampes de Rotin Bohème : pièces uniques chinées et habillées à la main.'))
 # affiche de la home : noms et liens des lampes à fiche
 h=open('index.html').read()
-if 'class="aff-home"' not in h:  # la home « À l'affiche » est ensuite réécrite par home_affiche.py
+if 'aff-home' not in h:  # la home « À l'affiche » est ensuite réécrite par home_affiche.py
     for c in LAMPES:
         if not c.get('key'): continue
         pat=re.compile(r'<li><a href="([^"]*)"( data-img="[^"]*'+re.escape(c['key'])+r'\.jpg"[^>]*>)<span class="t">[^<]*</span><span class="n">[^<]*</span>')
