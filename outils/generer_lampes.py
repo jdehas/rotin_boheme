@@ -184,10 +184,8 @@ def affiche(c):
       <p class="afi__pre" style="margin-top:0">{c['prenom']}</p>
       <h1 class="afi__nom">{c['nom']}</h1>
       <p class="afi__desc">{c['desc']}</p>
-      <p class="afi__prix"><b>{prix}</b> · pièce unique</p>
-      <div class="fiche__cta" style="margin:0"><a class="btn btn--plein" href="#">Ajouter au panier<span class="ar">{arrow}</span></a></div>
     </div>
-    <div class="afi__spec"><div><h2>Matière et état</h2>{mat}</div><div><h2>Dimensions</h2>{dim}</div></div>
+    <div class="afi__cols"><div><h2>Matière et état</h2>{mat}</div><div><h2>Dimensions</h2>{dim}</div><div><h2>Prix</h2><p class="afi__prix"><b>{prix}</b></p><p class="afi__uniq">pièce unique</p><div class="fiche__cta" style="margin:0"><a class="btn btn--plein" href="#">Ajouter au panier<span class="ar">{arrow}</span></a></div></div></div>
   </div>
   <div class="afi__gal wrap" style="--n:4">{gal}</div>
   <div class="afi__role wrap"><h2 class="vh">Le rôle</h2>{role}</div>
@@ -206,6 +204,9 @@ def affiche(c):
     return page(sec,f"Rotin Bohème · {c['prenom']} {c['nom']}, essai affiche",c['meta'])
 for c in LAMPES:
     if c.get('imgs') and c['slug'] in ('lulu-guinguette',):
+        c.setdefault('matiere',"Pied en céramique écrue mate, tournée à la main, avec quelques mouchetures naturelles.\n\nAbat-jour en coton imprimé botanique, frange en viscose moutarde.\n\nCâble textile neuf, douille E14, mise aux normes. Très bon état : une petite trace d'usage sous le pied, conservée.")
+        c.setdefault('dimensions',"Hauteur totale : 52 cm\n\nAbat-jour : diamètre 24 cm, hauteur 22 cm\n\nPied : hauteur 30 cm\n\nPoids : 2,4 kg")
+        c.setdefault('prix','185 €')
         c.setdefault('pieces',[('il-est-12h',['dori-morse','elsa-mandarine','melville-black','jelly-bell'])])
         open(f"essai-affiche-{c['slug']}.html",'w').write(affiche(c))
 # collection
