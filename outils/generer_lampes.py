@@ -176,7 +176,7 @@ def affiche(c):
         gal+=f'<button class="afi__ph" type="button" data-full="{L(p,1800)}" data-alt="{a}" aria-label="Agrandir la photo {i+1}"><img src="{L(p,720)}" alt="{a}" loading="lazy"></button>'
     colls=''
     for cle,membres in c.get('pieces',[]):
-        colls+=f'<div class="afi__piece"><h3>{PIECES[cle]}</h3><div class="coll__g afi__cg">'+''.join(carte_piece(m) for m in membres)+'</div></div>'
+        colls+='<div class="afi__piece"><div class="coll__g afi__cg">'+''.join(carte_piece(m) for m in membres)+'</div></div>'
     sec=f"""<section class="aff" id="fiche">
   <div class="aff__hero" id="hero" role="button" tabindex="0" aria-pressed="false" aria-label="Allumer ou éteindre la lampe"><div class="aff__bg" aria-hidden="true"><i class="l" style="--off:url({L(p0,300)});--on:url({L(l0,300)})"><b></b></i><i class="r" style="--off:url({L(p0,300)});--on:url({L(l0,300)})"><b></b></i></div><div class="aff__fg pair"><img src="{L(p0,1600)}" alt="{a0_}"><img class="pair__on" src="{L(l0,1600)}" alt="" aria-hidden="true"></div></div>
   <div class="afi wrap">
@@ -189,7 +189,7 @@ def affiche(c):
   </div>
   <div class="afi__gal wrap" style="--n:4">{gal}</div>
   <div class="afi__role wrap"><h2 class="vh">Le rôle</h2>{role}</div>
-  <div class="afi__coll wrap"><h2>Collections</h2><p class="afi__sub">Les pièces dans lesquelles {c['prenom']} a joué : les autres lampes avec lesquelles elle s'accorde.</p>{colls}</div>
+  <div class="afi__coll wrap"><h2>Aussi à l’affiche</h2>{colls}</div>
   <div class="lb" id="lb" hidden><button class="lb__x" type="button" aria-label="Fermer">×</button><button class="lb__p" type="button" aria-label="Photo précédente">‹</button><img id="lbimg" alt=""><button class="lb__n" type="button" aria-label="Photo suivante">›</button></div>
   <script>(function(){{var h=document.getElementById('hero');function tog(){{var on=h.classList.toggle('is-on');h.setAttribute('aria-pressed',on)}}
   if(window.matchMedia('(hover:none)').matches){{h.addEventListener('click',tog)}}h.addEventListener('keydown',function(e){{if(e.key==='Enter'||e.key===' '){{e.preventDefault();tog()}}}});
