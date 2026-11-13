@@ -26,8 +26,8 @@ from PIL import Image
 imgs=''
 for f,_,_,side,pos,b,alt in L:
     w,hh=Image.open(os.path.join(out,f+'.webp')).size
-    imgs+=f'<img class="lettre__l lettre__l--{side}" style="--p:{pos}%;--b:{b}px" src="assets/cutout/{f}.webp" alt="" width="{w}" height="{hh}" loading="lazy">'
-html=f'<div class="lettre__lampes" aria-hidden="true">{imgs}</div>'
+    imgs+=f'<a class="lettre__l lettre__l--{side}" style="--p:{pos}%;--b:{b}px" href="lampe-{f}.html" aria-label="Voir la fiche de {alt.split(",")[0]}"><img src="assets/cutout/{f}.webp" alt="" width="{w}" height="{hh}" loading="lazy"></a>'
+html=f'<div class="lettre__lampes">{imgs}</div>'
 p=os.path.join(root,'docs/index.html'); h=open(p).read()
 h=re.sub(r'<div class="lettre__lampes".*?</div>','',h,count=1,flags=re.S)
 h,n=re.subn(r'(<section class="lettre" id="lettre">)',lambda m:m.group(1)+html,h,count=1); assert n==1
