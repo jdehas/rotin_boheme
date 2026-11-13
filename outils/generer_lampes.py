@@ -34,7 +34,9 @@ LAMPES=[
   meta="Lulu Guinguette : lampe au pied blanc sculpté et abat-jour fleuri à franges dorées.",key='lampe-12-frange-fleurs',
   imgs=[('lampe-12-frange-fleurs-studio-eteinte','Lampe au pied blanc sculpté en rondeurs empilées et abat-jour fleuri bleu ciel à franges dorées, éteinte','lampe-12-frange-fleurs-studio-allumee'),
         ('lampe-12-frange-fleurs-studio-allumee',"La même lampe allumée : l'abat-jour s'illumine et la lumière chaude s'étale sur le sol",None),
-        ('lampe-12-frange-fleurs-chambre-jour',"La lampe sur une malle ancienne à côté d'un lit, dans une chambre aux murs rosés",None),
+        ('lampe-12-frange-fleurs-plateau-eteinte','La lampe sur un plateau patiné, éteinte','lampe-12-frange-fleurs-plateau-allumee'),
+        ('lampe-12-frange-fleurs-plateau-allumee','La lampe sur le plateau patiné, allumée',None),
+        ('lampe-12-frange-fleurs-chambre-jour-v2',"La lampe sur une malle ancienne à côté d'un lit, dans une chambre aux tentures sauge",None),
         ('lampe-12-frange-fleurs-detail-abat-jour',"Détail de l'abat-jour : fleurs roses et feuillages sur fond bleu ciel, franges dorées",None),
         ('lampe-12-frange-fleurs-detail-pied','Détail du pied blanc, des rondeurs empilées',None)]),
  dict(slug='dori-morse',prenom='Dori',nom='Morse',tag='lampe, pied blanc et abat-jour à pointillés',
@@ -66,12 +68,14 @@ LAMPES=[
         ('applique-11-toile-bleue-detail-toile',"Détail de la toile de Jouy : deux chasseurs, des chiens et un grand arbre",None),
         ('applique-11-toile-bleue-detail-passepoil',"Détail du bas de l'applique : toile de Jouy et passepoil bleu",None)]),
  # lampes sans noms ni mises en scène pour l'instant (noms provisoires)
- dict(slug='bois-tourne',auto='lampe-13-bois-tourne',prenom='À nommer',nom='Bois tourné',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794062832/rotin-boheme/lampes/lampe-13-bois-tourne.jpg',None)),
- dict(slug='geraldine-pistache',auto='lampe-03-canton-verte',prenom='Géraldine',nom='Pistache',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061934/rotin-boheme/lampes/lampe-03-canton-verte.jpg',None)),
- dict(slug='lea-raphia',auto='lampe-09-raphia-haute',prenom='Léa',nom='Raphia',fiche=False,key='lampe-09-raphia-haute',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061942/rotin-boheme/lampes/lampe-09-raphia-haute.jpg',None)),
- dict(slug='bob-longcou',auto='lampe-06-bureau-noire',prenom='Bob',nom='Longcou',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061938/rotin-boheme/lampes/lampe-06-bureau-noire.jpg',None)),
- dict(slug='octave-orphiste',prenom='Octave',nom='Orphiste',fiche=False,auto='lampe-01-orphiste-haute',key='lampe-01-orphiste-haute',tag='lampe, pied noir sculpté et abat-jour en tapisserie graphique',desc='Un pied noir sculpté en lobes superposés et un abat-jour en tapisserie aux cercles rouges, noirs, bleus et crème.',meta='Lampe au pied noir sculpté et abat-jour en tapisserie graphique aux cercles colorés.',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061932/rotin-boheme/lampes/lampe-01-orphiste-haute.jpg',None)),
- dict(slug='gaston-patchwork',auto='lampe-08-abstraite-gres',prenom='Gaston',nom='Patchwork',fiche=False,card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061940/rotin-boheme/lampes/lampe-08-abstraite-gres.jpg',None)),
+ dict(slug='miss-flower',auto='lampe-13-bois-tourne',prenom='Miss',nom='Flower',fiche=False,tag='lampe, pied en bois tourné et abat-jour jungle',desc='Un pied en bois tourné patiné, à renflements successifs, et un abat-jour imprimé jungle : feuillages vert émeraude, brique et crème.',meta='Miss Flower : lampe au pied en bois tourné et abat-jour imprimé jungle.',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794062832/rotin-boheme/lampes/lampe-13-bois-tourne.jpg',None)),
+ dict(slug='geraldine-pistache',auto='lampe-03-canton-verte',prenom='Géraldine',nom='Pistache',fiche=False,tag='lampe, porcelaine de Canton et abat-jour vert pistache',desc='Un abat-jour vert pistache aux reflets soyeux, une porcelaine peinte de personnages et une monture dorée à trois pieds en griffes.',meta='Géraldine Pistache : lampe en porcelaine de Canton et abat-jour vert pistache.',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061934/rotin-boheme/lampes/lampe-03-canton-verte.jpg',None)),
+ dict(slug='lea-raphia',auto='lampe-09-raphia-haute',prenom='Léa',nom='Raphia',fiche=False,tag='lampe, abat-jour en raphia et pied noir',desc='Un très haut abat-jour en raphia tissé naturel sur un pied noir bas, orné d\'une bande en relief doré et vert.',meta='Léa Raphia : lampe à très haut abat-jour en raphia et pied noir.',key='lampe-09-raphia-haute',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061942/rotin-boheme/lampes/lampe-09-raphia-haute.jpg',None)),
+ dict(slug='bob-longcou',auto='lampe-06-bureau-noire',prenom='Bob',nom='Longcou',fiche=False,tag='lampe de bureau, réflecteur noir et bras en laiton',desc='Un réflecteur noir mat évasé en cornet, un bras en laiton courbé et une base ronde basse.',meta='Bob Longcou : lampe de bureau au réflecteur noir et bras en laiton.',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061938/rotin-boheme/lampes/lampe-06-bureau-noire.jpg',None)),
+ dict(slug='daisy-bell',auto='lampe-02-orphiste-large',prenom='Daisy',nom='Bell',fiche=False,tag='lampe, pied noir sculpté et abat-jour graphique',desc='Un large pied noir sculpté et un abat-jour graphique.',meta='Daisy Bell : lampe au large pied noir sculpté.',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061933/rotin-boheme/lampes/lampe-02-orphiste-large.jpg',None)),
+ dict(slug='amin-boubacar',auto='lampe-10-bois-sculpte',prenom='Amin',nom='Boubacar',fiche=False,tag='lampe, pied en bois sculpté',desc='Un pied en bois sculpté foncé, coiffé de son abat-jour.',meta='Amin Boubacar : lampe au pied en bois sculpté.',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061943/rotin-boheme/lampes/lampe-10-bois-sculpte.jpg',None)),
+ dict(slug='jelly-bell',prenom='Jelly',nom='Bell',fiche=False,auto='lampe-01-orphiste-haute',key='lampe-01-orphiste-haute',tag='lampe, pied noir sculpté et abat-jour en tapisserie graphique',desc='Un pied noir sculpté en lobes superposés et un abat-jour en tapisserie aux cercles rouges, noirs, bleus et crème.',meta='Lampe au pied noir sculpté et abat-jour en tapisserie graphique aux cercles colorés.',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061932/rotin-boheme/lampes/lampe-01-orphiste-haute.jpg',None)),
+ dict(slug='marcel-trapp',auto='lampe-08-abstraite-gres',key='lampe-08-abstraite-gres',prenom='Marcel',nom='Trapp',fiche=False,tag='lampe, pied en grès et abat-jour en tissus assemblés',desc='Un pied de grès brun et un abat-jour en tissus assemblés, aux grands aplats gris, crème et marine.',meta='Marcel Trapp : lampe au pied de grès brun et abat-jour en tissus assemblés.',card=('https://res.cloudinary.com/ducsqgqbj/image/upload/f_auto,q_auto,w_640/v1794061940/rotin-boheme/lampes/lampe-08-abstraite-gres.jpg',None)),
 ]
 # --- Détection automatique des photos mises en scène -------------------------------------------
 # Une lampe sans fiche qui a une clé « auto » est promue dès que Cloudinary contient son jeu :
@@ -79,7 +83,8 @@ LAMPES=[
 #   une photo d'ambiance (-chambre-jour, -salon-jour, -entree-jour, -bureau-jour...), -detail-abat-jour, -detail-pied.
 # La carte de la collection montre alors la photo studio éteinte, et l'allumée au survol.
 import urllib.request
-AMBIANCES=['chambre-jour','salon-jour','entree-jour','bureau-jour','salle-a-manger-jour','cuisine-jour','bibliotheque-jour']
+AMBIANCES=['chambre-jour','chambre-nuit','salon-jour','entree-jour','bureau-jour','salle-a-manger-jour','cuisine-doree','cuisine-jour','bibliotheque-jour']
+PAIRES=[('plateau','sur un plateau'),('socle','sur son socle'),('formica','sur un bureau en formica')]
 def existe(nom):
     try: return urllib.request.urlopen(urllib.request.Request(L(nom,200),method='HEAD'),timeout=10).status==200
     except Exception: return False
@@ -88,8 +93,9 @@ for c in LAMPES:
     if c.get('imgs') or not pre or not (existe(pre+'-studio-eteinte') and existe(pre+'-studio-allumee')): continue
     n=f"{c['prenom']} {c['nom']}"
     imgs=[(pre+'-studio-eteinte',n+', studio éteinte',pre+'-studio-allumee'),(pre+'-studio-allumee',n+', studio allumée',None)]
-    if existe(pre+'-plateau-eteinte') and existe(pre+'-plateau-allumee'):
-        imgs+=[(pre+'-plateau-eteinte',n+', sur un plateau, éteinte',pre+'-plateau-allumee'),(pre+'-plateau-allumee',n+', sur un plateau, allumée',None)]
+    for k,lab in PAIRES:
+        if existe(pre+'-'+k+'-eteinte') and existe(pre+'-'+k+'-allumee'):
+            imgs+=[(pre+'-'+k+'-eteinte',n+', '+lab+', éteinte',pre+'-'+k+'-allumee'),(pre+'-'+k+'-allumee',n+', '+lab+', allumée',None)]
     for a in AMBIANCES:
         if existe(pre+'-'+a): imgs.append((pre+'-'+a,n+', en situation',None)); break
     for suf,lab in (('detail-abat-jour',"détail de l'abat-jour"),('detail-pied','détail du pied')):
