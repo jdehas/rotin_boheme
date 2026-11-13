@@ -847,5 +847,5 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 /* Home : mot de Bernadette, entre le héros et les rubriques */
 .mdb{background:#fff;color:#141414;text-align:center;padding:clamp(4rem,9vw,8rem) 0 clamp(1rem,3vw,2rem)}
 .mdb .wrap{max-width:none}
-.mdb__t{font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,2.6vw,2.1rem);line-height:1.3;text-wrap:balance;max-width:44rem;margin:0 auto 1.8rem;color:#141414}
-.mdb__sig{font-size:.8125rem;letter-spacing:.18em;text-transform:uppercase;font-variant-caps:all-small-caps;color:rgba(20,20,20,.62);margin:0}
+.mdb__t{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.6vw,2.9rem);line-height:1.22;text-wrap:balance;max-width:50rem;margin:0 auto 2rem;color:#141414}
+.mdb__sig{font-size:.9375rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(20,20,20,.8);margin:0}
