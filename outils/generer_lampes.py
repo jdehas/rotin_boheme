@@ -170,23 +170,18 @@ def affiche(c):
     mat=paras(c.get('matiere') or 'À renseigner.')
     dim=paras(c.get('dimensions') or 'À renseigner.')
     prix=html.escape(c.get('prix') or 'Prix à renseigner',quote=False)
-    reste=[]
-    for p,a,l in c['imgs'][1:]:
-        if p.endswith('-allumee'): continue  # les photos allumées servent au survol
-        reste.append((p,a,l))
+    reste=list(c['imgs'])  # toutes les photos : éteintes et allumées comprises
     gal=''
     for i,(p,a,l) in enumerate(reste):
-        on=f'<img class="pair__on" src="{L(l,720)}" alt="" aria-hidden="true" loading="lazy">' if l else ''
-        gal+=f'<button class="afi__ph{" pair" if l else ""}" type="button" data-full="{L(p,1800)}" data-alt="{a}" aria-label="Agrandir la photo {i+1}"><img src="{L(p,720)}" alt="{a}" loading="lazy">{on}</button>'
+        gal+=f'<button class="afi__ph" type="button" data-full="{L(p,1800)}" data-alt="{a}" aria-label="Agrandir la photo {i+1}"><img src="{L(p,720)}" alt="{a}" loading="lazy"></button>'
     colls=''
     for cle,membres in c.get('pieces',[]):
         colls+=f'<div class="afi__piece"><h3>{PIECES[cle]}</h3><div class="coll__g afi__cg">'+''.join(carte_piece(m) for m in membres)+'</div></div>'
     sec=f"""<section class="aff" id="fiche">
-  <div class="aff__hero" id="hero" role="button" tabindex="0" aria-pressed="false" aria-label="Allumer ou éteindre la lampe"><div class="aff__bg pair" aria-hidden="true"><img src="{L(p0,300)}" alt=""><img class="pair__on" src="{L(l0,300)}" alt=""></div><div class="aff__fg pair"><img src="{L(p0,1600)}" alt="{a0_}"><img class="pair__on" src="{L(l0,1600)}" alt="" aria-hidden="true"></div><span class="aff__hint" id="hint">Touche la photo pour allumer</span></div>
+  <div class="aff__hero" id="hero" role="button" tabindex="0" aria-pressed="false" aria-label="Allumer ou éteindre la lampe"><div class="aff__bg pair" aria-hidden="true"><img src="{L(p0,300)}" alt=""><img class="pair__on" src="{L(l0,300)}" alt=""></div><div class="aff__fg pair"><img src="{L(p0,1600)}" alt="{a0_}"><img class="pair__on" src="{L(l0,1600)}" alt="" aria-hidden="true"></div></div>
   <div class="afi wrap">
     <div class="afi__main">
-      <p class="eyebrow">{PIECES['il-est-12h']} · rôle de la troupe</p>
-      <p class="afi__pre">{c['prenom']}</p>
+      <p class="afi__pre" style="margin-top:0">{c['prenom']}</p>
       <h1 class="afi__nom">{c['nom']}</h1>
       <p class="afi__desc">{c['desc']}</p>
       <p class="afi__prix"><b>{prix}</b> · pièce unique</p>
@@ -194,11 +189,11 @@ def affiche(c):
     </div>
     <div class="afi__spec"><div><h2>Matière et état</h2>{mat}</div><div><h2>Dimensions</h2>{dim}</div></div>
   </div>
-  <div class="afi__gal wrap" style="--n:{4 if len(reste)==4 else 3}">{gal}</div>
+  <div class="afi__gal wrap" style="--n:4">{gal}</div>
   <div class="afi__role wrap"><h2 class="vh">Le rôle</h2>{role}</div>
   <div class="afi__coll wrap"><h2>Collections</h2><p class="afi__sub">Les pièces dans lesquelles {c['prenom']} a joué : les autres lampes avec lesquelles elle s'accorde.</p>{colls}</div>
   <div class="lb" id="lb" hidden><button class="lb__x" type="button" aria-label="Fermer">×</button><button class="lb__p" type="button" aria-label="Photo précédente">‹</button><img id="lbimg" alt=""><button class="lb__n" type="button" aria-label="Photo suivante">›</button></div>
-  <script>(function(){{var h=document.getElementById('hero'),ht=document.getElementById('hint');function tog(){{var on=h.classList.toggle('is-on');h.setAttribute('aria-pressed',on);ht.textContent=on?'Touche la photo pour éteindre':'Touche la photo pour allumer'}}
+  <script>(function(){{var h=document.getElementById('hero');function tog(){{var on=h.classList.toggle('is-on');h.setAttribute('aria-pressed',on)}}
   if(window.matchMedia('(hover:none)').matches){{h.addEventListener('click',tog)}}h.addEventListener('keydown',function(e){{if(e.key==='Enter'||e.key===' '){{e.preventDefault();tog()}}}});
   var ph=[].slice.call(document.querySelectorAll('.afi__ph')),lb=document.getElementById('lb'),im=document.getElementById('lbimg'),cur=0;
   function show(i){{cur=(i+ph.length)%ph.length;im.src=ph[cur].dataset.full;im.alt=ph[cur].dataset.alt;lb.hidden=false;document.body.style.overflow='hidden'}}

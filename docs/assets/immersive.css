@@ -571,7 +571,6 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 .aff__ph.pair .pair__on{position:absolute;inset:0;opacity:0;transition:opacity .6s ease}
 .aff__ph.pair:hover .pair__on{opacity:1}
 @media (max-width:820px){.aff{padding-top:3.6rem}.aff__hero{height:70svh}.aff__txt{grid-template-columns:1fr;gap:1.6rem}.aff__gal{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.aff__hero:hover .pair__on{opacity:1}
 .aff__fg{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%)}
 .aff__hero .pair{overflow:hidden}
 .aff__hero .pair__on{position:absolute;inset:0;opacity:0;transition:opacity .6s ease}
@@ -633,3 +632,15 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 .lb button{position:absolute;background:rgba(242,233,218,.12);border:1px solid var(--line);color:var(--fg);width:3rem;height:3rem;border-radius:50%;font-size:1.6rem;line-height:1;cursor:pointer}
 .lb__x{top:1rem;right:1rem}.lb__p{left:1rem;top:50%;transform:translateY(-50%)}.lb__n{right:1rem;top:50%;transform:translateY(-50%)}
 @media (max-width:820px){.afi{grid-template-columns:1fr;gap:2rem}.afi__gal{grid-template-columns:repeat(2,minmax(0,1fr))}.afi__cg{grid-template-columns:repeat(2,minmax(0,1fr))}.lb{padding:3.5rem 1rem}}
+
+/* Essai affiche v4 : la lampe réagit uniquement sur la photo, fondu doux entre photo et fond, plus de pastille */
+.aff__hint{display:none !important}
+.aff__hero .aff__fg{position:absolute;top:0;bottom:0;left:50%;right:auto;width:auto;height:100%;aspect-ratio:4/5;max-width:100%;transform:translateX(-50%);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(180deg,#000 0,#000 78%,transparent 100%);
+  -webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(180deg,#000 0,#000 78%,transparent 100%);mask-composite:intersect}
+@media (hover:hover){.aff__hero:has(.aff__fg:hover) .pair__on{opacity:1}}
+.aff__hero.is-on .pair__on{opacity:1}
+.aff__hero::after{display:block;background:linear-gradient(180deg,rgba(21,33,58,0) 70%,var(--bg) 100%)}
+.aff__bg{opacity:.34}
+.afi__gal{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:820px){.afi__gal{grid-template-columns:repeat(2,minmax(0,1fr))}}
