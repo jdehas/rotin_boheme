@@ -181,7 +181,14 @@ def affiche(c):
     mat=paras(c.get('matiere') or 'À renseigner.')
     dim=paras(c.get('dimensions') or 'À renseigner.')
     prix=html.escape(c.get('prix') or 'Prix à renseigner',quote=False)
-    reste=list(c['imgs'])  # toutes les photos : éteintes et allumées comprises
+    def rang(nom):
+        """Ordre de la galerie : studio, puis décor, puis zoom, puis sur support. À rang égal, l'ordre d'origine (éteinte avant allumée)."""
+        n=nom.split('/')[-1]
+        if 'detail' in n: return 2
+        if any(k in n for k in ('-plateau','-socle','-formica','-arche')): return 3
+        if any(k in n for k in ('-salon','-chambre','-entree','-bureau-jour','-salle-a-manger','-cuisine','-bibliotheque','-jour','-nuit')): return 1
+        return 0
+    reste=sorted(c['imgs'],key=lambda t:rang(t[0]))  # toutes les photos : éteintes et allumées comprises
     gal=''
     for i,(p,a,l) in enumerate(reste):
         gal+=f'<button class="afi__ph" type="button" data-full="{L(p,1800)}" data-alt="{a}" aria-label="Agrandir la photo {i+1}"><img src="{L(p,720)}" alt="{a}" loading="lazy"></button>'
