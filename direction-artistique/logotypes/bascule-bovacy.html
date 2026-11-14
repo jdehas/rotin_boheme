@@ -1,0 +1,61 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Rotin Bohème · Bascule Bovacy</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:wght@400;600&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:Bovacy;src:url(bovacy.ttf)}
+:root{--nuit:#15213A;--creme:#F2E9DA;--papier:#F7F1E6;--orange:#D6A65A}
+*{box-sizing:border-box;margin:0}
+body{background:#ECE6DC;font-family:Karla,sans-serif;color:var(--nuit);padding:60px 68px}
+.k{font-size:13px;letter-spacing:.24em;text-transform:uppercase}
+h1{font-family:"Instrument Serif",serif;font-weight:400;font-size:56px;margin:10px 0 6px}h1 i{font-style:italic}
+h2{font-family:"Instrument Serif",serif;font-weight:400;font-size:30px;margin:40px 0 10px}h2 span{color:var(--orange);margin-right:8px}
+.intro,.note{color:#4a4f5c;line-height:1.5;max-width:960px;font-size:15px}.note{font-size:14px;margin-top:10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.t{border-radius:12px;height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.a{background:var(--papier);color:var(--nuit)}.b{background:var(--nuit);color:var(--creme)}
+.t svg{width:84%;height:auto}
+.small{display:flex;gap:14px;margin-top:12px}.small div{border-radius:8px;padding:12px 16px}.small svg{width:140px;height:auto;display:block}
+footer{margin-top:34px;font-size:12.5px;color:#6b6f78;max-width:1000px;line-height:1.5}
+</style></head><body>
+<div class="k">Rotin Bohème · piste bascule · essai Bovacy</div>
+<h1>La bascule <i>en Bovacy</i></h1>
+<p class="intro">Bovacy n'a pas d'italique : ici, c'est la rotation du mot qui porte tout le mouvement. La police n'a pas non plus de È : l'accent grave est dessiné à la main pour l'essai.</p>
+<div id="out"></div>
+<footer>Bovacy (Say Studio), version démo : usage personnel uniquement, licence commerciale obligatoire avant tout usage de marque (sayfont.com). Le fichier de police n'est pas versionné dans le repo. Accent du È ajouté pour l'essai, à faire redessiner proprement si la piste est retenue. Exploration interne.</footer>
+<script>
+const V=[
+ {t:'1',name:'Le balancement',note:'Comme la bascule en Instrument Serif : Bohème net et droit, une trace basculée derrière lui. Rotin et Bohème dans la même police, le contraste vient seulement du mouvement.',caps:false,crisp:0,ghosts:[[-5,.22]]},
+ {t:'2',name:'Arrêté en pleine bascule',note:'Le mot net est figé incliné, en plein balancement ; la trace montre d\'où il vient. Le logo a l\'air de bouger même sans flou. Le plus singulier.',caps:false,crisp:-4,ghosts:[[0,.16]]},
+ {t:'3',name:'En capitales',note:'Les capitales de Bovacy (le E arrondi, le M) font le caractère. Plus affiche, plus Art nouveau. La trace se lit bien sur les grandes lettres.',caps:true,crisp:0,ghosts:[[-4,.22]]},
+];
+function svg(v){
+  const R=v.caps?'ROTIN':'Rotin', B=v.caps?'BOHEME':'Boheme';
+  const fs=v.caps?92:112;
+  return `<svg viewBox="0 0 820 230" font-family="Bovacy"><defs><filter id="fb" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.4"/></filter></defs>
+  <text class="r" x="20" y="170" font-size="${fs}" fill="currentColor">${R}</text>
+  <g class="bw" font-size="${fs}" fill="currentColor" data-caps="${v.caps?1:0}">
+   ${v.ghosts.map(([a,o])=>`<g opacity="${o}" filter="url(#fb)" data-rot="${a}"><text>${B}</text></g>`).join('')}
+   <g data-rot="${v.crisp}"><text>${B}</text></g>
+  </g></svg>`;
+}
+document.getElementById('out').innerHTML=V.map(v=>`<h2><span>${v.t}</span>${v.name}</h2>
+<div class="row"><div class="t a">${svg(v)}</div><div class="t b">${svg(v)}</div></div>
+<div class="small"><div class="a">${svg(v)}</div><div class="b">${svg(v)}</div></div><p class="note">${v.note}</p>`).join('');
+document.fonts.load('100px Bovacy').then(()=>{
+ document.querySelectorAll('svg').forEach(s=>{
+  const r=s.querySelector('.r'); const bb=r.getBBox(); const x0=bb.x+bb.width+ (r.getAttribute('font-size')*0.28);
+  const g=s.querySelector('.bw'); const caps=g.dataset.caps==='1';
+  g.querySelectorAll('g[data-rot]').forEach(h=>{
+    const tx=h.querySelector('text'); tx.setAttribute('x',x0); tx.setAttribute('y',170);
+    const ext=tx.getExtentOfChar(3); // le e ou E
+    const cx=ext.x+ext.width*0.5, top=caps?ext.y+ext.height*0.18:ext.y+ext.height*0.42;
+    const fs=+g.getAttribute('font-size'); const k=fs/112;
+    const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+    const y=caps?top-10*k:top-6*k;
+    p.setAttribute('d',`M ${cx-13*k} ${y-24*k} C ${cx-9*k} ${y-27*k}, ${cx-6*k} ${y-26*k}, ${cx-4*k} ${y-22*k} L ${cx+7*k} ${y-2*k} C ${cx+3*k} ${y}, ${cx}${''} ${y-1*k}, ${cx-2*k} ${y-3*k} Z`);
+    p.setAttribute('fill','currentColor'); h.appendChild(p);
+    h.setAttribute('transform',`rotate(${h.dataset.rot} ${x0} 182)`);
+  });
+ });
+ document.body.dataset.ready=1;
+});
+</script></body></html>
