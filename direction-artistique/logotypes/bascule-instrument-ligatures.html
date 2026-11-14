@@ -1,0 +1,49 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Rotin Bohème · Bascule Instrument ligaturée</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--nuit:#15213A;--creme:#F2E9DA;--papier:#F7F1E6;--orange:#D6A65A}
+*{box-sizing:border-box;margin:0}
+body{background:#ECE6DC;font-family:Karla,sans-serif;color:var(--nuit);padding:60px 68px}
+.k{font-size:13px;letter-spacing:.24em;text-transform:uppercase}
+h1{font-family:"Instrument Serif",serif;font-weight:400;font-size:56px;margin:10px 0 6px}h1 i{font-style:italic}
+h2{font-family:"Instrument Serif",serif;font-weight:400;font-size:30px;margin:40px 0 10px}h2 span{color:var(--orange);margin-right:8px}
+.intro,.note{color:#4a4f5c;line-height:1.5;max-width:980px;font-size:15px}.note{font-size:14px;margin-top:10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.t{border-radius:12px;height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.a{background:var(--papier);color:var(--nuit)}.b{background:var(--nuit);color:var(--creme)}
+.t svg{width:80%;height:auto}
+.small{display:flex;gap:14px;margin-top:12px}.small div{border-radius:8px;padding:12px 16px}.small svg{width:140px;height:auto;display:block}
+footer{margin-top:34px;font-size:12.5px;color:#6b6f78;max-width:1000px;line-height:1.5}
+</style></head><body>
+<div class="k">Rotin Bohème · piste bascule · Instrument Serif ligaturée</div>
+<h1>La bascule <i>ligaturée</i></h1>
+<p class="intro">Instrument Serif n'a que les ligatures fi, fl, ffi et ffl, aucune pour le nom. Les liaisons sont construites à la main : les lettres se rapprochent jusqu'à partager un fût ou un trait. Réglage « un temps » : Bohème net, une seule trace basculée.</p>
+<div id="out"></div>
+<footer>Instrument Serif (licence libre OFL, police de la charte). Liaisons placées à l'œil pour l'essai, à faire dessiner proprement en vectoriel si la piste est retenue. Exploration interne.</footer>
+<script>
+const V=[
+ {t:'1',name:'Minuscules liées',note:'La queue du t vient toucher le i. En italique, la sortie du h coule dans le e et celle du m aussi, comme une écriture. Le plus naturel, le plus lisible en petit.',
+  r:['Rotin',[0,0,-.01,-.05,-.03]], b:['Bohème',[0,-.02,-.04,-.05,-.03,-.05]], fs:112, gap:.24},
+ {t:'2',name:'Capitales liées',note:'Le T tend sa barre au I, le I et le N partagent leur fût. En italique, le fût droit du H devient le dos du È, et le M tient le dernier E. Plus affiche, plus théâtre.',
+  r:['ROTIN',[0,-.01,-.01,-.06,-.06]], b:['BOHÈME',[0,-.01,-.01,-.07,-.01,-.07]], fs:96, gap:.24},
+ {t:'3',name:'Une charnière',note:'Le n de Rotin et le B de Bohème se touchent par le pied : un seul nom, une charnière. Rotin reste posé, Bohème bascule à partir de ce point, comme le patin d\'un fauteuil.',
+  r:['Rotin',[0,0,-.01,-.05,-.03]], b:['Bohème',[0,-.02,-.04,-.05,-.03,-.05]], fs:112, gap:-.05, hinge:true},
+];
+let M;
+function adv(c,fs,it){M.setAttribute('font-style',it?'italic':'normal');M.textContent=c;M.setAttribute('font-size',fs);return M.getComputedTextLength();}
+function letters(s,off,fs,x0,y,it){let x=x0,out='';const ch=[...s];for(let i=0;i<ch.length;i++){x+=off[i]*fs;out+=`<text x="${x}" y="${y}" font-size="${fs}"${it?' font-style="italic"':''}>${ch[i]}</text>`;x+=adv(ch[i],fs,it);}return {out,end:x};}
+function svg(v){
+ const y=165, fs=v.fs;
+ const R=letters(v.r[0],v.r[1],fs,20,y,false);
+ const x0=R.end+v.gap*fs;
+ const B=letters(v.b[0],v.b[1],fs,x0,y,true);
+ const px=v.hinge? x0+fs*.05 : x0, py=y+6;
+ return `<svg viewBox="0 0 ${Math.ceil(B.end+30)} 220" font-family="Instrument Serif" fill="currentColor"><defs><filter id="fb" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.4"/></filter></defs>
+ ${R.out}<g opacity=".22" filter="url(#fb)" transform="rotate(-5 ${px} ${py})">${B.out}</g><g>${B.out}</g></svg>`;
+}
+Promise.all([document.fonts.load('100px "Instrument Serif"'),document.fonts.load('italic 100px "Instrument Serif"')]).then(()=>{
+ const o=document.getElementById('out');
+ o.innerHTML='<svg width="0" height="0" font-family="Instrument Serif" style="position:absolute"><text id="mm"></text></svg>';M=document.getElementById('mm');
+ o.innerHTML+=V.map(v=>`<h2><span>${v.t}</span>${v.name}</h2><div class="row"><div class="t a">${svg(v)}</div><div class="t b">${svg(v)}</div></div><div class="small"><div class="a">${svg(v)}</div><div class="b">${svg(v)}</div></div><p class="note">${v.note}</p>`).join('');
+});
+</script></body></html>
