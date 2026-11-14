@@ -1,0 +1,55 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Rotin Bohème · Bascule ligaturée</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:wght@400;600&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:Bovacy;src:url(bovacy.ttf)}
+:root{--nuit:#15213A;--creme:#F2E9DA;--papier:#F7F1E6;--orange:#D6A65A}
+*{box-sizing:border-box;margin:0}
+body{background:#ECE6DC;font-family:Karla,sans-serif;color:var(--nuit);padding:60px 68px}
+.k{font-size:13px;letter-spacing:.24em;text-transform:uppercase}
+h1{font-family:"Instrument Serif",serif;font-weight:400;font-size:56px;margin:10px 0 6px}h1 i{font-style:italic}
+h2{font-family:"Instrument Serif",serif;font-weight:400;font-size:30px;margin:40px 0 10px}h2 span{color:var(--orange);margin-right:8px}
+.intro,.note{color:#4a4f5c;line-height:1.5;max-width:980px;font-size:15px}.note{font-size:14px;margin-top:10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.t{border-radius:12px;height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.a{background:var(--papier);color:var(--nuit)}.b{background:var(--nuit);color:var(--creme)}
+.t svg{width:86%;height:auto}
+.small{display:flex;gap:14px;margin-top:12px}.small div{border-radius:8px;padding:12px 16px}.small svg{width:150px;height:auto;display:block}
+footer{margin-top:34px;font-size:12.5px;color:#6b6f78;max-width:1000px;line-height:1.5}
+</style></head><body>
+<div class="k">Rotin Bohème · piste bascule · Bovacy ligaturée</div>
+<h1>La bascule <i>ligaturée</i></h1>
+<p class="intro">La démo de Bovacy ne contient que deux ligatures (CY et OV), inutilisables ici. Les liaisons ci-dessous sont construites à la main dans leur esprit : les lettres partagent un fût ou une barre, comme le O qui coule dans le V. Bohème reste arrêté en pleine bascule.</p>
+<div id="out"></div>
+<footer>Bovacy (Say Studio), version démo : usage personnel uniquement, licence commerciale obligatoire avant tout usage de marque. Les ligatures de la version complète ne sont pas vérifiées. Liaisons et accent du È construits pour l'essai, à faire dessiner proprement si la piste est retenue. Exploration interne.</footer>
+<script>
+const V=[
+ {t:'1',name:'Capitales liées',note:'Le T tend sa barre au I, le I et le N partagent leur fût. Dans BOHÈME, le fût droit du H devient le dos du È et la barre du H file jusque dans celle du È ; même jeu entre M et E. Le plus fort, le plus Art nouveau.',
+  r:['ROTIN',[0,-.02,-.035,-.105,-.10]], b:['BOHEME',[0,-.02,-.02,-.115,-.03,-.115]], fs:92, gap:.28, acc:3},
+ {t:'2',name:'Minuscules liées',note:'Plus discret : la boucle du t vient toucher le i, le h tient le e, le m et le e se frôlent. Plus doux, plus lisible en petit, moins spectaculaire.',
+  r:['Rotin',[0,-.02,-.03,-.06,-.03]], b:['Boheme',[0,-.02,-.03,-.05,-.04,-.05]], fs:112, gap:.26, acc:3},
+ {t:'3',name:'Un seul mot, une charnière',note:'Les deux mots soudés : le dernier fût du N et le premier du B ne font qu\'un. Rotin reste posé, BOHÈME bascule à partir de cette charnière, comme le patin d\'un fauteuil. Le nom devient un objet.',
+  r:['ROTIN',[0,-.02,-.035,-.105,-.10]], b:['BOHEME',[0,-.02,-.02,-.115,-.03,-.115]], fs:80, gap:-.12, acc:3, hinge:true},
+];
+let M;
+function adv(c,fs){M.textContent=c;M.setAttribute('font-size',fs);return M.getComputedTextLength();}
+function letters(s,off,fs,x0,y){let x=x0,out='',pos=[];for(let i=0;i<s.length;i++){x+=off[i]*fs;pos.push([x,adv(s[i],fs)]);out+=`<text x="${x}" y="${y}" font-size="${fs}">${s[i]}</text>`;x+=adv(s[i],fs);}return {out,end:x,pos};}
+function accent(cx,top,k){return `<path d="M ${cx-13*k} ${top-24*k} C ${cx-9*k} ${top-27*k}, ${cx-6*k} ${top-26*k}, ${cx-4*k} ${top-22*k} L ${cx+7*k} ${top-2*k} C ${cx+3*k} ${top}, ${cx} ${top-1*k}, ${cx-2*k} ${top-3*k} Z"/>`;}
+function svg(v){
+ const y=170, fs=v.fs, k=fs/112;
+ const R=letters(v.r[0],v.r[1],fs,20,y);
+ const x0=R.end+v.gap*fs;
+ const B=letters(v.b[0],v.b[1],fs,x0,y);
+ const caps=v.b[0]===v.b[0].toUpperCase();
+ const [ax,aw]=B.pos[v.acc]; const cx=ax+aw*(caps?.42:.5); const top=caps? y-fs*.72-8*k : y-fs*.50-4*k;
+ const word=B.out+accent(cx,top,k);
+ const px=v.hinge? x0+fs*.02 : x0, py=y+4;
+ const end=B.end+30;
+ return `<svg viewBox="0 0 ${Math.ceil(end)} 230" font-family="Bovacy" fill="currentColor"><defs><filter id="fb" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.4"/></filter></defs>
+ ${R.out}<g opacity=".16" filter="url(#fb)">${word}</g><g transform="rotate(-4 ${px} ${py})">${word}</g></svg>`;
+}
+document.fonts.load('100px Bovacy').then(()=>{
+ const o=document.getElementById('out');
+ o.innerHTML='<svg width="0" height="0" font-family="Bovacy" style="position:absolute"><text id="mm"></text></svg>';M=document.getElementById('mm');
+ o.innerHTML+=V.map(v=>`<h2><span>${v.t}</span>${v.name}</h2><div class="row"><div class="t a">${svg(v)}</div><div class="t b">${svg(v)}</div></div><div class="small"><div class="a">${svg(v)}</div><div class="b">${svg(v)}</div></div><p class="note">${v.note}</p>`).join('');
+});
+</script></body></html>
