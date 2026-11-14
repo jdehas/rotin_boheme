@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rotin Bohème · La bascule</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--nuit:#15213A;--creme:#F2E9DA;--papier:#F7F1E6;--orange:#D6A65A}
+*{box-sizing:border-box;margin:0}
+body{background:#ECE6DC;font-family:Karla,sans-serif;color:var(--nuit);padding:60px 68px}
+.k{font-size:13px;letter-spacing:.24em;text-transform:uppercase}
+h1{font-family:"Instrument Serif",serif;font-weight:400;font-size:56px;margin:10px 0 6px}h1 i{font-style:italic}
+h2{font-family:"Instrument Serif",serif;font-weight:400;font-size:34px;margin:44px 0 6px}
+h3{font-family:"Instrument Serif",serif;font-weight:400;font-size:24px;margin:0 0 8px}h3 span{color:var(--orange);margin-right:8px}
+.intro,.note{color:#4a4f5c;line-height:1.5;max-width:900px;font-size:15px}
+.note{font-size:14px;margin-top:8px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.t{border-radius:12px;height:240px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.a{background:var(--papier);color:var(--nuit)}.b{background:var(--nuit);color:var(--creme)}.o{background:var(--orange);color:var(--nuit)}
+.t svg{width:84%;height:auto}
+.cap{font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.6;margin-top:8px}
+.decl{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:16px;margin-top:16px;align-items:stretch}
+.decl .t{height:260px}
+footer{margin-top:34px;font-size:12.5px;color:#6b6f78}
+/* animation */
+@keyframes rock{0%{transform:rotate(0)}12%{transform:rotate(-7deg)}30%{transform:rotate(3deg)}46%{transform:rotate(-1.6deg)}60%{transform:rotate(.6deg)}72%,100%{transform:rotate(0)}}
+.anim .boh{transform-box:view-box;transform-origin:252px 172px;animation:rock 3.2s cubic-bezier(.45,0,.3,1) infinite}
+</style></head><body>
+<div id="defs"></div>
+<div class="k">Rotin Bohème · chantier identité · piste bascule</div>
+<h1>La <i>bascule</i></h1>
+<p class="intro">Bohème pivote sur son pied comme un fauteuil à bascule. Trois réglages du mouvement, puis les déclinaisons et le principe d'animation. Tout est en Instrument Serif, couleurs de la charte.</p>
+
+<h2>Trois réglages</h2>
+<div class="g3" id="reglages"></div>
+<div class="g3" id="reglagesN"></div>
+<div class="g3" style="margin-top:10px">
+ <p class="note"><b>1 · Trois temps.</b> Trois positions fantômes, de plus en plus effacées. Le balancement se lit tout de suite. Le plus narratif.</p>
+ <p class="note"><b>2 · Un temps.</b> Une seule trace, à peine floue. Plus calme, plus maison. Tient mieux en petit.</p>
+ <p class="note"><b>3 · Aller-retour.</b> Une trace en arrière, une en avant : le fauteuil qui va et vient. Le plus fidèle au geste, un peu plus chargé.</p>
+</div>
+
+<h2>Déclinaisons</h2>
+<p class="intro">Sur le réglage 2. Sous une certaine taille, la trace disparaît et seule l'inclinaison de l'italique porte le mouvement.</p>
+<div class="decl" id="decl"></div>
+<div class="decl" style="height:auto;margin-top:6px">
+ <div class="cap">Logo principal</div><div class="cap">Empilé, réseaux</div><div class="cap">Monogramme, étiquettes</div><div class="cap">Favicon, sans trace</div>
+</div>
+
+<h2>Principe d'animation</h2>
+<p class="intro">Au repos, le logo est fixe. En animation, Bohème bascule une fois puis s'amortit en quatre oscillations et revient se poser, comme un fauteuil qu'on vient de quitter. Vidéo jointe à la planche.</p>
+<div class="g2"><div class="t a anim" id="anim1"></div><div class="t b anim" id="anim2"></div></div>
+
+<footer>Exploration interne. SVG vectoriel. Couleurs : nuit #15213A, crème #F2E9DA, orange #D6A65A.</footer>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+const B=(x,y,attrs='')=>`<text x="${x}" y="${y}" ${attrs}>Bohème</text>`;
+function logo({ghosts=[],blur=2,vb='0 0 600 210'}){
+  const f=`<filter id="f${blur}" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="${blur}"/></filter>`;
+  let g=ghosts.map(([a,o])=>`<text x="252" y="160" opacity="${o}" filter="url(#f${blur})" transform="rotate(${a} 252 172)">Bohème</text>`).join('');
+  return `<svg viewBox="${vb}" font-family="Instrument Serif, serif"><defs>${f}</defs><text x="20" y="160" font-size="112" fill="currentColor">Rotin</text><g font-style="italic" font-size="112" fill="currentColor">${g}<g class="boh"><text x="252" y="160">Bohème</text></g></g></svg>`;
+}
+const R=[
+ {ghosts:[[-9,.10],[-6,.17],[-3,.27]],blur:2},
+ {ghosts:[[-5,.22]],blur:1.4},
+ {ghosts:[[-5,.2],[3,.14]],blur:1.6},
+];
+document.getElementById('reglages').innerHTML=R.map(r=>`<div class="t a">${logo(r)}</div>`).join('');
+document.getElementById('reglagesN').innerHTML=R.map(r=>`<div class="t b">${logo(r)}</div>`).join('');
+const r2=R[1];
+const stacked=`<svg viewBox="0 0 500 300" font-family="Instrument Serif, serif"><defs><filter id="fs" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.4"/></filter></defs>
+<text x="60" y="130" font-size="120" fill="currentColor">Rotin</text>
+<g font-style="italic" font-size="120" fill="currentColor"><text x="96" y="250" opacity=".22" filter="url(#fs)" transform="rotate(-5 96 262)">Bohème</text><text x="96" y="250">Bohème</text></g></svg>`;
+const mono=`<svg viewBox="0 0 200 200" font-family="Instrument Serif, serif"><defs><filter id="fm" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.6"/></filter></defs>
+<circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="2"/>
+<g font-style="italic" font-size="130" fill="currentColor"><text x="58" y="142" opacity=".22" filter="url(#fm)" transform="rotate(-6 64 150)">B</text><text x="58" y="142">B</text></g></svg>`;
+const fav=`<div style="display:flex;gap:22px;align-items:end">
+<svg viewBox="0 0 64 64" style="width:64px" font-family="Instrument Serif, serif"><rect width="64" height="64" rx="12" fill="#15213A"/><text x="17" y="49" font-size="50" font-style="italic" fill="#F2E9DA">B</text></svg>
+<svg viewBox="0 0 64 64" style="width:32px" font-family="Instrument Serif, serif"><rect width="64" height="64" rx="12" fill="#15213A"/><text x="17" y="49" font-size="50" font-style="italic" fill="#F2E9DA">B</text></svg>
+<svg viewBox="0 0 64 64" style="width:16px" font-family="Instrument Serif, serif"><rect width="64" height="64" rx="12" fill="#15213A"/><text x="17" y="49" font-size="50" font-style="italic" fill="#F2E9DA">B</text></svg></div>`;
+document.getElementById('decl').innerHTML=`<div class="t a">${logo(r2)}</div><div class="t b"><div style="width:80%">${stacked}</div></div><div class="t o"><div style="width:62%">${mono}</div></div><div class="t a">${fav}</div>`;
+document.getElementById('anim1').innerHTML=logo({});
+document.getElementById('anim2').innerHTML=logo({});
+</script>
+</body></html>
