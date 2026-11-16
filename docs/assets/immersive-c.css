@@ -797,7 +797,7 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 @media (max-width:820px){.pp__sc,.pp__sc--inv{grid-template-columns:1fr;gap:1.2rem}.pp__sc--inv .pp__ph{order:0}.pp__sc--inv .pp__tx{justify-self:start}.pp__intro{margin-bottom:3rem}}
 
 /* ---------- Home : « À l'affiche » sur fond blanc (photo pleine largeur, synopsis centré, 5 lampes) ---------- */
-.aff-home{--ah-fg:#1F2A22;--ah-mut:rgba(31,42,34,.62);--ah-or:#A85F18;background:#F5EFE0;color:var(--ah-fg);padding:0 0 var(--section);position:relative}
+.aff-home{--ah-fg:#1F2A22;--ah-mut:rgba(31,42,34,.62);--ah-or:#A85F18;background:#D8E3C8;color:var(--ah-fg);padding:0 0 var(--section);position:relative}
 .ah__img{margin:0;width:100%;height:clamp(22rem,62vw,52rem);overflow:hidden;background:#111}
 .ah__img img{width:100%;height:100%;object-fit:cover;display:block}
 .ah__body{padding-top:clamp(3rem,7vw,6rem);text-align:center}
@@ -813,19 +813,19 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 .aff-home .noms__list a.cur .h{color:var(--ah-fg)}
 .aff-home .noms__list.hov a{opacity:.26}
 .aff-home .noms__list.hov a.cur{opacity:1}
-.aff-home .noms__pic{background:#E8DFC9}
+.aff-home .noms__pic{background:#C2D3AE}
 .aff-home .noms__pic--r{width:clamp(9.375rem,15vw,14.375rem)}
 .aff-home .noms__pic--r img{transform:none;mix-blend-mode:normal}
 .aff-home .noms__pied{margin-top:clamp(2rem,4vw,3.5rem)}
 .aff-home .noms__pied .lien{color:var(--ah-fg)}
 .aff-home .ah__sep{margin:0 .6rem;color:var(--ah-mut)}
-@media (max-width:820px){.aff-home .noms__list a{border-bottom-color:rgba(31,42,34,.14)}.aff-home .noms__list li:first-child a{border-top-color:rgba(31,42,34,.14)}.aff-home .noms__list .th{background:#E8DFC9}}
+@media (max-width:820px){.aff-home .noms__list a{border-bottom-color:rgba(31,42,34,.14)}.aff-home .noms__list li:first-child a{border-top-color:rgba(31,42,34,.14)}.aff-home .noms__list .th{background:#C2D3AE}}
 
 /* Home : rubriques sur fond blanc, titre sous chaque image */
-.rub{background:#F5EFE0;color:#1F2A22;padding:clamp(3.5rem,7vw,6rem) 0 clamp(2.5rem,5vw,4.5rem)}
+.rub{background:#D8E3C8;color:#1F2A22;padding:clamp(3.5rem,7vw,6rem) 0 clamp(2.5rem,5vw,4.5rem)}
 .rub__g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(.625rem,1.4vw,1.25rem)}
 .rub__c{display:block;text-align:left}
-.rub__ph{display:block;border-radius:1.25rem;overflow:hidden;aspect-ratio:3/4;background:#E8DFC9}
+.rub__ph{display:block;border-radius:1.25rem;overflow:hidden;aspect-ratio:3/4;background:#C2D3AE}
 .rub__ph img{width:100%;height:100%;object-fit:cover;display:block;mix-blend-mode:multiply;transition:transform 1s cubic-bezier(.2,.6,.2,1)}
 .rub__c:hover .rub__ph img{transform:scale(1.05)}
 .rub__n{display:block;margin-top:.9rem;font-family:var(--serif);font-size:clamp(1.5rem,2.4vw,2.1rem);line-height:1;color:#1F2A22;transition:color .3s}
@@ -845,14 +845,14 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 @media (max-width:820px){.pp__actes{grid-template-columns:1fr}.pp__village{margin-top:-3rem}}
 
 /* Home : mot de Bernadette, entre le héros et les rubriques */
-.mdb{background:#F5EFE0;color:#1F2A22;text-align:center;padding:clamp(4rem,9vw,8rem) 0 clamp(1rem,3vw,2rem)}
+.mdb{background:#D8E3C8;color:#1F2A22;text-align:center;padding:clamp(4rem,9vw,8rem) 0 clamp(1rem,3vw,2rem)}
 .mdb .wrap{max-width:none}
 .mdb__t{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.6vw,2.9rem);line-height:1.22;text-wrap:balance;max-width:54rem;margin:0 auto 2rem;color:#1F2A22}
 .mdb__sig{font-size:.9375rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(31,42,34,.8);margin:0}
 .carnet__ph img{mix-blend-mode:normal;object-position:50% 50%}
 
 /* Lettre (newsletter) sur fond blanc */
-.lettre{--fg:#1F2A22;--bg:#F5EFE0;--muted:rgba(31,42,34,.62);--line2:rgba(31,42,34,.3);background:#F5EFE0;color:#1F2A22}
+.lettre{--fg:#1F2A22;--bg:#D8E3C8;--muted:rgba(31,42,34,.62);--line2:rgba(31,42,34,.3);background:#D8E3C8;color:#1F2A22}
 .carnet .lien{display:inline-block;margin-top:.5rem;font-size:1rem}
 
 /* Mobile : « Rotin Bohème » en petit, « Seconde main pour premiers rôles » en grand, tous deux centrés */
@@ -873,3 +873,9 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 /* Collection sous les lampes : bouton vers la page de la pièce */
 .piece--page .piece__cta{grid-column:2;grid-row:4;justify-self:start;margin-top:1.2rem}
 @media (max-width:820px){.piece--page .piece__cta{margin-top:1.4rem}}
+
+/* Teinte du héros : la photo prend la couleur du système (voile uni) */
+.hero::after{top:0;height:auto;background:linear-gradient(to top,rgba(0,0,0,.34),transparent 34%),rgba(35,57,46,0.3)}
+.hero__bas,.lockup,.scroll{z-index:2}
+/* Vignettes : un fond teinté du système */
+.rub__ph{background:#C2D3AE} .rub__ph img{mix-blend-mode:multiply}

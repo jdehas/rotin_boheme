@@ -24,11 +24,11 @@ PALETTES = {
  'b': dict(nom='Velours', slogan='Le rideau se lève',
     desc="Un rideau de théâtre en velours bordeaux, des roses poudrés de coulisses, un or de lampe allumée. Chaleureux, dramatique, très « scène ».",
     BG='#4A1626', BG2='#5F2237', FG='#F6E6DA', FG2='#F6E6DA', ACC_D='#EDB872', ACC_L='#B8322A',
-    DK='#2B1119', LBG='#F8EAE0', LT='#EFD6C9', TILE='#EBCFC2', HFG='#FBEFE4'),
+    DK='#2B1119', LBG='#F3C7BB', LT='#E7ADA0', TILE='#EBCFC2', HFG='#FBEFE4', TINT=.3),
  'c': dict(nom='Rotin et sauge', slogan='La roulotte dans la jungle',
     desc="Le vert profond des plantes de Miss Flower et du bois de la roulotte, le lin du rotin, un ocre de paille. Naturel, solaire, bohème.",
     BG='#23392E', BG2='#31503F', FG='#F1EBDA', FG2='#F1EBDA', ACC_D='#E3B547', ACC_L='#A85F18',
-    DK='#1F2A22', LBG='#F5EFE0', LT='#E8DFC9', TILE='#E4DCC6', HFG='#F7F1E2'),
+    DK='#1F2A22', LBG='#D8E3C8', LT='#C2D3AE', TILE='#E4DCC6', HFG='#F7F1E2', TINT=.3),
 }
 
 def rgb(h): h = h.lstrip('#'); return ','.join(str(int(h[i:i+2], 16)) for i in (0, 2, 4))
@@ -56,7 +56,14 @@ def recolorer(css, P, F=None):
 css = open(os.path.join(D, 'assets/immersive.css')).read()
 home = open(os.path.join(D, 'index.html')).read()
 for k, P in PALETTES.items():
-    open(os.path.join(D, f'assets/immersive-{k}.css'), 'w').write(recolorer(css, P, FONTS[k]))
+    extra = f'''
+/* Teinte du héros : la photo prend la couleur du système (voile uni) */
+.hero::after{{top:0;height:auto;background:linear-gradient(to top,rgba(0,0,0,.34),transparent 34%),rgba({rgb(P['BG'])},{P['TINT']})}}
+.hero__bas,.lockup,.scroll{{z-index:2}}
+/* Vignettes : un fond teinté du système */
+.rub__ph{{background:{P['LT']}}} .rub__ph img{{mix-blend-mode:multiply}}
+'''
+    open(os.path.join(D, f'assets/immersive-{k}.css'), 'w').write(recolorer(css, P, FONTS[k]) + extra)
     h = home.replace('assets/immersive.css', f'assets/immersive-{k}.css')
     h = re.sub(r'(https://fonts\.googleapis\.com/css2\?family=)[^"]*', lambda m: m.group(1) + FONTS[k]['href'] + '&display=swap', h, count=1)
     h = re.sub(r'<title>.*?</title>', f'<title>Mockup couleurs · {P["nom"]} · Rotin Bohème</title>', h, count=1, flags=re.S)
