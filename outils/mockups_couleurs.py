@@ -33,10 +33,11 @@ PALETTES = {
 
 def rgb(h): h = h.lstrip('#'); return ','.join(str(int(h[i:i+2], 16)) for i in (0, 2, 4))
 
+SOMBRES = ['.carnet .lien', '.l1-hero h1 em', '.l1-aff__foot a', '.l2-prog__tx .go', '.l2-dist a:hover', '.l1-marq{', '--or-d:']
 def recolorer(css, P, F=None):
     out = []
     for ln in css.split('\n'):
-        carnet = '.carnet .lien' in ln
+        carnet = any(m in ln for m in SOMBRES)  # accents posés sur fond sombre : l'accent « sur fond profond »
         def rep(old, new): return re.sub(re.escape(old), new, ln, flags=re.I)
         ln = rep(A['ACC_L'], P['ACC_D'] if carnet else P['ACC_L'])
         ln = rep(A['BG'], P['BG']); ln = rep(A['BG2'], P['BG2'])

@@ -33,12 +33,13 @@ SYNOPSIS = 'Un mardi de mai, le soleil a décidé de se coucher à 12 h. À Midi
 CSS1 = r'''
 /* Mise en page 1 : Affiche */
 :root{--navy:#15213A;--navy2:#1E2D4A;--cream:#EFE8DA;--gold:#D6A65A;--or:#E2621B;--ink:#141414}
+:root{--or-d:#E2621B}
 .or{color:var(--or)}
 .l1-hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);min-height:100svh;background:var(--navy);color:var(--cream)}
 .l1-hero__t{display:flex;flex-direction:column;justify-content:flex-end;padding:8rem var(--gutter) 3.5rem;gap:1.6rem;text-align:left}
 .l1-hero__eb{letter-spacing:.2em;text-transform:uppercase;font-size:.8rem;color:var(--gold);margin:0}
 .l1-hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(3rem,6.4vw,6.6rem);line-height:.95;margin:0}
-.l1-hero h1 em{font-style:normal;color:var(--or)}
+.l1-hero h1 em{font-style:normal;color:var(--or-d)}
 .l1-hero__cta{display:flex;flex-wrap:wrap;gap:.8rem}
 .l1-hero__ph{position:relative;overflow:hidden;min-height:60svh}
 .l1-hero__ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:78% 50%}
@@ -76,7 +77,7 @@ CSS1 = r'''
 .l1-aff__cap small{display:block;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
 .l1-aff__cap b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,2.6vw,2.4rem);line-height:1;text-transform:uppercase}
 .l1-aff__foot{max-width:var(--max);margin:1rem auto 0;padding:0 var(--gutter)}
-.l1-aff__foot a{color:var(--or);border-bottom:1px solid var(--or);padding-bottom:2px}
+.l1-aff__foot a{color:var(--or-d);border-bottom:1px solid var(--or-d);padding-bottom:2px}
 .l1-car{background:#fff;color:var(--ink);padding:var(--section) var(--gutter)}
 .l1-car__g{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:1.5rem;align-items:center}
 .l1-car__tx{grid-column:1/7}
@@ -123,6 +124,7 @@ def home1():
 CSS2 = r'''
 /* Mise en page 2 : Courrier */
 :root{--navy:#15213A;--navy2:#1E2D4A;--cream:#EFE8DA;--paper:#FBF8F1;--gold:#D6A65A;--or:#E2621B;--ink:#15213A}
+:root{--or-d:#E2621B}
 .or{color:var(--or)}
 .l2{background:var(--cream);color:var(--ink);overflow-x:clip}
 .l2 .w{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
@@ -162,8 +164,8 @@ CSS2 = r'''
 .l2-dist b{font-family:var(--serif);font-weight:400;font-size:1.15rem}
 .l2-dist i{flex:1;border-bottom:2px dotted rgba(239,232,218,.4);transform:translateY(.2em)}
 .l2-dist span{font-size:.85rem;color:var(--gold);text-align:right}
-.l2-dist a:hover b{color:var(--or)}
-.l2-prog__tx .go{color:var(--or);border-bottom:1px solid var(--or);padding-bottom:2px}
+.l2-dist a:hover b{color:var(--or-d)}
+.l2-prog__tx .go{color:var(--or-d);border-bottom:1px solid var(--or-d);padding-bottom:2px}
 .l2-col{padding:var(--section) 0}
 .l2-col h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3vw,2.6rem);margin:0 0 2rem;text-align:left}
 .l2-col__g{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1.2rem;align-items:start}
