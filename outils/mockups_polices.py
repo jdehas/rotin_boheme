@@ -1,4 +1,4 @@
-"""Dix mockups de la home, un par jeu de polices (couleurs actuelles, mêmes photos, même mise en page).
+"""Mockups de la home, un par jeu de polices (couleurs actuelles, mêmes photos, même mise en page).
 Génère docs/assets/immersive-p1.css à p10.css, docs/mockup-polices-1.html à 10 et la page de comparaison docs/mockup-polices.html.
     python3 outils/mockups_polices.py
 """
@@ -6,23 +6,24 @@ import os, re, html
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); D = os.path.join(root, 'docs')
 
 # (titres, texte, href Google Fonts titres, href texte, a une italique, ambiance)
-JEUX = [
- ('Playfair Display', 'Source Sans 3', 'Playfair+Display:ital,wght@0,400..700;1,400..700', 'Source+Sans+3:wght@400;500;600', True, 'Théâtre classique : romantique, italiques très expressifs.'),
- ('Cormorant Garamond', 'Work Sans', 'Cormorant+Garamond:ital,wght@0,400..700;1,400..700', 'Work+Sans:wght@400;500;600', True, 'Raffiné et aérien : très fin, presque papeterie de luxe.'),
- ('DM Serif Display', 'DM Sans', 'DM+Serif+Display:ital@0;1', 'DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600', True, 'Chaleureux et affirmé : gros pleins, accessible, solide.'),
- ('Young Serif', 'Karla', 'Young+Serif', 'Karla:wght@400;500;600', False, 'Rétro et artisanal : un serif trapu, comme une étiquette de brocante.'),
- ('Gloock', 'Figtree', 'Gloock', 'Figtree:wght@400;500;600', False, 'Affiche : contrasté et puissant, très « devant de scène ».'),
- ('Abril Fatface', 'Lato', 'Abril+Fatface', 'Lato:wght@400;700', False, 'Cirque et troupe : une ancienne affiche de saltimbanques, très marquée.'),
- ('Libre Caslon Display', 'Libre Franklin', 'Libre+Caslon+Display', 'Libre+Franklin:wght@400;500;600', False, 'Magazine : sobre, éditorial, comme un programme de théâtre imprimé.'),
- ('Marcellus', 'Mulish', 'Marcellus', 'Mulish:wght@400;500;600', False, 'Gravé et doux : capitales inspirées des inscriptions romaines, très lisibles.'),
- ('Caprasimo', 'Outfit', 'Caprasimo', 'Outfit:wght@400;500;600', False, 'Bohème années 70 : arrondi, joyeux, un peu hippie chic.'),
- ('Prata', 'Hanken Grotesk', 'Prata', 'Hanken+Grotesk:wght@400;500;600', False, 'Élégant et posé : un serif classique avec une sans moderne.'),
+JEUX = [  # numéro conservé pour les deux retenus (1 et 5), puis cinq nouveaux jeux très différents (11 à 15)
+ (1, 'Playfair Display', 'Source Sans 3', 'Playfair+Display:ital,wght@0,400..700;1,400..700', 'Source+Sans+3:wght@400;500;600', True, 'Retenu. Théâtre classique : romantique, italiques très expressifs.'),
+ (5, 'Gloock', 'Figtree', 'Gloock', 'Figtree:wght@400;500;600', False, 'Retenu. Affiche : contrasté et puissant, très « devant de scène ».'),
+ (11, 'Syne', 'Manrope', 'Syne:wght@400..800', 'Manrope:wght@400;500;600', False, 'Galerie d’art contemporain : une grotesque large et un peu insolente, très actuelle.'),
+ (12, 'Anton', 'Lora', 'Anton', 'Lora:ital,wght@0,400..600;1,400..600', False, 'Affiche de théâtre forain : capitales étroites et massives, avec un texte en serif littéraire.'),
+ (13, 'Zilla Slab', 'Nunito Sans', 'Zilla+Slab:ital,wght@0,400;0,500;0,600;1,400', 'Nunito+Sans:wght@400;500;600', True, 'Atelier et brocante : une égyptienne chaleureuse, comme une étiquette ou une enseigne peinte.'),
+ (14, 'Special Elite', 'IBM Plex Sans', 'Special+Elite', 'IBM+Plex+Sans:wght@400;500;600', False, 'Machine à écrire : le carnet de route et la fiche de la pièce, avec un grain de papier.'),
+ (15, 'Unbounded', 'Plus Jakarta Sans', 'Unbounded:wght@300..700', 'Plus+Jakarta+Sans:wght@400;500;600', False, 'Moderne et rond : une display très large, nette et joyeuse, à l’opposé du classique.'),
 ]
 
 css = open(os.path.join(D, 'assets/immersive.css')).read()
 home = open(os.path.join(D, 'index.html')).read()
 liens = []
-for i, (ser, sans, hs, hx, ital, amb) in enumerate(JEUX, 1):
+import glob
+gardes = {f'mockup-polices-{j[0]}.html' for j in JEUX} | {f'immersive-p{j[0]}.css' for j in JEUX}
+for f in glob.glob(os.path.join(D, 'mockup-polices-*.html')) + glob.glob(os.path.join(D, 'assets/immersive-p*.css')):
+    if os.path.basename(f) not in gardes: os.remove(f)  # les jeux écartés disparaissent
+for i, ser, sans, hs, hx, ital, amb in JEUX:
     c = css.replace('Instrument Serif', ser).replace('Instrument Sans', sans).replace('Bricolage Grotesque', sans)
     if not ital:  # pas d'italique dessinée : on évite l'italique simulée, plus laide
         c += '\n*{font-synthesis:none}em,i,.pp__exergue,.piece__s,.carnet__sig,.ah__s{font-style:normal}\n'
@@ -34,15 +35,15 @@ for i, (ser, sans, hs, hx, ital, amb) in enumerate(JEUX, 1):
     open(os.path.join(D, f'mockup-polices-{i}.html'), 'w').write(h)
 
 cartes = ''
-for i, (ser, sans, hs, hx, ital, amb) in enumerate(JEUX, 1):
+for i, ser, sans, hs, hx, ital, amb in JEUX:
     it = 'italic' if ital else 'normal'
     cartes += (f'<section><p class="n">{i}</p><h2 style="font-family:&quot;{ser}&quot;,serif">Il est 12 h, Miss Flower</h2>'
                f'<p class="nm" style="font-family:&quot;{ser}&quot;,serif;text-transform:uppercase">Guinguette · Mandarine</p>'
                f'<p class="it" style="font-family:&quot;{ser}&quot;,serif;font-style:{it}">objets retrouvés, Bernadette</p>'
                f'<p class="tx" style="font-family:&quot;{sans}&quot;,sans-serif">Je chine des pieds de lampe, des fauteuils et des miroirs qui ont déjà beaucoup servi. Je leur cherche ensuite le décor où ils brilleront le mieux.</p>'
                f'<p class="fn"><b>{ser}</b> et <b>{sans}</b><br>{amb}</p><a href="mockup-polices-{i}.html">Voir la home avec ce jeu</a></section>')
-fam = '&family='.join(hs + '&family=' + hx for (_, _, hs, hx, _, _) in JEUX)
-page = f'''<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Dix jeux de polices · Rotin Bohème</title>
+fam = '&family='.join(hs + '&family=' + hx for (_, _, _, hs, hx, _, _) in JEUX)
+page = f'''<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Sept jeux de polices · Rotin Bohème</title>
 <link href="https://fonts.googleapis.com/css2?family={fam}&display=swap" rel="stylesheet">
 <style>
 body{{margin:0;background:#FAF7F2;color:#1E1A16;font-family:system-ui,sans-serif;line-height:1.5}}
@@ -58,7 +59,7 @@ h2{{font-weight:400;font-size:2.3rem;line-height:1.05;margin:0 0 .6rem}}
 a{{color:inherit;text-underline-offset:.25em;font-size:.9rem}}
 @media (max-width:820px){{main{{grid-template-columns:1fr}}}}
 </style></head><body>
-<header><h1>Dix jeux de polices</h1><p>Même home, mêmes couleurs, mêmes photos : seules les polices changent. Chaque carte montre le titre, les noms en capitales, un mot en italique et le texte courant. Chaque lien ouvre la home complète avec ce jeu.</p></header>
+<header><h1>Sept jeux de polices</h1><p>Les deux jeux retenus (1 et 5) et cinq nouveaux très différents (11 à 15). Même home, mêmes couleurs, mêmes photos : seules les polices changent. Chaque carte montre le titre, les noms en capitales, un mot en italique et le texte courant. Chaque lien ouvre la home complète avec ce jeu.</p></header>
 <main>{cartes}</main></body></html>'''
 open(os.path.join(D, 'mockup-polices.html'), 'w').write(page)
 print('polices ok')
