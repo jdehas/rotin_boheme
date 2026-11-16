@@ -7,7 +7,7 @@ body.nuit  { --bg:#15213A; --bg2:#1E2D4A; --fg:#EFE8DA; --muted:rgba(239,232,218
 body.jour  { --bg:#F7F3EA; --bg2:#EFE9DC; --fg:#2A241F; --muted:rgba(42,36,31,.64); --line:rgba(42,36,31,.16); --line2:rgba(42,36,31,.34); --accent:#4A607F; --tile:#ECE6D8; --glass:rgba(247,243,234,.46); --hfg:#2A241F; }
 body.magie { --bg:#0E1116; --bg2:#151A21; --fg:#EDE6D6; --muted:rgba(237,230,214,.64); --line:rgba(237,230,214,.16); --line2:rgba(237,230,214,.34); --accent:#D2A24A; --tile:#E8E0CF; --glass:rgba(14,17,22,.34); --hfg:#F7EBD6; }
 
-:root { --serif:"Anton","Cormorant Garamond",Georgia,serif; --sans:"Lora","Helvetica Neue",Arial,sans-serif; --gutter:clamp(1.25rem,4vw,3.5rem); --section:clamp(5.5rem,11vw,10.625rem); --max:85rem; }
+:root { --serif:"Xanh Mono","Cormorant Garamond",Georgia,serif; --sans:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif; --gutter:clamp(1.25rem,4vw,3.5rem); --section:clamp(5.5rem,11vw,10.625rem); --max:85rem; }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (min-width:821px){html{font-size:80%}}
@@ -268,7 +268,7 @@ body.f-gloock .logo em{font-style:normal}
 .noms__list a{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:baseline;column-gap:clamp(0.75rem,1.6vw,1.625rem);padding:clamp(2px,.5vw,0.5rem) 0;text-align:center;transition:opacity .3s}
 .noms__list .n{font-family:var(--serif);font-weight:400;font-size:clamp(2.7rem,6vw,5.4rem);line-height:.98;text-transform:uppercase;letter-spacing:-.005em;transition:color .3s;white-space:nowrap}
 .noms__list .t{justify-self:end;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted);align-self:start;margin-top:.7em}
-.noms__list .h{justify-self:start;font-family:"Lora",sans-serif;font-size:clamp(.85rem,1.05vw,1rem);font-weight:400;line-height:1;color:var(--muted);transform:none;transition:color .3s;white-space:nowrap}
+.noms__list .h{justify-self:start;font-family:"Hanken Grotesk",sans-serif;font-size:clamp(.85rem,1.05vw,1rem);font-weight:400;line-height:1;color:var(--muted);transform:none;transition:color .3s;white-space:nowrap}
 .noms__list .th{display:none}
 .noms__list.hov a{opacity:.26}
 .noms__list.hov a.cur{opacity:1}
@@ -281,7 +281,7 @@ body.f-gloock .logo em{font-style:normal}
 .noms__pic--r{right:0;width:clamp(8.125rem,12.5vw,12.5rem);aspect-ratio:4/5}
 .noms__pic--r img{transform:scale(var(--s,2.2));transform-origin:var(--o,50% 30%)}
 .noms__stage.on .noms__pic{opacity:1;transform:translateY(-50%) scale(1)}
-.noms__pic .soon{display:none;position:absolute;inset:0;place-items:center;text-align:center;padding:1rem;font-family:"Lora",sans-serif;font-size:1.35rem;font-weight:500;line-height:1.15;color:var(--accent);background:var(--bg2)}
+.noms__pic .soon{display:none;position:absolute;inset:0;place-items:center;text-align:center;padding:1rem;font-family:"Hanken Grotesk",sans-serif;font-size:1.35rem;font-weight:500;line-height:1.15;color:var(--accent);background:var(--bg2)}
 .noms__pic.is-soon img{display:none}
 .noms__pic.is-soon .soon{display:grid}
 .noms__pic--r.is-soon{display:none}
@@ -295,7 +295,7 @@ body.f-gloock .logo em{font-style:normal}
   .noms__list .h{grid-area:h;justify-self:start;transform:none}
   .noms__list .th{grid-area:th;display:block;width:4rem;height:5rem;border-radius:0.625rem;overflow:hidden;background:var(--tile)}
   .noms__list .th img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply}
-  .noms__list .th--soon{display:grid;place-items:center;font-family:"Lora",sans-serif;font-size:.8rem;color:var(--accent);background:var(--bg2);text-align:center}
+  .noms__list .th--soon{display:grid;place-items:center;font-family:"Hanken Grotesk",sans-serif;font-size:.8rem;color:var(--accent);background:var(--bg2);text-align:center}
   .noms__list.hov a{opacity:1}
 }
 
@@ -317,7 +317,7 @@ body.f-gloock .logo em{font-style:normal}
 .fiche__v img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply}
 .fiche__prenom{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted);margin-top:1.125rem}
 .fiche__nom{font-family:var(--serif);font-weight:400;font-size:clamp(3.4rem,8vw,7rem);line-height:.92;text-transform:uppercase;color:var(--accent);margin:2px 0 0.375rem}
-.fiche__tag{font-family:"Lora",sans-serif;font-size:1.1rem;font-weight:400;line-height:1;color:var(--fg);transform:none;margin-bottom:1.25rem}
+.fiche__tag{font-family:"Hanken Grotesk",sans-serif;font-size:1.1rem;font-weight:400;line-height:1;color:var(--fg);transform:none;margin-bottom:1.25rem}
 .fiche__prix{color:var(--muted);margin-bottom:1.125rem}.fiche__prix b{color:var(--fg);font-weight:500}
 .fiche__desc{color:var(--muted);max-width:40ch;margin-bottom:1.625rem}
 .fiche__cta{display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:2.125rem}
@@ -331,22 +331,22 @@ body.f-gloock .logo em{font-style:normal}
 @media (max-width:820px){.fiche__g{grid-template-columns:1fr}.fiche__img{position:static}.malle__t span{font-size:clamp(3.2rem,16vw,5rem)}}
 
 /* ---------- Logo retenu : variante 2, « Affiche » ----------
-   Anton en capitales espacées. Baseline en Lora en petites capitales (pied de page et lockup). */
-.logo .lg{font-family:"Anton",Georgia,serif;font-weight:400;font-style:normal;text-transform:uppercase;letter-spacing:.14em;font-size:1.02rem;line-height:1;white-space:nowrap;color:inherit}
+   Xanh Mono en capitales espacées. Baseline en Hanken Grotesk en petites capitales (pied de page et lockup). */
+.logo .lg{font-family:"Xanh Mono",Georgia,serif;font-weight:400;font-style:normal;text-transform:uppercase;letter-spacing:.14em;font-size:1.02rem;line-height:1;white-space:nowrap;color:inherit}
 body .logo,body.f-fraunces .logo,body.f-gloock .logo{font-size:1rem;color:inherit}
 .menu .logo .lg{font-size:1.15rem}
 .pied .logo .lg{font-size:1.5rem}
 .pied__m .logo{display:inline-block;margin-bottom:0.375rem}
-.pied__m p{margin-top:0.75rem;font-family:"Lora",sans-serif;font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;max-width:34ch;line-height:1.9}
-.lockup--txt.lt-affiche{font-family:"Anton",Georgia,serif;font-size:clamp(2.6rem,5vw,4.4rem);line-height:1.08;text-transform:uppercase;letter-spacing:.14em;color:#F2E9DA}
+.pied__m p{margin-top:0.75rem;font-family:"Hanken Grotesk",sans-serif;font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;max-width:34ch;line-height:1.9}
+.lockup--txt.lt-affiche{font-family:"Xanh Mono",Georgia,serif;font-size:clamp(2.6rem,5vw,4.4rem);line-height:1.08;text-transform:uppercase;letter-spacing:.14em;color:#F2E9DA}
 .lockup--txt.lt-affiche span{display:block}
 @media (max-width:820px){.lockup--txt.lt-affiche{font-size:clamp(2.2rem,11.5vw,3.2rem);letter-spacing:.12em;color:var(--fg)}}
 
-/* Astérisque du logo, remis après « Bohème » ; baseline « Seconde main pour premiers rôles » en Lora */
-.logo .st,.lockup--txt .st{font-style:normal;font-family:"Anton",Georgia,serif;letter-spacing:0;display:inline-block;vertical-align:top;margin-left:.1em;line-height:1}
+/* Astérisque du logo, remis après « Bohème » ; baseline « Seconde main pour premiers rôles » en Hanken Grotesk */
+.logo .st,.lockup--txt .st{font-style:normal;font-family:"Xanh Mono",Georgia,serif;letter-spacing:0;display:inline-block;vertical-align:top;margin-left:.1em;line-height:1}
 .logo .st{font-size:.75em;transform:translateY(-.05em)}
 .lockup--txt.lt-affiche .st{font-size:.42em;margin-left:.16em;transform:translateY(.12em)}
-.hero__tag--sans{font-family:"Lora",sans-serif;font-weight:400;font-size:clamp(1rem,1.5vw,1.3rem);line-height:1.35;letter-spacing:0}
+.hero__tag--sans{font-family:"Hanken Grotesk",sans-serif;font-weight:400;font-size:clamp(1rem,1.5vw,1.3rem);line-height:1.35;letter-spacing:0}
 
 /* ---------- Identités sur fond nuit ----------
    A : lin #F5F1E7, rose poudré #C8756D, bronze #D2AA55, olive #61765B, bone #D9D5C9
@@ -389,7 +389,7 @@ body.poulain .pill-nav{border-color:rgba(246,238,224,.28)}
 body.poulain .hero--fm .hero__cta .btn--plein{background:var(--cl);border-color:var(--cl);color:#3A2A22}
 body.poulain .hero--fm .hero__cta .btn--plein .ar{background:#3A2A22;color:var(--cl)}
 body.poulain .lockup--txt .st,body.poulain .logo .st{color:var(--cl)}
-body.poulain .hero__tag--sans,body.poulain .hero__tag{font-family:"Anton",Georgia,serif;font-size:1.5rem;line-height:1.1;font-style:italic}
+body.poulain .hero__tag--sans,body.poulain .hero__tag{font-family:"Xanh Mono",Georgia,serif;font-size:1.5rem;line-height:1.1;font-style:italic}
 body.poulain .btn--plein{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 body.poulain .btn--plein .ar{background:var(--cl);color:#3A2A22}
 body.poulain .noms__list a.cur .n,body.poulain .malle__t em,body.poulain .fiche__nom{color:var(--accent)}
@@ -410,7 +410,7 @@ body.poulain .lettre form{border-color:var(--line2)}
   background-image:radial-gradient(circle at 0.625rem 0.625rem,rgba(246,238,224,.65) 0.1875rem,transparent 0.2188rem);background-size:1.625rem 1.625rem}
 .etiquette .trou{position:absolute;top:0.875rem;left:50%;width:0.875rem;height:0.875rem;margin-left:-7px;border:1.5px solid #3A2A22;border-radius:50%;background:#F6EEE0}
 .etiquette .eyebrow{color:rgba(58,42,34,.7)}
-.mot-p{font-family:"Anton",Georgia,serif;font-style:italic;font-size:1.7rem;line-height:1.12;margin-top:0.75rem}
+.mot-p{font-family:"Xanh Mono",Georgia,serif;font-style:italic;font-size:1.7rem;line-height:1.12;margin-top:0.75rem}
 .bh{font-size:clamp(2.2rem,4vw,3.4rem);margin:0.625rem 0 0.75rem;font-weight:400}
 .bh sup{color:var(--cl);font-size:.6em}
 .bp{color:var(--muted);max-width:42ch}
@@ -873,5 +873,3 @@ body.poulain .vichy{background-image:linear-gradient(90deg,rgba(181,48,58,.42) 5
 /* Collection sous les lampes : bouton vers la page de la pièce */
 .piece--page .piece__cta{grid-column:2;grid-row:4;justify-self:start;margin-top:1.2rem}
 @media (max-width:820px){.piece--page .piece__cta{margin-top:1.4rem}}
-
-*{font-synthesis:none}em,i,.pp__exergue,.piece__s,.carnet__sig,.ah__s{font-style:normal}

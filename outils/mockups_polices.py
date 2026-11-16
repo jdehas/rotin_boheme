@@ -6,15 +6,17 @@ import os, re, html
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); D = os.path.join(root, 'docs')
 
 # (titres, texte, href Google Fonts titres, href texte, a une italique, ambiance)
-JEUX = [  # numéro conservé pour les deux retenus (1 et 5), puis cinq nouveaux jeux très différents (11 à 15)
+JEUX = [  # 1 et 5 retenus, 14 = machine à écrire de référence, 21 à 25 = machines à écrire plus fines et leurs accords
  (1, 'Playfair Display', 'Source Sans 3', 'Playfair+Display:ital,wght@0,400..700;1,400..700', 'Source+Sans+3:wght@400;500;600', True, 'Retenu. Théâtre classique : romantique, italiques très expressifs.'),
  (5, 'Gloock', 'Figtree', 'Gloock', 'Figtree:wght@400;500;600', False, 'Retenu. Affiche : contrasté et puissant, très « devant de scène ».'),
- (11, 'Syne', 'Manrope', 'Syne:wght@400..800', 'Manrope:wght@400;500;600', False, 'Galerie d’art contemporain : une grotesque large et un peu insolente, très actuelle.'),
- (12, 'Anton', 'Lora', 'Anton', 'Lora:ital,wght@0,400..600;1,400..600', False, 'Affiche de théâtre forain : capitales étroites et massives, avec un texte en serif littéraire.'),
- (13, 'Zilla Slab', 'Nunito Sans', 'Zilla+Slab:ital,wght@0,400;0,500;0,600;1,400', 'Nunito+Sans:wght@400;500;600', True, 'Atelier et brocante : une égyptienne chaleureuse, comme une étiquette ou une enseigne peinte.'),
- (14, 'Special Elite', 'IBM Plex Sans', 'Special+Elite', 'IBM+Plex+Sans:wght@400;500;600', False, 'Machine à écrire : le carnet de route et la fiche de la pièce, avec un grain de papier.'),
- (15, 'Unbounded', 'Plus Jakarta Sans', 'Unbounded:wght@300..700', 'Plus+Jakarta+Sans:wght@400;500;600', False, 'Moderne et rond : une display très large, nette et joyeuse, à l’opposé du classique.'),
+ (14, 'Special Elite', 'IBM Plex Sans', 'Special+Elite', 'IBM+Plex+Sans:wght@400;500;600', False, 'Référence. Machine à écrire marquée : encre épaisse, grain de papier.'),
+ (21, 'Cutive Mono', 'EB Garamond', 'Cutive+Mono', 'EB+Garamond:ital,wght@0,400..600;1,400..600', False, 'Courrier très fin, trait de machine bien entretenue. Texte en Garamond : la lettre et le livre.'),
+ (22, 'Xanh Mono', 'Hanken Grotesk', 'Xanh+Mono:ital@0;1', 'Hanken+Grotesk:wght@400;500;600', True, 'Machine à écrire élégante, avec de vrais italiques. Texte en sans douce et ouverte.'),
+ (23, 'Courier Prime', 'Source Serif 4', 'Courier+Prime:ital,wght@0,400;0,700;1,400', 'Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600', True, 'Le courrier classique, mais propre et lisible. Texte en serif de lecture.'),
+ (24, 'DM Mono', 'Newsreader', 'DM+Mono:ital,wght@0,300;0,400;1,300', 'Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600', True, 'Mono légère et moderne (graisse 300). Texte en serif éditorial.'),
+ (25, 'IBM Plex Mono', 'IBM Plex Sans', 'IBM+Plex+Mono:ital,wght@0,300;0,400;1,300', 'IBM+Plex+Sans:wght@400;500;600', True, 'Mono légère (graisse 300) de la même famille que le texte : un ensemble très cohérent.'),
 ]
+LEGERES = {24, 25}  # titres en graisse 300
 
 css = open(os.path.join(D, 'assets/immersive.css')).read()
 home = open(os.path.join(D, 'index.html')).read()
@@ -25,6 +27,7 @@ for f in glob.glob(os.path.join(D, 'mockup-polices-*.html')) + glob.glob(os.path
     if os.path.basename(f) not in gardes: os.remove(f)  # les jeux écartés disparaissent
 for i, ser, sans, hs, hx, ital, amb in JEUX:
     c = css.replace('Instrument Serif', ser).replace('Instrument Sans', sans).replace('Bricolage Grotesque', sans)
+    if i in LEGERES: c += '\nh1,h2,h3,.noms__list .n,.ah__t,.mdb__t,.rub__n,.carnet__t,.pp__t,.lockup--txt,.hero__tag{font-weight:300}\n'
     if not ital:  # pas d'italique dessinée : on évite l'italique simulée, plus laide
         c += '\n*{font-synthesis:none}em,i,.pp__exergue,.piece__s,.carnet__sig,.ah__s{font-style:normal}\n'
     open(os.path.join(D, f'assets/immersive-p{i}.css'), 'w').write(c)
@@ -43,7 +46,7 @@ for i, ser, sans, hs, hx, ital, amb in JEUX:
                f'<p class="tx" style="font-family:&quot;{sans}&quot;,sans-serif">Je chine des pieds de lampe, des fauteuils et des miroirs qui ont déjà beaucoup servi. Je leur cherche ensuite le décor où ils brilleront le mieux.</p>'
                f'<p class="fn"><b>{ser}</b> et <b>{sans}</b><br>{amb}</p><a href="mockup-polices-{i}.html">Voir la home avec ce jeu</a></section>')
 fam = '&family='.join(hs + '&family=' + hx for (_, _, _, hs, hx, _, _) in JEUX)
-page = f'''<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Sept jeux de polices · Rotin Bohème</title>
+page = f'''<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Jeux de polices · Rotin Bohème</title>
 <link href="https://fonts.googleapis.com/css2?family={fam}&display=swap" rel="stylesheet">
 <style>
 body{{margin:0;background:#FAF7F2;color:#1E1A16;font-family:system-ui,sans-serif;line-height:1.5}}
@@ -59,7 +62,7 @@ h2{{font-weight:400;font-size:2.3rem;line-height:1.05;margin:0 0 .6rem}}
 a{{color:inherit;text-underline-offset:.25em;font-size:.9rem}}
 @media (max-width:820px){{main{{grid-template-columns:1fr}}}}
 </style></head><body>
-<header><h1>Sept jeux de polices</h1><p>Les deux jeux retenus (1 et 5) et cinq nouveaux très différents (11 à 15). Même home, mêmes couleurs, mêmes photos : seules les polices changent. Chaque carte montre le titre, les noms en capitales, un mot en italique et le texte courant. Chaque lien ouvre la home complète avec ce jeu.</p></header>
+<header><h1>Jeux de polices</h1><p>Les deux jeux retenus (1 et 5), la machine à écrire d’origine (14) et cinq machines à écrire plus fines avec leur accord (21 à 25). Même home, mêmes couleurs, mêmes photos : seules les polices changent. Chaque carte montre le titre, les noms en capitales, un mot en italique et le texte courant. Chaque lien ouvre la home complète avec ce jeu.</p></header>
 <main>{cartes}</main></body></html>'''
 open(os.path.join(D, 'mockup-polices.html'), 'w').write(page)
 print('polices ok')
