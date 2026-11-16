@@ -6,6 +6,16 @@ Chaque feuille est la feuille actuelle dont les couleurs sont remplacées une à
 import os, re, html
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); D = os.path.join(root, 'docs')
 
+# Typographies : le système actuel garde Instrument Serif (titres) et Instrument Sans (texte)
+FONT_A = dict(serif='Instrument Serif', sans='Instrument Sans', href='Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600')
+FONTS = {
+ 'b': dict(serif='Bodoni Moda', sans='Jost', href='Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Jost:wght@400;500;600',
+           note="Bodoni Moda : le haut contraste des affiches de théâtre pour les titres. Jost : une sans géométrique, nette, pour le texte."),
+ 'c': dict(serif='Fraunces', sans='DM Sans', href='Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600',
+           note="Fraunces : un serif chaleureux aux courbes douces, comme du fait main, pour les titres. DM Sans : une sans ronde et ouverte pour le texte."),
+}
+FONT_NOTE_A = "Instrument Serif : un serif condensé et élégant pour les titres. Instrument Sans : une sans sobre pour le texte."
+
 # Système actuel (A) : couleurs à remplacer
 A = dict(BG='#15213A', BG2='#1E2D4A', FG='#EFE8DA', FG2='#F2E9DA', ACC_D='#D6A65A', ACC_L='#E2621B',
          DK='#141414', LBG='#FFFFFF', LT='#F1EDE4', TILE='#E9E0CE', HFG='#F5F1E7')
@@ -23,7 +33,7 @@ PALETTES = {
 
 def rgb(h): h = h.lstrip('#'); return ','.join(str(int(h[i:i+2], 16)) for i in (0, 2, 4))
 
-def recolorer(css, P):
+def recolorer(css, P, F=None):
     out = []
     for ln in css.split('\n'):
         carnet = '.carnet .lien' in ln
@@ -38,29 +48,33 @@ def recolorer(css, P):
         ln = ln.replace('rgba(21,33,58,', f"rgba({rgb(P['BG'])},")
         ln = ln.replace('rgba(30,45,74,', f"rgba({rgb(P['BG2'])},")
         ln = ln.replace('rgba(20,20,20,', f"rgba({rgb(P['DK'])},")
+        if F:
+            ln = ln.replace('Instrument Serif', F['serif']).replace('Instrument Sans', F['sans']).replace('Bricolage Grotesque', F['sans'])
         out.append(ln)
     return '\n'.join(out)
 
 css = open(os.path.join(D, 'assets/immersive.css')).read()
 home = open(os.path.join(D, 'index.html')).read()
 for k, P in PALETTES.items():
-    open(os.path.join(D, f'assets/immersive-{k}.css'), 'w').write(recolorer(css, P))
+    open(os.path.join(D, f'assets/immersive-{k}.css'), 'w').write(recolorer(css, P, FONTS[k]))
     h = home.replace('assets/immersive.css', f'assets/immersive-{k}.css')
+    h = re.sub(r'(https://fonts\.googleapis\.com/css2\?family=)[^"]*', lambda m: m.group(1) + FONTS[k]['href'] + '&display=swap', h, count=1)
     h = re.sub(r'<title>.*?</title>', f'<title>Mockup couleurs · {P["nom"]} · Rotin Bohème</title>', h, count=1, flags=re.S)
     h = re.sub(r'<meta (?:property="og:|name="twitter:)[^>]*>', '', h)
     open(os.path.join(D, f'mockup-couleurs-{k}.html'), 'w').write(h)
 
 # Page de comparaison
 def sw(c, n, claire=False): return f'<li style="background:{c};color:{"#141414" if claire else "#fff"}"><b>{n}</b><span>{c}</span></li>'
-def bloc(nom, slogan, desc, P, lien, tag):
+def bloc(nom, slogan, desc, P, lien, tag, F, note):
     cl = lambda x: sum(int(x.lstrip('#')[i:i+2], 16) for i in (0, 2, 4)) > 420
     sws = ''.join(sw(P[c], n, cl(P[c])) for c, n in (('BG', 'Fond profond'), ('BG2', 'Fond secondaire'), ('FG', 'Texte sur fond profond'), ('ACC_D', 'Accent sur fond profond'), ('LBG', 'Sections claires'), ('DK', 'Texte sur clair'), ('ACC_L', 'Accent sur clair'), ('LT', 'Fonds de vignettes')))
-    return f'<section><p class="t">{tag}</p><h2>{nom}</h2><p class="s">{slogan}</p><p class="d">{desc}</p><ul>{sws}</ul><a href="{lien}">Voir la home avec ce système</a></section>'
+    fs, fa = F['serif'], F['sans']
+    return f'<section><p class="t">{tag}</p><h2>{nom}</h2><p class="s">{slogan}</p><p class="d">{desc}</p><div class="f"><p class="fs" style="font-family:&quot;{fs}&quot;,serif">Il est 12 h, Miss Flower</p><p class="fx" style="font-family:&quot;{fa}&quot;,sans-serif">Seconde main pour premiers rôles. Chaque pièce reçoit un nom et un rôle.</p><p class="fn"><b>{fs}</b> et <b>{fa}</b><br>{note}</p></div><ul>{sws}</ul><a href="{lien}">Voir la home avec ce système</a></section>'
 A_P = dict(BG=A['BG'], BG2=A['BG2'], FG=A['FG'], ACC_D=A['ACC_D'], LBG=A['LBG'], DK=A['DK'], ACC_L=A['ACC_L'], LT=A['LT'])
-corps = (bloc('Nuit de midi', 'Le soleil s’est couché à midi', "Le bleu nuit de la pièce « Il est 12 h, Miss Flower », le crème des lampes éteintes, l’orange des abat-jour allumés. Théâtral et nocturne : c’est le système en ligne aujourd’hui.", A_P, 'index.html', 'Système A, actuel')
-         + ''.join(bloc(P['nom'], P['slogan'], P['desc'], P, f'mockup-couleurs-{k}.html', 'Système ' + k.upper()) for k, P in PALETTES.items()))
+corps = (bloc('Nuit de midi', 'Le soleil s’est couché à midi', "Le bleu nuit de la pièce « Il est 12 h, Miss Flower », le crème des lampes éteintes, l’orange des abat-jour allumés. Théâtral et nocturne : c’est le système en ligne aujourd’hui.", A_P, 'index.html', 'Système A, actuel', FONT_A, FONT_NOTE_A)
+         + ''.join(bloc(P['nom'], P['slogan'], P['desc'], P, f'mockup-couleurs-{k}.html', 'Système ' + k.upper(), FONTS[k], FONTS[k]['note']) for k, P in PALETTES.items()))
 page = f'''<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Trois systèmes de couleurs · Rotin Bohème</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family={FONT_A['href']}&family={FONTS['b']['href']}&family={FONTS['c']['href']}&display=swap" rel="stylesheet">
 <style>
 :root{{--bg:#FAF7F2;--fg:#1E1A16}}
 body{{margin:0;background:var(--bg);color:var(--fg);font-family:"Instrument Sans",system-ui,sans-serif;line-height:1.5}}
@@ -72,13 +86,16 @@ section{{background:#fff;border-radius:1.2rem;padding:1.6rem;box-shadow:0 1px 0 
 .t{{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(30,26,22,.55);margin:0 0 .5rem}}
 h2{{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:2.2rem;line-height:1.05;margin:0}}
 .s{{font-style:italic;color:rgba(30,26,22,.6);margin:.3rem 0 .8rem}} .d{{font-size:.95rem;margin:0 0 1.1rem}}
+
+.f{{border-top:1px solid rgba(30,26,22,.12);border-bottom:1px solid rgba(30,26,22,.12);padding:1rem 0;margin:0 0 1.1rem}}
+.fs{{font-size:2rem;line-height:1.08;margin:0 0 .4rem}} .fx{{margin:0 0 .8rem;font-size:.95rem}} .fn{{font-size:.8rem;color:rgba(30,26,22,.62);margin:0}}
 ul{{list-style:none;margin:0 0 1.2rem;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.5rem}}
 li{{border-radius:.7rem;padding:.7rem .8rem;display:flex;flex-direction:column;gap:.1rem;min-height:4.4rem;justify-content:flex-end;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}}
 li b{{font-weight:500;font-size:.8rem}} li span{{font-size:.75rem;opacity:.8;font-variant-numeric:tabular-nums}}
 a{{color:inherit;text-underline-offset:.25em}}
 @media (max-width:980px){{main{{grid-template-columns:1fr}}}}
 </style></head><body>
-<header><h1>Trois systèmes de couleurs</h1><p>Même plateforme de marque, mêmes photos, même mise en page. Seul le système de couleurs change : un bleu nuit (actuel), un velours bordeaux et un vert sauge naturel. Chacun mène à la home complète.</p></header>
+<header><h1>Trois systèmes de couleurs</h1><p>Même plateforme de marque, mêmes photos, même mise en page. Seuls les couleurs et les typographies changent : un bleu nuit (actuel), un velours bordeaux et un vert sauge naturel. Chacun mène à la home complète.</p></header>
 <main>{corps}</main></body></html>'''
 open(os.path.join(D, 'mockup-couleurs.html'), 'w').write(page)
 print('mockups ok')
